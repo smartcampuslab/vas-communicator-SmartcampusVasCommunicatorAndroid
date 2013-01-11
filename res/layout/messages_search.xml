@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messages"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sc_light_gray"
+    android:orientation="vertical" >
+
+    <TableRow 
+        android:id="@+id/messages_filters"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/messages_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@android:string/search_go" >
+
+        </EditText>
+        <ImageButton
+            android:id="@+id/message_search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_margin="3dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@android:string/search_go"
+            android:src="@drawable/ic_search" />
+        
+    </TableRow>
+    
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:cacheColorHint="#00000000" >
+    </ListView>
+
+    <TextView android:id="@id/android:empty"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="@string/empty"/>
+
+</LinearLayout>

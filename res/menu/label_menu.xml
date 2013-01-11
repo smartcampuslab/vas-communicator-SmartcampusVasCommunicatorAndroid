@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/label_option_view"
+        android:title="@string/label_option_view"/>
+    <item
+        android:id="@+id/label_option_edit"
+        android:title="@string/label_option_edit"/>
+    <item
+        android:id="@+id/label_option_remove"
+        android:title="@string/label_option_remove"/>
+
+</menu>

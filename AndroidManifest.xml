@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="eu.trentorise.smartcampus.communicator"
+    android:sharedUserId="eu.trentorise.smartcampus.shared"
+    android:sharedUserLabel="@string/app_uid_label"
+    android:versionCode="11"
+    android:versionName="0.10.9" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    
+    <uses-permission
+        android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS" />
+        
+    <application
+        android:icon="@drawable/ic_launcer"
+        android:label="@string/app_name"
+        android:launchMode="singleTask"
+        android:logo="@drawable/logo"
+        android:theme="@style/Theme.communicator" >
+        <uses-library android:name="com.google.android.maps" />
+        
+         <service android:name=".custom.data.CommSyncStorageService" />
+<!--          <service android:name="eu.trentorise.smartcampus.ac.authenticator.AuthenticationService" android:exported="false"> -->
+<!--             <intent-filter> -->
+<!--                 <action -->
+<!--                     android:name="android.accounts.AccountAuthenticator" /> -->
+<!--             </intent-filter> -->
+<!--             <meta-data -->
+<!--                 android:name="android.accounts.AccountAuthenticator" -->
+<!--                 android:resource="@xml/authenticator" /> -->
+<!--         </service> -->
+
+        <activity
+            android:name=".preferences.SettingsActivity"/>
+         
+<!--         <activity -->
+<!--             android:name="eu.trentorise.smartcampus.ac.authenticator.AuthenticatorActivity" -->
+<!--             android:label="@string/ui_auth_activity_title" -->
+<!--             android:theme="@android:style/Theme.NoTitleBar" /> -->
+         
+        <activity
+            android:name="eu.trentorise.smartcampus.communicator.HomeActivity"
+            android:label="@string/app_name"
+            android:configChanges="orientation|screenSize|keyboard"
+            android:launchMode="singleTask" >
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.MAIN" /> -->
+<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
+<!--             </intent-filter> -->
+            
+            <intent-filter>
+                <action android:name="eu.trentorise.smartcampus.START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+        </activity>
+        <service
+            android:name=".syncadapter.CommunicatorSyncService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+        
+
+      <provider
+        android:name=".CommunicatorDummyProvider"
+        android:exported="false"
+    	android:authorities="eu.trentorise.smartcampus.communicator"
+    	android:syncable="true"
+    	android:label="@string/app_name" />   
+       
+    </application>
+
+</manifest>

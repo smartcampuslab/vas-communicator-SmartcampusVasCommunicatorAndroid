@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messages"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sc_light_gray"
+    android:orientation="vertical" >
+
+    <TableRow 
+        android:id="@+id/messages_filters"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    <Spinner
+        android:id="@+id/messages_spinner_funnels"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+        
+    <Spinner
+        android:id="@+id/messages_spinner_labels"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
+    </TableRow>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/message_border_bottom"
+        android:dividerHeight="1dp"
+        android:cacheColorHint="#00000000" >
+    </ListView>
+
+    <TextView android:id="@id/android:empty"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="@string/empty"/>
+
+</LinearLayout>

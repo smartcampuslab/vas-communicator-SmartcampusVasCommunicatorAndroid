@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/messagedetailsmenu_star"
+        android:icon="@drawable/actionbar_star_s"
+        android:menuCategory="system"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="@string/empty">
+        <menu android:id="@+id/placeholder_menu" >
+        </menu>
+    </item>
+    <item
+        android:id="@+id/messagedetailsmenu_toggler"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
+        android:menuCategory="system"
+        android:orderInCategory="10"
+        android:showAsAction="always"
+        android:title="@string/empty">
+        <menu android:id="@+id/messagedetailsmenu_submenu" >
+            <item
+                android:id="@+id/notice_option_toggle_read"
+                android:title="@string/notice_option_toggle_read"/>
+            <item
+                android:id="@+id/notice_option_remove"
+                android:title="@string/notice_option_remove"/>
+            <item
+                android:id="@+id/notice_option_assign_labels"
+                android:title="@string/notice_option_assign_labels"/>
+            <item
+                android:id="@+id/notice_option_view_funnel"
+                android:title="@string/notice_option_view_funnel"/>
+        </menu>
+    </item>
+
+</menu>

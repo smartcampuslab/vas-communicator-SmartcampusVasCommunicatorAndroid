@@ -1,0 +1,68 @@
+<resources>
+
+    <string-array name="funnel_type_sourcetypes">
+        <item>JourneyPlanner</item>
+<!--         <item>Discover Trento</item> -->
+        <item>Social</item>
+<!--         <item>Experience Buster</item> -->
+<!--         <item>Portfolio</item> -->
+        <item>UnitnNews</item>
+    </string-array>
+    
+    <string-array name="funnel_type_labels">
+        <item>Journey Planner</item>
+<!--         <item>Discover Trento</item> -->
+        <item>Community Manager</item>
+<!--         <item>Experience Buster</item> -->
+<!--         <item>Portfolio</item> -->
+        <item>University Services</item>
+    </string-array>
+    
+    <array name="funnel_type_images">
+        <item>@drawable/ic_funnel_jp</item>
+<!--         <item>@drawable/ic_funnel_jp</item> -->
+        <item>@drawable/ic_funnel_cm</item>
+<!--         <item>@drawable/ic_funnel_cm</item> -->
+<!--         <item>@drawable/ic_funnel_p</item> -->
+        <item>@drawable/ic_funnel</item>
+    </array>
+
+    <string-array name="funnel_type_renderers">
+        <item>eu.trentorise.smartcampus.communicator.renderers.JPFilterRenderer</item>
+<!--         <item></item> -->
+        <item>eu.trentorise.smartcampus.communicator.renderers.CMFilterRenderer</item>
+<!--         <item></item> -->
+<!--         <item></item> -->
+        <item>eu.trentorise.smartcampus.communicator.renderers.ExternalServicesFilterRenderer</item>
+    </string-array>
+    
+    <array name="funnel_type_layouts">
+        <item>@layout/jp_filter</item>
+<!--         <item>@null</item> -->
+        <item>@layout/cm_filter</item>
+<!--         <item>@null</item> -->
+<!--         <item>@null</item> -->
+        <item>@layout/services_filter</item>
+    </array>
+    
+    <string-array name="funnel_default_action_labels">
+        <item>Starred</item>
+<!--         <item>Time manager</item> -->
+    </string-array>
+    <array name="funnel_default_action_types">
+        <item>0</item>
+<!--         <item>3</item> -->
+    </array>
+    <string-array name="funnel_default_action_values">
+        <item>Starred</item>
+<!--         <item>Time manager</item> -->
+    </string-array>
+
+    <string-array name="funnel_action_types">
+        <item>folder</item>
+        <item>mail</item>
+        <item>sms</item>
+        <item>calendar</item>
+        <item>social network</item>
+    </string-array>    
+</resources>

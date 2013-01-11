@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/funnel"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal" 
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/funnel_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@string/funnel_type"
+        android:src="@drawable/ic_funnel" />
+
+    <TextView
+        android:id="@+id/funnel_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/sc_dark_gray" />
+
+</LinearLayout>

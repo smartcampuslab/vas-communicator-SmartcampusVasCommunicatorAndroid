@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="pressed_communicator">#33CCFF</color>
+    <color name="base_communicator">#33CCFF</color>
+    
+    <color name="message_read">#DDDDDD</color>
+    <color name="message_notread">#FFFFFF</color>
+    
+    <color name="message_border_top">#FFFFFF</color>
+    <color name="message_border_bottom">#CCCCCC</color>
+</resources>

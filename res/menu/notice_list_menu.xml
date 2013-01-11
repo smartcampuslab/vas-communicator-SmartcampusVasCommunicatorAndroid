@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/mainmenu_refresh" 
+        android:icon="@drawable/refresh"
+        android:menuCategory="system"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="@string/empty"/>
+    
+    <item
+        android:id="@+id/mainmenu_toggler"
+        android:icon="@drawable/abs__ic_menu_moreoverflow_normal_holo_light"
+        android:menuCategory="system"
+        android:orderInCategory="10"
+        android:showAsAction="always"
+        android:title="@string/empty">
+        <menu android:id="@+id/placeholder_menu" >
+            <item
+                android:id="@+id/noticelist_menu_mark_all_read"
+                android:title="@string/noticelist_menu_mark_all_read"/>
+            <item
+                android:id="@+id/noticelist_menu_delete_all"
+                android:title="@string/noticelist_menu_delete_all"/>
+            <item
+                android:id="@+id/noticelist_menu_mark_order_arrival"
+                android:title="@string/noticelist_menu_order_arrival"/>
+<!--             <item -->
+<!--                 android:id="@+id/noticelist_menu_mark_order_rel_now" -->
+<!--                 android:title="@string/noticelist_menu_order_rel_now"/> -->
+<!--             <item -->
+<!--                 android:id="@+id/noticelist_menu_mark_order_rel_place" -->
+<!--                 android:title="@string/noticelist_menu_order_rel_place"/> -->
+<!--             <item -->
+<!--                 android:id="@+id/noticelist_menu_mark_order_priority" -->
+<!--                 android:title="@string/noticelist_menu_order_priority"/> -->
+            <item
+                android:id="@+id/noticelist_menu_mark_order_title"
+                android:title="@string/noticelist_menu_order_title"/>
+        </menu>
+    </item>
+
+</menu>

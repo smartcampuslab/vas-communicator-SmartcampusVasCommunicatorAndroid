@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.communicator" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarItemBackground">@drawable/selectable_background_communicator</item>
+        <item name="popupMenuStyle">@style/communicator_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/communicator_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/communicator_ActionBarTabStyle</item>
+        <item name="actionBarStyle">@style/communicator_solid_ActionBar</item>
+
+        <item name="android:homeAsUpIndicator">@drawable/backarrow</item>
+        <item name="homeAsUpIndicator">@drawable/backarrow</item>
+        
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_communicator</item>
+        <item name="android:popupMenuStyle">@style/communicator_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/communicator_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/communicator_ActionBarTabStyle</item>
+        <item name="android:actionBarStyle">@style/communicator_solid_ActionBar</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_communicator</item>
+    </style>
+
+    <style name="communicator_solid_ActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/base_communicator</item>
+        <item name="backgroundStacked">@color/base_communicator</item>
+        <item name="progressBarStyle">@style/communicator_ProgressBar</item>
+
+        <item name="android:background">@color/base_communicator</item>
+        <item name="android:backgroundStacked">@color/base_communicator</item>
+        <item name="android:backgroundSplit">@color/base_communicator</item>
+        <item name="android:progressBarStyle">@style/communicator_ProgressBar</item>
+    </style>
+
+    <style name="communicator_transparent_ActionBar" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@android:color/transparent</item>
+        <item name="progressBarStyle">@style/communicator_ProgressBar</item>
+        
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:progressBarStyle">@style/communicator_ProgressBar</item>
+    </style>
+	
+    <style name="communicator_PopupMenu" parent="@style/Widget.Sherlock.ListPopupWindow">	
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_communicator</item>	
+    </style>
+	
+    <style name="communicator_DropDownListView" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_communicator</item>
+    </style>
+
+    <style name="communicator_ActionBarTabStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@color/base_communicator</item>
+
+        <item name="android:background">@color/base_communicator</item>
+    </style>
+	
+    <style name="communicator_ProgressBar" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@color/base_communicator</item>
+    </style>
+
+    <style name="homeButton" parent="android:Widget.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/sc_dark_gray</item>
+    </style>
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="empty" />
+    <string name="add">Add</string>
+    <string name="app_name">Communicator</string>
+
+    <string name="mainmenu_home">Home</string>
+    <string name="mainmenu_inbox">Inbox</string>
+    <string name="mainmenu_starred">Starred</string>
+    <string name="mainmenu_labels">Manage Labels</string>
+    <string name="mainmenu_funnels">Manage Channels</string>
+    <string name="mainmenu_search">Search</string>
+    
+    <string name="title_inbox">Inbox</string>
+    <string name="title_starred">Starred</string>
+    <string name="title_labels">Manage Labels</string>
+    <string name="title_search">Search</string>
+    <string name="title_funnels">Manage Channels</string>
+    
+    <string name="app_failure_security">Failed to retrieve authentication data</string>
+    <string name="app_failure_setup">Failed to initialize appplication</string>
+    <string name="app_failure_operation">OOPS! An error occurred. Please check your connection or try again later.</string>
+    <string name="app_uid_label">SmartCampus</string>
+    
+    <string name="notice_options_header">Notice options</string>
+    <string name="label_options_header">Label options</string>
+    <string name="funnel_options_header">Channel options</string>
+    
+    <string name="notice_option_view" >View</string>
+    <string name="notice_option_toggle_read">Toggle read status</string>
+    <string name="notice_option_toggle_starred">Toggle star</string>
+    <string name="notice_option_remove">Remove</string>
+    <string name="notice_option_assign_labels">Assign label</string>
+    <string name="notice_option_view_funnel">View all from the same channel</string>
+    
+    <string name="btn_new_label">New label</string>
+    <string name="add_label_dialog_name_hint">Label name</string>
+    <string name="label_name_duplicate">Label with this name already exists</string>
+    <string name="label_name_empty">Label name cannot be empty</string>
+    <string name="add_label_dialog_title">New label</string>
+    
+    <string name="noticelist_menu_mark_all_read">Mark all as read</string>
+    <string name="noticelist_menu_delete_all">Delete all</string>
+    <string name="noticelist_menu_order_arrival">Order by arrival</string>
+    <string name="noticelist_menu_order_rel_now">Order by relevance now</string>
+    <string name="noticelist_menu_order_rel_place">Order by relevance here</string>
+    <string name="noticelist_menu_order_priority">Order by priority</string>
+    <string name="noticelist_menu_order_title">Order by title</string>
+    
+    <string name="label_option_view" >View</string>
+    <string name="label_option_edit">Edit</string>
+    <string name="label_option_remove">Remove</string>
+    
+    <string name="label_remove_text">Are you sure you want to remove this label?</string>
+    <string name="funnel_remove_text">Are you sure you want to remove this channel?</string>
+    
+    <string name="funnel_add">Remove</string>
+    
+    <string name="funnel_option_view" >View</string>
+    <string name="funnel_option_edit">Edit</string>
+    <string name="funnel_option_remove">Remove</string>
+    <string name="funnel_type">Channel type</string>
+
+    <string name="funnel_name">Title</string>
+    <string name="funnel_filters">Filters</string>
+    <string name="funnel_add">Add</string>
+    <string name="funnel_filters_hint">Choose how to filter your messages</string>
+    <string name="funnel_labels">Labels</string>
+    <string name="funnel_labels_hint">Choose how to label your messages</string>
+    <string name="funnel_destinations">Destinations</string>
+    <string name="funnel_add_labels_dlg_title">Select labels</string>
+    
+    <string name="funnel_destinations_trash">Trash</string>
+    <string name="funnel_destinations_timemanager">Time manager</string>
+
+    <string name="funnel_name_empty">Title should not be empty</string>
+    <string name="services_filter_keywords">Keywords:</string>
+    <string name="services_filter_keywords_hint">Space-separated list of keywords</string>
+    <string name="services_filter_sources">Sources:</string>
+    <string name="jp_filter_type">Notification type:</string>
+    <string name="jp_filter_source">Notification source:</string>
+    
+    
+    <string name="notification_title">New communication arrived.</string>
+    <string name="notification_text">New communication arrived.</string>
+    <string name="email_hint">Email address</string>
+    
+    <string name="pref_sync">Message synchronization</string>
+    <string name="pref_sync_summ">Synchronize messages automatically</string>
+    <string name="pref_sync_summ_manual">Synchronize messages manually</string>
+    
+    <string name="pref_sync_period">Synchronization period</string>
+    <string name="pref_sync_period_summ">Synchronize every 5 minutes</string>
+    <string name="pref_sync_period_title">Specify period in minutes</string>
+    
+    <string name="pref_messages">Message limit</string>
+    <string name="pref_messages_summ">Up to 1000 messages stored</string>
+    <string name="pref_messages_title">Specify message limit</string>
+    
+    <string name="pref_email">Default e-mail</string>
+    <string name="pref_email_summ">None</string>
+    <string name="pref_email_title">Specify default e-mail address</string>
+
+    <string name="mainmenu_settings">Settings</string>
+
+    <string name="email_format">Incorrect email format</string>
+    
+</resources>
