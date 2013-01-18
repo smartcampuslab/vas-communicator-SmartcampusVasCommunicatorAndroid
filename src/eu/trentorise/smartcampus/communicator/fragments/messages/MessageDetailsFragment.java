@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2012-2013 Trento RISE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.fragments.messages;
 
 import java.util.Date;
@@ -7,8 +22,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +34,14 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
-import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.android.common.view.ViewHelper;
+import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
-import eu.trentorise.smartcampus.communicator.fragments.funnels.FunnelViewFragment;
+import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants;
 import eu.trentorise.smartcampus.communicator.model.EntityObject;
-import eu.trentorise.smartcampus.communicator.model.Funnel;
 import eu.trentorise.smartcampus.communicator.model.LabelObject;
 import eu.trentorise.smartcampus.communicator.model.Notification;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
@@ -95,15 +107,19 @@ public class MessageDetailsFragment extends SherlockFragment {
 		TextView tv = null;
 		LinearLayout ll = (LinearLayout) getView().findViewById(R.id.messagedetails_labels);
 		ll.removeAllViews();
-		Funnel f = CommunicatorHelper.getFunnel(getMessage().getFunnelId());
 
-		if (f != null) {
-			View v = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
-			tv = (TextView) v.findViewById(R.id.label_label_text);
-			tv.setTextColor(getActivity().getResources().getColor(R.color.sc_dark_gray));
-			tv.setText(f.getTitle());
-			ll.addView(v);
+		if (getMessage().getChannelIds() != null && getMessage().getChannelIds().size() > 0) {
+			for (int i = 0; i < getMessage().getLabelIds().size(); i++) {
+				Channel f = CommunicatorHelper.getChannel(getMessage().getChannelIds().get(i));
+				if (f == null) continue;
+				View v = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
+				tv = (TextView) v.findViewById(R.id.label_label_text);
+				tv.setTextColor(getActivity().getResources().getColor(R.color.sc_dark_gray));
+				tv.setText(f.getTitle());
+				ll.addView(v);
+			}	
 		}
+
 		if (getMessage().getLabelIds() != null && getMessage().getLabelIds().size() > 0) {
 			for (int i = 0; i < getMessage().getLabelIds().size(); i++) {
 				LabelObject lo = CommunicatorHelper.getLabel(getMessage().getLabelIds().get(i));
@@ -159,9 +175,9 @@ public class MessageDetailsFragment extends SherlockFragment {
 		case R.id.notice_option_assign_labels:
 			createLabelsDialog(getMessage());
 			return true;
-		case R.id.notice_option_view_funnel:
-			viewFunnel(getMessage());
-			return true;
+//		case R.id.notice_option_view_funnel:
+//			viewFunnel(getMessage());
+//			return true;
 		default:
 			break;
 		}
@@ -217,18 +233,18 @@ public class MessageDetailsFragment extends SherlockFragment {
 		builder.show();
 	}
 
-	protected void viewFunnel(Notification content) {
-		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-		Fragment fragment = new FunnelViewFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(FunnelViewFragment.ARG_FUNNEL, CommunicatorHelper.getFunnel(content.getFunnelId()));
-		fragment.setArguments(args);
-		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+//	protected void viewFunnel(Notification content) {
+//		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
+//		Fragment fragment = new ChannelViewFragment();
+//		Bundle args = new Bundle();
+//		args.putSerializable(ChannelViewFragment.ARG_FUNNEL, CommunicatorHelper.getFunnel(content.getFunnelId()));
+//		fragment.setArguments(args);
+//		// Replacing old fragment with new one
+//		ft.replace(android.R.id.content, fragment);
+//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//		ft.addToBackStack(null);
+//		ft.commit();
+//	}
 
 	private class ToggleStarProcessor extends AbstractAsyncTaskProcessor<MenuItem, MenuItem> {
 		public ToggleStarProcessor(Activity activity) {

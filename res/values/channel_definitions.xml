@@ -1,0 +1,92 @@
+<!--
+  Copyright 2012-2013 Trento RISE
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+         http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+    <string-array name="channel_type_sourcetypes">
+        <item>JourneyPlanner</item>
+<!--         <item>Discover Trento</item> -->
+        <item>Social</item>
+<!--         <item>Experience Buster</item> -->
+<!--         <item>Portfolio</item> -->
+<!--         <item>UnitnNews</item> -->
+    </string-array>
+    
+    <string-array name="channel_type_labels">
+        <item>Journey Planner</item>
+<!--         <item>Discover Trento</item> -->
+        <item>Community Manager</item>
+<!--         <item>Experience Buster</item> -->
+<!--         <item>Portfolio</item> -->
+<!--         <item>University Services</item> -->
+    </string-array>
+
+    <string-array name="channel_type_colors">
+        <item>#F85E99</item>
+<!--         <item>#8B80C0</item> -->
+        <item>#36B249</item>
+<!--         <item>#FF8C06</item> -->
+<!--         <item>#D7512B</item> -->
+<!--         <item>#FFFFFF</item> -->
+    </string-array>
+    
+    <array name="channel_type_images">
+        <item>@drawable/ic_channel_jp</item>
+<!--         <item>@drawable/ic_channel_jp</item> -->
+        <item>@drawable/ic_channel_cm</item>
+<!--         <item>@drawable/ic_channel_cm</item> -->
+<!--         <item>@drawable/ic_channel_p</item> -->
+<!--         <item>@drawable/ic_channel</item> -->
+    </array>
+
+    <string-array name="channel_type_renderers">
+        <item>eu.trentorise.smartcampus.communicator.renderers.JPFilterRenderer</item>
+<!--         <item></item> -->
+        <item>eu.trentorise.smartcampus.communicator.renderers.CMFilterRenderer</item>
+<!--         <item></item> -->
+<!--         <item></item> -->
+<!--         <item>eu.trentorise.smartcampus.communicator.renderers.ExternalServicesFilterRenderer</item> -->
+    </string-array>
+    
+    <array name="channel_type_layouts">
+        <item>@layout/jp_filter</item>
+<!--         <item>@null</item> -->
+        <item>@layout/cm_filter</item>
+<!--         <item>@null</item> -->
+<!--         <item>@null</item> -->
+<!--         <item>@layout/services_filter</item> -->
+    </array>
+    
+    <string-array name="channel_default_action_labels">
+        <item>Starred</item>
+<!--         <item>Time manager</item> -->
+    </string-array>
+    <array name="channel_default_action_types">
+        <item>0</item>
+<!--         <item>3</item> -->
+    </array>
+    <string-array name="channel_default_action_values">
+        <item>Starred</item>
+<!--         <item>Time manager</item> -->
+    </string-array>
+
+    <string-array name="channel_action_types">
+        <item>folder</item>
+        <item>mail</item>
+        <item>sms</item>
+        <item>calendar</item>
+        <item>social network</item>
+    </string-array>    
+</resources>

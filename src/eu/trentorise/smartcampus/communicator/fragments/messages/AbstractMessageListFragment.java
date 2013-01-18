@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2012-2013 Trento RISE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.fragments.messages;
 
 import java.util.ArrayList;
@@ -23,6 +38,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -34,9 +50,7 @@ import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.MessageAdapter;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
-import eu.trentorise.smartcampus.communicator.fragments.funnels.FunnelViewFragment;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants.ORDERING;
-import eu.trentorise.smartcampus.communicator.model.Funnel;
 import eu.trentorise.smartcampus.communicator.model.LabelObject;
 import eu.trentorise.smartcampus.communicator.model.Notification;
 import eu.trentorise.smartcampus.communicator.model.NotificationFilter;
@@ -51,9 +65,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 	protected NotificationFilter filter = null;
 	
 	protected abstract NotificationFilter initFilter();
-	protected abstract boolean hasFunnelSelector();
 	protected abstract boolean hasLabelSelector();
-	protected abstract boolean isFunnelSelectorEnabled();
 	protected abstract boolean isLabelSelectorEnabled();
 	protected abstract CharSequence getTitle();
 	
@@ -100,7 +112,6 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		});
 		
 		setupSelectors();
-		
 		super.onStart();
 	}
 
@@ -133,45 +144,6 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 	}
 	@SuppressWarnings("unchecked")
 	protected void setupSelectors() {
-		if (hasFunnelSelector()) {
-			if (isFunnelSelectorEnabled()) {
-				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
-				dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				final Spinner funnelFilter =  (Spinner)getView().findViewById(R.id.messages_spinner_funnels);
-				funnelFilter.setAdapter(dataAdapter);
-				for (String f : CommunicatorHelper.getFunnelsForSelector()) {
-					((ArrayAdapter<String>)funnelFilter.getAdapter()).add(f);
-				}
-				funnelFilter.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-						if (position == 0 && filter.getFunnelId() == null) return;
-						Funnel selected = null; 
-					    try {
-					    	String selectedString = (String)funnelFilter.getAdapter().getItem(position);
-					    	selected = CommunicatorHelper.getFunnelByName(selectedString);
-					    	if (selected != null) {
-					    		if (selected.getId().equals(filter.getFunnelId())) return;
-					    		filter.setFunnelId(selected.getId());
-					    	}
-					    	else filter.setFunnelId(null);
-						} catch (Exception e) {
-							funnelFilter.setSelection(0);
-						}
-						updateMessageList();
-					}
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-					}
-				});
-			} else {
-				getView().findViewById(R.id.messages_spinner_funnels).setEnabled(false);
-			}
-		} else {
-			((LinearLayout)getView().findViewById(R.id.messages_filters)).removeView(getView().findViewById(R.id.messages_spinner_funnels));
-		}
-
 		if (hasLabelSelector()) {
 			if (isLabelSelectorEnabled()) {
 				ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
@@ -246,6 +218,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 
 		@Override
 		public void handleResult(List<Notification> result) {
+			updateListFooter(result == null || result.size() == 0);
 		}
 		
 	}
@@ -274,9 +247,9 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		case R.id.notice_option_view:
 			viewMessage(content);
 			return true;
-		case R.id.notice_option_view_funnel:
-			viewFunnel(content);
-			return true;
+//		case R.id.notice_option_view_funnel:
+//			viewFunnel(content);
+//			return true;
 		default:
 			return false;
 		}
@@ -293,18 +266,18 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		ft.addToBackStack(null);
 		ft.commit();
 	}
-	protected void viewFunnel(Notification content) {
-		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-		Fragment fragment = new FunnelViewFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(FunnelViewFragment.ARG_FUNNEL, CommunicatorHelper.getFunnel(content.getFunnelId()));
-		fragment.setArguments(args);
-		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+//	protected void viewFunnel(Notification content) {
+//		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
+//		Fragment fragment = new ChannelViewFragment();
+//		Bundle args = new Bundle();
+//		args.putSerializable(ChannelViewFragment.ARG_FUNNEL, CommunicatorHelper.getFunnel(content.getFunnelId()));
+//		fragment.setArguments(args);
+//		// Replacing old fragment with new one
+//		ft.replace(android.R.id.content, fragment);
+//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//		ft.addToBackStack(null);
+//		ft.commit();
+//	}
 
 	private void createLabelsDialog(final Notification content) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
@@ -431,6 +404,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		@Override
 		public void handleResult(Void result) {
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(getAdapter().getCount() == 0);
 		}
 	}
 	private class ToggleReadProcessor extends AbstractAsyncTaskProcessor<Notification, Void> {
@@ -445,6 +419,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		@Override
 		public void handleResult(Void result) {
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(getAdapter().getCount() == 0);
 		}
 	}
 	private class RemoveNotificationProcessor extends AbstractAsyncTaskProcessor<Notification, Notification> {
@@ -474,6 +449,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		@Override
 		public void handleResult(Void result) {
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(getAdapter().getCount() == 0);
 		}
 	}
 	private class MarkAllReadProcessor extends AbstractAsyncTaskProcessor<Void, Void> {
@@ -491,6 +467,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 				getAdapter().getItem(i).setReaded(true);
 			}
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(getAdapter().getCount() == 0);
 		}
 	}
 
@@ -507,9 +484,28 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		public void handleResult(Void result) {
 			getAdapter().clear();
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(true);
 		}
 	}
 
+	private void updateListFooter(boolean empty) {
+		TextView view = (TextView)getView().findViewById(android.R.id.empty);
+		if (empty) {
+			if (view == null) {
+				view = new TextView(getSherlockActivity()); 
+				view.setPadding(5, 5, 5, 5);
+				view.setText(R.string.empty_messages);
+				view.setId(android.R.id.empty);
+				((ViewGroup)getView()).addView(view); 
+			} else {
+				view.setVisibility(View.VISIBLE);
+			}
+			
+		} else if (view != null) {
+			view.setVisibility(View.GONE);
+		}
+	}
+	
 	private class SyncProcessor extends AbstractAsyncTaskProcessor<Void, List<Notification>> {
 		public SyncProcessor(Activity activity) {
 			super(activity);
@@ -531,6 +527,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 				position += i;
 			}
 			getAdapter().notifyDataSetChanged();
+			updateListFooter(getAdapter().getCount() == 0);
 		}
 	}
 

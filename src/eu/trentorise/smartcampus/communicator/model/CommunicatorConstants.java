@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2012-2013 Trento RISE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.model;
 
 import java.text.SimpleDateFormat;
@@ -9,7 +24,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import eu.trentorise.smartcampus.communicator.R;
-import eu.trentorise.smartcampus.communicator.custom.FunnelFilterRenderer;
+import eu.trentorise.smartcampus.communicator.custom.ChannelFilterRenderer;
 
 
 public class CommunicatorConstants {
@@ -30,27 +45,40 @@ public class CommunicatorConstants {
 		}
 	}
 	
+	private static String[][] FEED_SOURCES = new String[][]{
+		new String[]{"Opera Universitaria","Opera Universitaria"}, 
+		new String[]{"Cisca","Cisca"}, 
+		new String[]{"Ateneo","Ateneo"}, 
+		new String[]{"Scienze", "Scienze"},
+		new String[]{"Ingegneria", "Ingegneria"},
+		new String[]{"Unisport","Unisport"}, 
+		new String[]{"DISI","DISI"}
+	};
+	
 	private static TreeMap<String,String> labels = new TreeMap<String, String>();
 	private static TreeMap<String,Drawable> images = new TreeMap<String, Drawable>();
-	private static TreeMap<String,FunnelFilterRenderer> renderers = new TreeMap<String, FunnelFilterRenderer>();
+	private static TreeMap<String,ChannelFilterRenderer> renderers = new TreeMap<String, ChannelFilterRenderer>();
 	private static TreeMap<String,Integer> layouts = new TreeMap<String, Integer>();
+	private static TreeMap<String,String> colors = new TreeMap<String, String>();
 
 	private static List<Action> defaultActions = new ArrayList<Action>();
 	
 	@SuppressWarnings("unchecked")
 	private static void init(Context ctx) {
-		String[] typeArr = ctx.getResources().getStringArray(R.array.funnel_type_sourcetypes);
-		String[] labelArr = ctx.getResources().getStringArray(R.array.funnel_type_labels);
-		TypedArray icons = ctx.getResources().obtainTypedArray(R.array.funnel_type_images);
-		String[] renderArr = ctx.getResources().getStringArray(R.array.funnel_type_renderers);
-		TypedArray layoutArr = ctx.getResources().obtainTypedArray(R.array.funnel_type_layouts);
+		String[] typeArr = ctx.getResources().getStringArray(R.array.channel_type_sourcetypes);
+		String[] labelArr = ctx.getResources().getStringArray(R.array.channel_type_labels);
+		TypedArray icons = ctx.getResources().obtainTypedArray(R.array.channel_type_images);
+		String[] renderArr = ctx.getResources().getStringArray(R.array.channel_type_renderers);
+		TypedArray layoutArr = ctx.getResources().obtainTypedArray(R.array.channel_type_layouts);
+		String[] colorArr =  ctx.getResources().getStringArray(R.array.channel_type_colors);
 		for (int i = 0; i < typeArr.length; i++) {
 			labels.put(typeArr[i], labelArr[i]);
 			images.put(typeArr[i], icons.getDrawable(i));
+			colors.put(typeArr[i], colorArr[i]);
 			String rendererClass = renderArr[i];
 			if (rendererClass != null) {
 				try {
-					Class<FunnelFilterRenderer> cls = (Class<FunnelFilterRenderer>)Class.forName(rendererClass);
+					Class<ChannelFilterRenderer> cls = (Class<ChannelFilterRenderer>)Class.forName(rendererClass);
 					renderers.put(typeArr[i], cls.newInstance());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,9 +87,9 @@ public class CommunicatorConstants {
 			layouts.put(typeArr[i], layoutArr.getResourceId(i, -1));
 		}
 		
-		String[] defaultActionLabels = ctx.getResources().getStringArray(R.array.funnel_default_action_labels);
-		String[] defaultActionValues = ctx.getResources().getStringArray(R.array.funnel_default_action_values);
-		TypedArray defaultActionTypes = ctx.getResources().obtainTypedArray(R.array.funnel_default_action_types);
+		String[] defaultActionLabels = ctx.getResources().getStringArray(R.array.channel_default_action_labels);
+		String[] defaultActionValues = ctx.getResources().getStringArray(R.array.channel_default_action_values);
+		TypedArray defaultActionTypes = ctx.getResources().obtainTypedArray(R.array.channel_default_action_types);
 		for (int j = 0; j < defaultActionLabels.length; j++) {
 			Action a = new Action();
 			a.setLabel(defaultActionLabels[j]);
@@ -70,27 +98,52 @@ public class CommunicatorConstants {
 			defaultActions.add(a);
 		}
 	}
-	public static String getFunnelTypeLabel(Context ctx, String sourceType) {
+	public static String getChannelTypeLabel(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
-		return labels.get(sourceType);
+		String label = labels.get(sourceType);
+		if (label == null) label = sourceType;
+		return label;
 	}
-	public static Drawable getFunnelTypeImage(Context ctx, String sourceType) {
+	public static Drawable getChannelTypeImage(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
-		return images.get(sourceType);
+		Drawable d = images.get(sourceType);
+		if (d == null) d = ctx.getResources().getDrawable(R.drawable.ic_channel);
+		return d;
 	}
-	public static FunnelFilterRenderer getFunnelTypeRenderer(Context ctx, String sourceType) {
+	public static String getChannelTypeColor(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
-		return renderers.get(sourceType);
+		String color = colors.get(sourceType);
+		if (color == null) color = "#333333"; 
+		return color;
 	}
-	public static int getFunnelTypeLayout(Context ctx, String sourceType) {
+//	public static ChannelFilterRenderer getChannelTypeRenderer(Context ctx, String sourceType) {
+//		if (labels.isEmpty()) init(ctx);
+//		return renderers.get(sourceType);
+//	}
+//	public static int getChannelTypeLayout(Context ctx, String sourceType) {
+//		if (labels.isEmpty()) init(ctx);
+//		return layouts.get(sourceType);
+//	}
+	
+	private static String[][] labelsArray = null;
+	public static String[][] getChannelLabels(Context ctx) {
 		if (labels.isEmpty()) init(ctx);
-		return layouts.get(sourceType);
+		if (labelsArray == null) {
+			labelsArray = new String[labels.size()][];
+			int i = 0;
+			for (String key : labels.keySet()) {
+				labelsArray[i] = new String[]{key, labels.get(key)};
+				i++;
+			}
+		}
+		return labelsArray;
 	}
-	public static TreeMap<String,String> getFunnelTypes(Context ctx) {
-		if (labels.isEmpty()) init(ctx);
-		return labels;
+	
+	public static String[][] getFeedLabels() {
+		return FEED_SOURCES;
 	}
-	public static List<Action> getDefaultFunnelActions(Context ctx) {
+	
+	public static List<Action> getDefaultChannelActions(Context ctx) {
 		if (labels.isEmpty()) init(ctx);
 		return defaultActions;
 	}

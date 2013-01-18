@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2012-2013 Trento RISE
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.custom.data;
 
 import java.util.ArrayList;
@@ -23,11 +38,10 @@ import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 import eu.trentorise.smartcampus.communicator.R;
-import eu.trentorise.smartcampus.communicator.model.Action;
+import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants.ORDERING;
 import eu.trentorise.smartcampus.communicator.model.EntityObject;
-import eu.trentorise.smartcampus.communicator.model.Funnel;
 import eu.trentorise.smartcampus.communicator.model.LabelObject;
 import eu.trentorise.smartcampus.communicator.model.Notification;
 import eu.trentorise.smartcampus.communicator.model.NotificationFilter;
@@ -40,9 +54,7 @@ import eu.trentorise.smartcampus.storage.BatchModel.DeleteModel;
 import eu.trentorise.smartcampus.storage.DataException;
 import eu.trentorise.smartcampus.storage.StorageConfigurationException;
 import eu.trentorise.smartcampus.storage.db.StorageConfiguration;
-import eu.trentorise.smartcampus.storage.sync.SyncManager;
 import eu.trentorise.smartcampus.storage.sync.SyncStorage;
-import eu.trentorise.smartcampus.storage.sync.SyncStorageConfiguration;
 import eu.trentorise.smartcampus.storage.sync.SyncUpdateModel;
 
 public class CommunicatorHelper {
@@ -51,23 +63,17 @@ public class CommunicatorHelper {
 
 	private static final boolean testing = false;
 	
-	private static final Funnel FUNNEL_ALL = new Funnel();
-	static {
-		FUNNEL_ALL.setId("-1");
-		FUNNEL_ALL.setTitle("All channel");
-	}
-	
 	private static CommunicatorHelper instance = null;
 
 	private static SCAccessProvider accessProvider = new AMSCAccessProvider();
 
-	private SyncManager mSyncManager;
+//	private SyncManager mSyncManager;
 	private Context mContext;
 	private StorageConfiguration sc = null;
-	private SyncStorageConfiguration config = null;
+//	private SyncStorageConfiguration config = null;
 	private CommSyncStorage storage = null;
 
-	private Map<String,Funnel> funnelMap;
+	private Map<String,Channel> channelMap;
 	private Integer unread = null;
 	private Preference preferences = null;
 	private Map<String,LabelObject> labelMap = null;
@@ -95,10 +101,13 @@ public class CommunicatorHelper {
 		return accessProvider;
 	}
 
+	public static SyncStorage getSyncStorage() throws DataException {
+		return getInstance().storage;
+	}
 	protected CommunicatorHelper(Context mContext) {
 		super();
 		this.mContext = mContext;
-		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
+//		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
 		
 		this.sc = new CommunicatorStorageConfiguration();
 		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 1, sc);
@@ -112,7 +121,7 @@ public class CommunicatorHelper {
 				Preference prefs = new Preference();
 				prefs.setLabels(new ArrayList<LabelObject>(tmpLabels.values()));
 				getInstance().preferences = getInstance().storage.create(prefs);
-				for (Funnel f : tmpFunnels.values()) {
+				for (Channel f : tmpChannels.values()) {
 					getInstance().storage.update(f,true);
 				}
 				for (Notification n : tmp) {
@@ -121,12 +130,12 @@ public class CommunicatorHelper {
 			} else {
 				getInstance().preferences = coll.iterator().next();
 			}
-			Collection<Funnel> funnelColl = getInstance().storage.getObjects(Funnel.class);
+			Collection<Channel> channelColl = getInstance().storage.getObjects(Channel.class);
 			
-			getInstance().funnelMap = new TreeMap<String, Funnel>();
-			if (funnelColl != null && !funnelColl.isEmpty()) {
-				for (Funnel f : funnelColl) {
-					getInstance().funnelMap.put(f.getId(), f);
+			getInstance().channelMap = new TreeMap<String, Channel>();
+			if (channelColl != null && !channelColl.isEmpty()) {
+				for (Channel f : channelColl) {
+					getInstance().channelMap.put(f.getId(), f);
 				}
 			}
 			getInstance().loaded = true;
@@ -139,12 +148,11 @@ public class CommunicatorHelper {
 	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", true);
 	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", new Bundle(), Preference.DEF_SYNC_PERIOD*60);
 		}
-		
 	}
 
 	private void loadData() throws DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException, RemoteException {
 		if (loaded) return;
-		Collection<Funnel> funnelColl = null;
+		Collection<Channel> channelColl = null;
 
 		Collection<Preference> coll = storage.getObjects(Preference.class);
 		if (coll == null || coll.isEmpty()) {
@@ -157,26 +165,12 @@ public class CommunicatorHelper {
 			preferences = coll.iterator().next();
 		}
 		
-		funnelColl = storage.getObjects(Funnel.class);
-//		if (coll != null && coll.size() == 1) {
-//			preferences = coll.iterator().next();
-//		} else {
-//			try {
-//				coll = getRemote(mContext, getAuthToken()).getObjects(Preference.class);
-//				funnelColl = getRemote(mContext, getAuthToken()).getObjects(Funnel.class);
-//			} catch (Exception e) {
-//				Log.e(getClass().getName(), ""+e.getMessage());
-//			}
-//
-//			if (coll == null || coll.isEmpty()) {
-//				preferences = storage.create(new Preference());
-//			}
-//		}
+		channelColl = storage.getObjects(Channel.class);
 
-		funnelMap = new TreeMap<String, Funnel>();
-		if (funnelColl != null && !funnelColl.isEmpty()) {
-			for (Funnel f : funnelColl) {
-				funnelMap.put(f.getId(), f);
+		channelMap = new TreeMap<String, Channel>();
+		if (channelColl != null && !channelColl.isEmpty()) {
+			for (Channel f : channelColl) {
+				channelMap.put(f.getId(), f);
 			}
 		}
 		loaded = true;
@@ -190,11 +184,12 @@ public class CommunicatorHelper {
 	}
 	public static void synchronizeInBG() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException {
 		getInstance().unread = null;
-		getInstance().mSyncManager.synchronize(getAuthToken(), Constants.APP_TOKEN);
+        ContentResolver.requestSync(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", new Bundle());
+		//getInstance().mSyncManager.synchronize(getAuthToken(), Constants.APP_TOKEN);
 	}
 
 	public static void destroy() throws DataException {
-		getInstance().mSyncManager.disconnect();
+//		getInstance().mSyncManager.disconnect();
 	}
 
 	public static void endAppFailure(Activity activity, int id) {
@@ -243,9 +238,8 @@ public class CommunicatorHelper {
 		} else if (filter.isStarred()!= null && !filter.isStarred()) {
 			query += (query.length() > 0 ? " AND ":"")+"starred = 0";
 		}
-		if (filter.getFunnelId() != null) {
-			query += (query.length() > 0 ? " AND ":"")+"funnelId = ?";
-			params.add(filter.getFunnelId());
+		if (filter.getChannelId() != null) {
+			query += (query.length() > 0 ? " AND ":"")+"channelIds LIKE '%\""+filter.getChannelId()+"\"%'";
 		}
 		if (filter.getLabelId() != null) {
 			LabelObject label = getLabel(filter.getLabelId());
@@ -267,7 +261,7 @@ public class CommunicatorHelper {
 	
 	private static List<Notification> tmp = new ArrayList<Notification>();
 	private static Map<String,LabelObject> tmpLabels = new TreeMap<String,LabelObject>();
-	private static Map<String,Funnel> tmpFunnels = new TreeMap<String,Funnel>();
+	private static Map<String,Channel> tmpChannels = new TreeMap<String,Channel>();
 	private static Preference tmpPrefs = new Preference();
 	
 	private static void initTmpData(Context mContext) {
@@ -276,7 +270,7 @@ public class CommunicatorHelper {
 			n.setContent(new HashMap<String, Object>());
 			n.setDescription("Some description: "+i);
 			n.setEntities(Arrays.asList(new EntityObject[0]));
-			n.setFunnelId(""+(int)(Math.random()*5));
+			n.setChannelIds(Collections.singletonList(""+(int)(Math.random()*5)));
 			n.setId(""+i);
 			n.setStarred(i < 5 ? true:false);
 			n.setReaded(i > 5 ? true:false);
@@ -295,52 +289,38 @@ public class CommunicatorHelper {
 			LabelObject lo = new LabelObject(""+i,"Label "+i, "#FFCCC"+i+"00");
 			tmpLabels.put(lo.getId(),lo);
 		}
-		Funnel f = null;
-		String[] sourceTypes = mContext.getResources().getStringArray(R.array.funnel_type_sourcetypes);
+		Channel f = null;
+		String[] sourceTypes = mContext.getResources().getStringArray(R.array.channel_type_sourcetypes);
 		for (int i = 0; i < sourceTypes.length; i++) {
-			f = new Funnel();
+			f = new Channel();
 			f.setId(""+i);
 			f.setSourceType(sourceTypes[i]);
-			f.setTitle(CommunicatorConstants.getFunnelTypeLabel(mContext, f.getSourceType()));
-			tmpFunnels.put(f.getId(),f);
+			f.setTitle(CommunicatorConstants.getChannelTypeLabel(mContext, f.getSourceType()));
+			tmpChannels.put(f.getId(),f);
 		}
 		
 		tmpPrefs.setLabels(new ArrayList<LabelObject>(tmpLabels.values()));
 	}
 	
-	public static List<String> getFunnelsForSelector() {
-		List<String> result = new ArrayList<String>();
-		result.add(FUNNEL_ALL.getTitle());
-		for (Funnel f : getFunnels()) result.add(f.getTitle());
-		return result;
-	}
-	
-	public static List<Funnel> getFunnels() {
+	public static List<Channel> getChannels(boolean feed) {
+		List<Channel> list = new ArrayList<Channel>();
 		try {
-			return new ArrayList<Funnel>(getInstance().funnelMap.values());
+			for (Channel c : getInstance().channelMap.values()) {
+				if (c.isFeed() == feed) list.add(c);
+			}
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
+		return list;
 	}
 
-	public static Funnel getFunnel(String funnelId) {
+	public static Channel getChannel(String channelId) {
 		try {
-			return getInstance().funnelMap.get(funnelId);
+			return getInstance().channelMap.get(channelId);
 		} catch (DataException e) {
 			return null;
 		}
 	}
-
-	public static Funnel getFunnelByName(String name) {
-		try {
-			for (Funnel f : getInstance().funnelMap.values()) {
-				if (f.getTitle().equals(name)) return f;
-			}
-		} catch (DataException e) {
-		}
-		return null;
-	}
-
 
 	public static List<String> getLabelsForSelector() {
 		List<String> result = new ArrayList<String>();
@@ -489,11 +469,6 @@ public class CommunicatorHelper {
 			return null;
 		}
 	}
-	
-	public static SyncStorage getSyncStorage() throws DataException {
-		return getInstance().storage;
-	}
-	
 	public static Integer readUnreadCount() {
 		try {
 			getInstance().unread = queryUnread();
@@ -539,9 +514,9 @@ public class CommunicatorHelper {
 		return false;
 	}
 
-	public static boolean removeFunnel(Funnel content) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
-		getInstance().storage.delete(content.getId(), Funnel.class);
-		boolean result = getInstance().funnelMap.remove(content.getId()) != null;
+	public static boolean removeChannel(Channel content) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
+		getInstance().storage.delete(content.getId(), Channel.class);
+		boolean result = getInstance().channelMap.remove(content.getId()) != null;
 		synchronize();
 		return result;
 	}
@@ -555,31 +530,14 @@ public class CommunicatorHelper {
 		}
 	}
 
-	public static boolean saveFunnel(Funnel funnel, List<Action> userDefined) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
-		if (funnel.getId() == null) {
-			Funnel newFunnel = getInstance().storage.create(funnel);
-			getInstance().funnelMap.put(newFunnel.getId(), newFunnel);
+	public static boolean saveChannel(Channel channel) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
+		if (channel.getId() == null) {
+			Channel newChannel = getInstance().storage.create(channel);
+			getInstance().channelMap.put(newChannel.getId(), newChannel);
 		} else {
-			getInstance().storage.update(funnel, false);
-			getInstance().funnelMap.put(funnel.getId(), funnel);
+			getInstance().storage.update(channel, false);
+			getInstance().channelMap.put(channel.getId(), channel);
 		}
-//		if (userDefined != null && !userDefined.isEmpty()) {
-//			List<Action> list = getInstance().preferences.getActions();
-//			if (list == null) list = userDefined;
-//			else {
-//				for (Action a : userDefined) {
-//					boolean found = false;
-//					for (Action old : list) {
-//						if (old.getValue().equals(a.getValue())) {
-//							found = true; break;
-//						}
-//					}
-//					if (!found) list.add(a);
-//				}
-//			}
-//			getInstance().preferences.setActions(list);
-//			getInstance().storage.update(getInstance().preferences, false);
-//		}
 		synchronize();
 		return true;
 	}
@@ -588,11 +546,12 @@ public class CommunicatorHelper {
 		try {
 			getInstance().preferences = prefs;
 			getInstance().storage.update(getInstance().preferences, false);
+			updateSyncAdapter(prefs);
 		} catch (Exception e) {
 			Log.e(CommunicatorHelper.class.getName(),"Failed to store preferences: "+e.getMessage());
 		}
 	}
-	
+
 	private static void updateSyncAdapter(Preference prefs) throws DataException {
 		if (getPreferences().isSynchronizeAutomatically()) {
 	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", true);
