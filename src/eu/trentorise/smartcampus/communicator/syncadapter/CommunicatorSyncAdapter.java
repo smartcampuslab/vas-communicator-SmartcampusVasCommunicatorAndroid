@@ -69,8 +69,8 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
  			Log.e(TAG, "Trying synchronization");
 			SyncStorage storage = CommunicatorHelper.getSyncStorage();
 			SyncData data = storage.synchronize(CommunicatorHelper.getAuthToken(), GlobalConfig.getAppUrl(mContext), Constants.SYNC_SERVICE);
-			if (data.getUpdated() != null && !data.getUpdated().isEmpty() ||
-					data.getDeleted() != null && !data.getDeleted().isEmpty())
+			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()) ||
+					data.getDeleted() != null && !data.getDeleted().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
 					onDBUpdate(data);
 		}  catch (SecurityException e) {
 			handleSecurityProblem();
