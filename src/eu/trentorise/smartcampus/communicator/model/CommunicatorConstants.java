@@ -100,20 +100,22 @@ public class CommunicatorConstants {
 	}
 	public static String getChannelTypeLabel(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
+		if (sourceType == null) return null;
 		String label = labels.get(sourceType);
 		if (label == null) label = sourceType;
 		return label;
 	}
 	public static Drawable getChannelTypeImage(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
-		Drawable d = images.get(sourceType);
-		if (d == null) d = ctx.getResources().getDrawable(R.drawable.ic_channel);
+		Drawable d = null;
+		
+		if (sourceType == null || (d = images.get(sourceType)) == null) d = ctx.getResources().getDrawable(R.drawable.ic_channel);
 		return d;
 	}
 	public static String getChannelTypeColor(Context ctx, String sourceType) {
 		if (labels.isEmpty()) init(ctx);
-		String color = colors.get(sourceType);
-		if (color == null) color = "#333333"; 
+		String color = null;
+		if (sourceType == null || (color = colors.get(sourceType)) == null)color = "#333333"; 
 		return color;
 	}
 //	public static ChannelFilterRenderer getChannelTypeRenderer(Context ctx, String sourceType) {
