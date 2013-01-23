@@ -20,6 +20,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,6 @@ import eu.trentorise.smartcampus.android.common.view.ViewHelper;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
-import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants;
 import eu.trentorise.smartcampus.communicator.model.EntityObject;
 import eu.trentorise.smartcampus.communicator.model.LabelObject;
@@ -108,17 +108,23 @@ public class MessageDetailsFragment extends SherlockFragment {
 		LinearLayout ll = (LinearLayout) getView().findViewById(R.id.messagedetails_labels);
 		ll.removeAllViews();
 
-		if (getMessage().getChannelIds() != null && getMessage().getChannelIds().size() > 0) {
-			for (int i = 0; i < getMessage().getLabelIds().size(); i++) {
-				Channel f = CommunicatorHelper.getChannel(getMessage().getChannelIds().get(i));
-				if (f == null) continue;
-				View v = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
-				tv = (TextView) v.findViewById(R.id.label_label_text);
-				tv.setTextColor(getActivity().getResources().getColor(R.color.sc_dark_gray));
-				tv.setText(f.getTitle());
-				ll.addView(v);
-			}	
-		}
+		View sourceView = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
+		TextView source = (TextView) sourceView.findViewById(R.id.label_label_text);
+		source.setTextColor(Color.parseColor(CommunicatorConstants.getChannelTypeColor(getActivity(), getMessage().getType())));
+		source.setText(CommunicatorConstants.getChannelTypeLabel(getActivity(), getMessage().getType()));
+		ll.addView(sourceView);
+//
+//		if (getMessage().getChannelIds() != null && getMessage().getChannelIds().size() > 0) {
+//			for (int i = 0; i < getMessage().getLabelIds().size(); i++) {
+//				Channel f = CommunicatorHelper.getChannel(getMessage().getChannelIds().get(i));
+//				if (f == null) continue;
+//				View v = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
+//				tv = (TextView) v.findViewById(R.id.label_label_text);
+//				tv.setTextColor(getActivity().getResources().getColor(R.color.sc_dark_gray));
+//				tv.setText(f.getTitle());
+//				ll.addView(v);
+//			}	
+//		}
 
 		if (getMessage().getLabelIds() != null && getMessage().getLabelIds().size() > 0) {
 			for (int i = 0; i < getMessage().getLabelIds().size(); i++) {
