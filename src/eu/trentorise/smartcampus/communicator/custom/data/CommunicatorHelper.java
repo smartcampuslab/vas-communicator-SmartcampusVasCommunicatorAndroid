@@ -110,7 +110,7 @@ public class CommunicatorHelper {
 //		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
 		
 		this.sc = new CommunicatorStorageConfiguration();
-		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 1, sc);
+		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 2, sc);
 	}
 
 	public static void start(boolean local) throws RemoteException, DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException {
