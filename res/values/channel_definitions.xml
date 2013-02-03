@@ -25,9 +25,9 @@
     </string-array>
     
     <string-array name="channel_type_labels">
-        <item>Journey Planner</item>
+        <item>ViaggiaTrento</item>
 <!--         <item>Discover Trento</item> -->
-        <item>Community Manager</item>
+        <item>MyPeople</item>
 <!--         <item>Experience Buster</item> -->
 <!--         <item>Portfolio</item> -->
 <!--         <item>University Services</item> -->

@@ -18,8 +18,8 @@
     package="eu.trentorise.smartcampus.communicator"
     android:sharedUserId="eu.trentorise.smartcampus.shared"
     android:sharedUserLabel="@string/app_uid_label"
-    android:versionCode="13"
-    android:versionName="0.11.1" >
+    android:versionCode="16"
+    android:versionName="0.12.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
