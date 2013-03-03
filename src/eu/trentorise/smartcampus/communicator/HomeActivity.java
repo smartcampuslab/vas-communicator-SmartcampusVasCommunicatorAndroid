@@ -81,6 +81,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	public void onNewIntent(Intent arg0) {
 		try {
+			CommunicatorHelper.resetUnread();
 			CommunicatorHelper.getAccessProvider().getAuthToken(this, null);
 		} catch (Exception e) {
 			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);

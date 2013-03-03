@@ -16,28 +16,24 @@
 
 package eu.trentorise.smartcampus.communicator.syncadapter;
 
+import java.util.List;
+
 import android.accounts.Account;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.util.Log;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.custom.data.Constants;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ProtocolException;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
-import eu.trentorise.smartcampus.storage.DataException;
-import eu.trentorise.smartcampus.storage.StorageConfigurationException;
 import eu.trentorise.smartcampus.storage.sync.SyncData;
 import eu.trentorise.smartcampus.storage.sync.SyncStorage;
 
@@ -49,7 +45,6 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final String TAG = "CommunicatorSyncAdapter";
 
     private final Context mContext;
-
 
     public CommunicatorSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -69,9 +64,8 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
  			Log.e(TAG, "Trying synchronization");
 			SyncStorage storage = CommunicatorHelper.getSyncStorage();
 			SyncData data = storage.synchronize(CommunicatorHelper.getAuthToken(), GlobalConfig.getAppUrl(mContext), Constants.SYNC_SERVICE);
-			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()) ||
-					data.getDeleted() != null && !data.getDeleted().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
-					onDBUpdate(data);
+			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
+					onDBUpdate(data.getUpdated().get(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()));
 		}  catch (SecurityException e) {
 			handleSecurityProblem();
 		} catch (Exception e) {
@@ -100,16 +94,17 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
         mNotificationManager.notify(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NOTIFICATION_ID, notification);
 	}
     
-    private void onDBUpdate(SyncData data) {
+    private void onDBUpdate(List<Object> list) {
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
 
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         
         int icon = R.drawable.ic_n;
-        CharSequence tickerText = mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title);
+        
+        CharSequence tickerText = extractTitle(list);
         long when = System.currentTimeMillis();
-        CharSequence contentText = mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_text);
+        CharSequence contentText = extractText(list);
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, i, 0);
 
         Notification notification = new Notification(icon, tickerText, when);
@@ -117,5 +112,21 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
         notification.setLatestEventInfo(mContext, tickerText, contentText, contentIntent);
         
         mNotificationManager.notify(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NOTIFICATION_ID, notification);
+	}
+
+	private CharSequence extractTitle(List<Object> list) {
+		return format(list, eu.trentorise.smartcampus.communicator.R.string.notification_title, eu.trentorise.smartcampus.communicator.R.string.notification_title_multi);
+	}
+	private CharSequence extractText(List<Object> list) {
+		return format(list, eu.trentorise.smartcampus.communicator.R.string.notification_text, eu.trentorise.smartcampus.communicator.R.string.notification_text_multi);
+	}
+	private CharSequence format(List<Object> list, int res, int resMulti) {
+		String txt = "";
+		if (list.size() == 1) {
+			String title = ((eu.trentorise.smartcampus.communicator.model.Notification)list.get(0)).getTitle();
+			txt = mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title) + " "+title;
+		}
+		else txt = list.size() + " " + mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title_multi);
+		return txt;
 	}
 }
