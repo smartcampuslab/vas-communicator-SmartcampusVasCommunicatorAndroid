@@ -145,8 +145,8 @@ public class CommunicatorHelper {
 		if (getInstance().loaded) {
 			updateSyncAdapter(getPreferences());
 		} else {
-	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", true);
-	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", new Bundle(), Preference.DEF_SYNC_PERIOD*60);
+	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", true);
+	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", new Bundle(), Preference.DEF_SYNC_PERIOD*60);
 		}
 	}
 
@@ -184,7 +184,7 @@ public class CommunicatorHelper {
 	}
 	public static void synchronizeInBG() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException {
 		getInstance().unread = null;
-        ContentResolver.requestSync(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", new Bundle());
+        ContentResolver.requestSync(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", new Bundle());
 		//getInstance().mSyncManager.synchronize(getAuthToken(), Constants.APP_TOKEN);
 	}
 
@@ -554,10 +554,10 @@ public class CommunicatorHelper {
 
 	private static void updateSyncAdapter(Preference prefs) throws DataException {
 		if (getPreferences().isSynchronizeAutomatically()) {
-	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", true);
-	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", new Bundle(), getInstance().preferences.getSyncPeriod()*60);
+	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", true);
+	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", new Bundle(), getInstance().preferences.getSyncPeriod()*60);
 		} else {
-	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NAME, eu.trentorise.smartcampus.ac.Constants.ACCOUNT_TYPE), "eu.trentorise.smartcampus.communicator", false);
+	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", false);
 		}
 		
 	}
