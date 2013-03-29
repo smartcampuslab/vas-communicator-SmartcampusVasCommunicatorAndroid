@@ -108,22 +108,4 @@ public class Channel extends BasicObject {
 		c.setUpdateTime(getUpdateTime());
 		return c;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public boolean applies(Notification notification) {
-		String text = (notification.getTitle()+ " "+notification.getDescription()).toLowerCase();
-		List<String> keywords = (filterData == null || filterData.get(FD_KEYWORDS) == null) ? Collections.<String>emptyList() : (List<String>)filterData.get(FD_KEYWORDS);
-		
-		if (keywords.size() > 0) {
-			for (String keyword : keywords) {
-				String k = keyword.toLowerCase();
-				if (text.matches(".*[\\p{Punct}\\p{Blank}]" + k + "[\\p{Punct}\\p{Blank}].*")) {
-					return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
-
 }
