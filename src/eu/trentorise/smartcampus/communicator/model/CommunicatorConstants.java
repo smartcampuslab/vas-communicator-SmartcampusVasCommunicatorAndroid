@@ -24,7 +24,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import eu.trentorise.smartcampus.communicator.R;
-import eu.trentorise.smartcampus.communicator.custom.ChannelFilterRenderer;
+import eu.trentorise.smartcampus.communicator.custom.NotificationProcessor;
 
 
 public class CommunicatorConstants {
@@ -57,7 +57,7 @@ public class CommunicatorConstants {
 	
 	private static TreeMap<String,String> labels = new TreeMap<String, String>();
 	private static TreeMap<String,Drawable> images = new TreeMap<String, Drawable>();
-	private static TreeMap<String,ChannelFilterRenderer> renderers = new TreeMap<String, ChannelFilterRenderer>();
+	private static TreeMap<String,NotificationProcessor> processors = new TreeMap<String, NotificationProcessor>();
 	private static TreeMap<String,Integer> layouts = new TreeMap<String, Integer>();
 	private static TreeMap<String,String> colors = new TreeMap<String, String>();
 
@@ -68,18 +68,18 @@ public class CommunicatorConstants {
 		String[] typeArr = ctx.getResources().getStringArray(R.array.channel_type_sourcetypes);
 		String[] labelArr = ctx.getResources().getStringArray(R.array.channel_type_labels);
 		TypedArray icons = ctx.getResources().obtainTypedArray(R.array.channel_type_images);
-		String[] renderArr = ctx.getResources().getStringArray(R.array.channel_type_renderers);
+		String[] processorArr = ctx.getResources().getStringArray(R.array.message_processors);
 		TypedArray layoutArr = ctx.getResources().obtainTypedArray(R.array.channel_type_layouts);
 		String[] colorArr =  ctx.getResources().getStringArray(R.array.channel_type_colors);
 		for (int i = 0; i < typeArr.length; i++) {
 			labels.put(typeArr[i], labelArr[i]);
 			images.put(typeArr[i], icons.getDrawable(i));
 			colors.put(typeArr[i], colorArr[i]);
-			String rendererClass = renderArr[i];
+			String rendererClass = processorArr[i];
 			if (rendererClass != null) {
 				try {
-					Class<ChannelFilterRenderer> cls = (Class<ChannelFilterRenderer>)Class.forName(rendererClass);
-					renderers.put(typeArr[i], cls.newInstance());
+					Class<NotificationProcessor> cls = (Class<NotificationProcessor>)Class.forName(rendererClass);
+					processors.put(typeArr[i], cls.newInstance());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -120,12 +120,16 @@ public class CommunicatorConstants {
 	}
 //	public static ChannelFilterRenderer getChannelTypeRenderer(Context ctx, String sourceType) {
 //		if (labels.isEmpty()) init(ctx);
-//		return renderers.get(sourceType);
+//		return processors.get(sourceType);
 //	}
 //	public static int getChannelTypeLayout(Context ctx, String sourceType) {
 //		if (labels.isEmpty()) init(ctx);
 //		return layouts.get(sourceType);
 //	}
+	public static NotificationProcessor getNotificationProcessor(Context ctx, String sourceType) {
+		if (labels.isEmpty()) init(ctx);
+		return processors.get(sourceType);
+	}
 	
 	private static String[][] labelsArray = null;
 	public static String[][] getChannelLabels(Context ctx) {

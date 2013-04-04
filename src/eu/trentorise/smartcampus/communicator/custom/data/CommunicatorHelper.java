@@ -38,6 +38,7 @@ import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 import eu.trentorise.smartcampus.communicator.R;
+import eu.trentorise.smartcampus.communicator.custom.NotificationProcessor;
 import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants.ORDERING;
@@ -219,7 +220,17 @@ public class CommunicatorHelper {
 				collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size);
 			}
 			
-			if (collection.size() > 0) return new ArrayList<Notification>(collection);
+			if (collection.size() > 0) {
+				NotificationProcessor processor = null;
+				List<Notification> list = new ArrayList<Notification>(collection);
+				for (Notification n : collection) {
+					if ((processor = CommunicatorConstants.getNotificationProcessor(getInstance().mContext, n.getType())) != null) {
+						processor.processMessage(getInstance().mContext, n);
+					}
+					list.add(n);
+				}
+				return list;
+			}
 			return Collections.emptyList();
 		} catch (Exception e) {
 			return Collections.emptyList();

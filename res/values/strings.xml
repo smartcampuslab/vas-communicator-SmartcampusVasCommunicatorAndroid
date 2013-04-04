@@ -163,4 +163,19 @@
         ]]>
         </string>
     
+    <string name="notifications_unread">Unread notifications</string>
+    <string name="notifications_list_empty_jp">You have not received notifications yet.</string>
+    <string name="notifications_itinerary_delay_title">Delay for \"%s\" journey</string>
+    <string name="notifications_itinerary_delay_min">%s minute</string>
+    <string name="notifications_itinerary_delay_mins">%s minutes</string>
+    <string name="notifications_itinerary_delay_bus">Line %1$s for %2$s</string>
+    <string name="notifications_itinerary_delay_train">Train %1$s for %2$s</string>
+    <string name="notifications_itinerary_delay_original_schedule">scheduled at %1$s at %2$s</string>
+    
+    <string name="notifications_event_new">New event \"%1$s\" at %2$s</string>
+    <string name="notifications_story_new">New story \"%1$s\" about %2$s</string>
+    <string name="notifications_event_updated">Event \"%s\" updated</string>
+    <string name="notifications_location_updated">Place \"%s\" updated</string>
+    <string name="notifications_story_updated">Story \"%s\" updated</string>
+    
 </resources>

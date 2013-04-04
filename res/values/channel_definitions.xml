@@ -51,10 +51,10 @@
 <!--         <item>@drawable/ic_channel</item> -->
     </array>
 
-    <string-array name="channel_type_renderers">
-        <item>eu.trentorise.smartcampus.communicator.renderers.JPFilterRenderer</item>
+    <string-array name="message_processors">
+        <item>eu.trentorise.smartcampus.communicator.renderers.JPProcessor</item>
 <!--         <item></item> -->
-        <item>eu.trentorise.smartcampus.communicator.renderers.CMFilterRenderer</item>
+        <item>eu.trentorise.smartcampus.communicator.renderers.CMProcessor</item>
 <!--         <item></item> -->
 <!--         <item></item> -->
 <!--         <item>eu.trentorise.smartcampus.communicator.renderers.ExternalServicesFilterRenderer</item> -->
