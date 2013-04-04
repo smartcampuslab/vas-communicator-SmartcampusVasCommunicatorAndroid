@@ -17,6 +17,7 @@
 package eu.trentorise.smartcampus.communicator.syncadapter;
 
 import java.util.List;
+import java.util.Map;
 
 import android.accounts.Account;
 import android.app.Notification;
@@ -61,11 +62,15 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
         ContentProviderClient provider, SyncResult syncResult) {
     	 try {
+    		 System.err.println("DOING SYNC");
  			Log.e(TAG, "Trying synchronization");
 			SyncStorage storage = CommunicatorHelper.getSyncStorage();
 			SyncData data = storage.synchronize(CommunicatorHelper.getAuthToken(), GlobalConfig.getAppUrl(mContext), Constants.SYNC_SERVICE);
 			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
 					onDBUpdate(data.getUpdated().get(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()));
+//			List<Object> list = new ArrayList<Object>();
+//			list.add(new eu.trentorise.smartcampus.communicator.model.Notification());
+//			onDBUpdate(list);
 		}  catch (SecurityException e) {
 			handleSecurityProblem();
 		} catch (Exception e) {
@@ -95,11 +100,12 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
 	}
     
     private void onDBUpdate(List<Object> list) {
+		 System.err.println("DOING MSG");
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
 
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        
+        	
         int icon = R.drawable.ic_n;
         
         CharSequence tickerText = extractTitle(list);
@@ -123,7 +129,9 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
 	private CharSequence format(List<Object> list, int res, int resMulti) {
 		String txt = "";
 		if (list.size() == 1) {
-			String title = ((eu.trentorise.smartcampus.communicator.model.Notification)list.get(0)).getTitle();
+			@SuppressWarnings("unchecked")
+			Map<String,Object> map = (Map<String, Object>) list.get(0);
+			String title = (String)map.get("title");
 			txt = mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title) + " "+title;
 		}
 		else txt = list.size() + " " + mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title_multi);
