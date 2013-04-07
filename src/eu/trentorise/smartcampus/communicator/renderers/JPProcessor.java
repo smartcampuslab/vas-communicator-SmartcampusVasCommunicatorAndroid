@@ -40,7 +40,7 @@ public class JPProcessor implements NotificationProcessor {
 
 	@Override
 	public void processMessage(Context ctx, Notification notification) {
-		if (notification.getContent() == null) {
+		if (notification.getContent() == null || notification.getContent().isEmpty()) {
 			return;
 		}
 

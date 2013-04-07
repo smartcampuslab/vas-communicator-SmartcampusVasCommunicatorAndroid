@@ -62,15 +62,11 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
         ContentProviderClient provider, SyncResult syncResult) {
     	 try {
-    		 System.err.println("DOING SYNC");
  			Log.e(TAG, "Trying synchronization");
 			SyncStorage storage = CommunicatorHelper.getSyncStorage();
 			SyncData data = storage.synchronize(CommunicatorHelper.getAuthToken(), GlobalConfig.getAppUrl(mContext), Constants.SYNC_SERVICE);
 			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
 					onDBUpdate(data.getUpdated().get(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()));
-//			List<Object> list = new ArrayList<Object>();
-//			list.add(new eu.trentorise.smartcampus.communicator.model.Notification());
-//			onDBUpdate(list);
 		}  catch (SecurityException e) {
 			handleSecurityProblem();
 		} catch (Exception e) {
@@ -100,7 +96,6 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
 	}
     
     private void onDBUpdate(List<Object> list) {
-		 System.err.println("DOING MSG");
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
 
