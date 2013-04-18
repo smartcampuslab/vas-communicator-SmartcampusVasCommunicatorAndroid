@@ -75,6 +75,8 @@ public class JPProcessor implements NotificationProcessor {
 			} else {
 				description.append(ctx.getString(R.string.notifications_itinerary_delay_mins, minutes));
 			}
+		} else if (delay == 0) {
+			description.append(ctx.getString(R.string.notifications_itinerary_on_time));
 		}
 
 		// line/train (with train number) and direction

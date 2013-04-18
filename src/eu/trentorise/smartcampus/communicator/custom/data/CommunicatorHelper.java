@@ -206,19 +206,7 @@ public class CommunicatorHelper {
 
 	public static List<Notification> getNotifications(NotificationFilter filter, int position, int size, long since) {
 		try {
-			List<String> params = new ArrayList<String>();
-			String query = createQuery(filter, since, params); 
-			
-			Collection<Notification> collection = null;
-			if (filter.getOrdering() == null || filter.getOrdering().equals(ORDERING.ORDER_BY_ARRIVAL)) {
-				collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size, "timestamp DESC");
-			} 
-			else if (filter.getOrdering().equals(ORDERING.ORDER_BY_TITLE)) {
-				collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size, "title ASC");
-			} else {
-				// TODO: sort!
-				collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size);
-			}
+			Collection<Notification> collection = getRawNotifications(filter, position, size, since);
 			
 			if (collection.size() > 0) {
 				NotificationProcessor processor = null;
@@ -235,6 +223,33 @@ public class CommunicatorHelper {
 		} catch (Exception e) {
 			return Collections.emptyList();
 		}
+	}
+
+	/**
+	 * @param filter
+	 * @param position
+	 * @param size
+	 * @param since
+	 * @return
+	 * @throws DataException
+	 * @throws StorageConfigurationException
+	 */
+	private static Collection<Notification> getRawNotifications(NotificationFilter filter, int position, int size, long since)
+			throws DataException, StorageConfigurationException {
+		List<String> params = new ArrayList<String>();
+		String query = createQuery(filter, since, params); 
+		
+		Collection<Notification> collection = null;
+		if (filter.getOrdering() == null || filter.getOrdering().equals(ORDERING.ORDER_BY_ARRIVAL)) {
+			collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size, "timestamp DESC");
+		} 
+		else if (filter.getOrdering().equals(ORDERING.ORDER_BY_TITLE)) {
+			collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size, "title ASC");
+		} else {
+			// TODO: sort!
+			collection = getInstance().storage.query(Notification.class, query, params.toArray(new String[params.size()]), position, size);
+		}
+		return collection;
 	}
 
 	private static String createQuery(NotificationFilter filter, long since, List<String> params) {
@@ -422,7 +437,9 @@ public class CommunicatorHelper {
 		LabelObject label = getLabelByName(name.toString());
 		if (content.getLabelIds()==null) content.setLabelIds(new ArrayList<String>());
 		if (!content.getLabelIds().contains(label.getId())) content.getLabelIds().add(label.getId());
-		getInstance().storage.update(content, false);
+		Notification n = getInstance().storage.getObjectById(content.getId(), Notification.class);
+		n.setLabelIds(content.getLabelIds());
+		getInstance().storage.update(n, false);
 	}
 
 	public static void removeNotification(Notification content) throws DataException, StorageConfigurationException {
@@ -432,19 +449,23 @@ public class CommunicatorHelper {
 	public static void toggleRead(Notification content) throws DataException, StorageConfigurationException {
 		getInstance().unread = null;
 		content.setReaded(!content.isReaded());
-		getInstance().storage.update(content, false);
+		Notification n = getInstance().storage.getObjectById(content.getId(), Notification.class);
+		n.setReaded(content.isReaded());
+		getInstance().storage.update(n, false);
 	}
 
 	public static void toggleStar(Notification content) throws DataException, StorageConfigurationException {
 		content.setStarred(!content.isStarred());
-		getInstance().storage.update(content, false);
+		Notification n = getInstance().storage.getObjectById(content.getId(), Notification.class);
+		n.setStarred(content.isStarred());
+		getInstance().storage.update(n, false);
 	}
 
 	public static void markAllAsRead(NotificationFilter filter) throws DataException, StorageConfigurationException {
 		getInstance().unread = null;
 		filter.setReaded(false);
 		List<BatchModel> list = new ArrayList<BatchModel>();
-		for (Notification n : getNotifications(filter, 0, -1, 0)) {
+		for (Notification n : getRawNotifications(filter, 0, -1, 0)) {
 			n.setReaded(true);
 			list.add(new SyncUpdateModel.UpdateModel(n, false, true));
 		}
