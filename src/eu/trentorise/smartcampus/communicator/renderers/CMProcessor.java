@@ -51,13 +51,21 @@ public class CMProcessor implements NotificationProcessor {
 				story = eb;
 			}
 		}
+		
+		boolean update = notification.getContent() != null && notification.getContent().containsKey("updated") && (Boolean)notification.getContent().get("updated");
 
 		if (notification.getEntities().size() == 2) {
 			// new
 			if (event != null && location != null) {
-				desc = ctx.getString(R.string.notifications_event_new, event.getTitle(), location.getTitle());
+				desc = ctx.getString(
+						update? R.string.notifications_event_at_place_updated : R.string.notifications_event_new, 
+						event.getTitle(), 
+						location.getTitle());
 			} else if (location != null && story != null) {
-				desc = ctx.getString(R.string.notifications_story_new, story.getTitle(), location.getTitle());
+				desc = ctx.getString(
+						update? R.string.notifications_story_at_place_update : R.string.notifications_story_new, 
+						story.getTitle(), 
+						location.getTitle());
 			}
 		} else {
 			if (event != null) {
