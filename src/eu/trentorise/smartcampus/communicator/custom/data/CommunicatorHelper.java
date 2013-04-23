@@ -212,6 +212,10 @@ public class CommunicatorHelper {
 				NotificationProcessor processor = null;
 				List<Notification> list = new ArrayList<Notification>();
 				for (Notification n : collection) {
+					if (n.getType() == null) {
+						continue;
+					}
+					
 					if ((processor = CommunicatorConstants.getNotificationProcessor(getInstance().mContext, n.getType())) != null) {
 						processor.processMessage(getInstance().mContext, n);
 					}
