@@ -182,4 +182,7 @@
     <string name="notifications_event_at_place_updated">Event \"%1$s\" at %2$s is updated</string>
     <string name="notifications_story_at_place_update">Story \"%1$s\" about %2$s is updated</string>
     
+    <string name="token_required">Please login before proceeding with the application.</string>
+    <string name="token_expired">App login expired.</string>
+    
 </resources>

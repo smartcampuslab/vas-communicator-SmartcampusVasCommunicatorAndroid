@@ -26,7 +26,7 @@ import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 
 public abstract class AbstractAsyncTaskProcessor<Params, Result> implements SCAsyncTaskProcessor<Params, Result>{
 
-	private Activity activity;
+	protected Activity activity;
 	
 	public AbstractAsyncTaskProcessor(Activity activity) {
 		super();
@@ -52,8 +52,7 @@ public abstract class AbstractAsyncTaskProcessor<Params, Result> implements SCAs
 	public void handleSecurityError() {
 		SCAccessProvider accessProvider =  CommunicatorHelper.getAccessProvider();
 		try {
-			accessProvider.invalidateToken(activity, null);
-			accessProvider.getAuthToken(activity, null);
+			accessProvider.login(activity, null);
 		} catch (Exception e) {
 			Log.e(HomeActivity.class.getName(), ""+e.getMessage());
 			CommunicatorHelper.showFailure(activity, R.string.app_failure_security);

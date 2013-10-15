@@ -77,22 +77,24 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     private void handleSecurityProblem() {
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
-
-        CommunicatorHelper.getAccessProvider().invalidateToken(mContext, null);
+///logout?///
+        //CommunicatorHelper.getAccessProvider().invalidateToken(mContext, null);
+        ////
+        //CommunicatorHelper.getAccessProvider().logout(mContext);
         
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         
         int icon = R.drawable.stat_notify_error;
-        CharSequence tickerText = mContext.getString(eu.trentorise.smartcampus.ac.R.string.token_expired);
+        CharSequence tickerText = mContext.getString(R.string.token_expired);
         long when = System.currentTimeMillis();
-        CharSequence contentText =  mContext.getString(eu.trentorise.smartcampus.ac.R.string.token_required);
+        CharSequence contentText =  mContext.getString(R.string.token_required);
         PendingIntent contentIntent = PendingIntent.getActivity( mContext, 0, i, 0);
 
         Notification notification = new Notification(icon, tickerText, when);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.setLatestEventInfo( mContext, tickerText, contentText, contentIntent);
         
-        mNotificationManager.notify(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NOTIFICATION_ID, notification);
+        mNotificationManager.notify(Constants.ACCOUNT_NOTIFICATION_ID, notification);
 	}
     
     private void onDBUpdate(List<Object> list) {
@@ -112,7 +114,7 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.setLatestEventInfo(mContext, tickerText, contentText, contentIntent);
         
-        mNotificationManager.notify(eu.trentorise.smartcampus.ac.Constants.ACCOUNT_NOTIFICATION_ID, notification);
+        mNotificationManager.notify(Constants.ACCOUNT_NOTIFICATION_ID, notification);
 	}
 
 	private CharSequence extractTitle(List<Object> list) {

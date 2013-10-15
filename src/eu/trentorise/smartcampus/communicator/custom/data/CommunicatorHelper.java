@@ -29,13 +29,14 @@ import android.accounts.Account;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
+import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
-import eu.trentorise.smartcampus.ac.authenticator.AMSCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.NotificationProcessor;
@@ -66,10 +67,11 @@ public class CommunicatorHelper {
 	
 	private static CommunicatorHelper instance = null;
 
-	private static SCAccessProvider accessProvider = new AMSCAccessProvider();
+	private static SCAccessProvider accessProvider = null; 
+	
 
 //	private SyncManager mSyncManager;
-	private Context mContext;
+	private static Context mContext;
 	private StorageConfiguration sc = null;
 //	private SyncStorageConfiguration config = null;
 	private CommSyncStorage storage = null;
@@ -79,17 +81,21 @@ public class CommunicatorHelper {
 	private Preference preferences = null;
 	private Map<String,LabelObject> labelMap = null;
 	private boolean loaded = false;
+	
+	public static String mToken;
 
-	public static void init(Context mContext) {
+	public static void init(Context ctx) {
+		mContext = ctx;
 		if (instance == null) instance = new CommunicatorHelper(mContext);
 		
+		//accessProvider = SCAccessProvider.getInstance(mContext);
 //		initTmpData(mContext);
 //		instance.funnelMap = tmpFunnels;
 //		instance.preferences = tmpPrefs;
 	}
 
-	public static String getAuthToken() {
-		return getAccessProvider().readToken(instance.mContext, null);
+	public static String getAuthToken() throws AACException {
+		return mToken; //HomeActivity.userAuthToken;//getAccessProvider().readToken(instance.mContext);//adToken(instance.mContext, null);
 	}
 
 	private static CommunicatorHelper getInstance() throws DataException {
@@ -99,6 +105,8 @@ public class CommunicatorHelper {
 	}
 
 	public static SCAccessProvider getAccessProvider() {
+		if(accessProvider == null)
+			accessProvider = SCAccessProvider.getInstance(mContext);
 		return accessProvider;
 	}
 
@@ -109,12 +117,12 @@ public class CommunicatorHelper {
 		super();
 		this.mContext = mContext;
 //		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
-		
+		this.accessProvider = SCAccessProvider.getInstance(mContext);
 		this.sc = new CommunicatorStorageConfiguration();
 		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 2, sc);
 	}
 
-	public static void start(boolean local) throws RemoteException, DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException {
+	public static void start(boolean local) throws RemoteException, DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException, AACException, NameNotFoundException {
 		if (testing) {
 			Collection<Preference> coll = getInstance().storage.getObjects(Preference.class);
 			if (coll.isEmpty()) {
@@ -151,7 +159,7 @@ public class CommunicatorHelper {
 		}
 	}
 
-	private void loadData() throws DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException, RemoteException {
+	private void loadData() throws DataException, StorageConfigurationException, ConnectionException, ProtocolException, SecurityException, RemoteException, AACException {
 		if (loaded) return;
 		Collection<Channel> channelColl = null;
 
@@ -177,13 +185,13 @@ public class CommunicatorHelper {
 		loaded = true;
 	}
 
-	public static void synchronize() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException {
+	public static void synchronize() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException, AACException {
 		getInstance().unread = null;
 		getInstance().storage.synchronize(getAuthToken(), GlobalConfig.getAppUrl(getInstance().mContext), Constants.SYNC_SERVICE);
 //		getInstance().mSyncManager.synchronize(getAuthToken(),
 //				Constants.APP_TOKEN);
 	}
-	public static void synchronizeInBG() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException {
+	public static void synchronizeInBG() throws RemoteException, DataException, StorageConfigurationException, SecurityException, ConnectionException, ProtocolException, NameNotFoundException {
 		getInstance().unread = null;
         ContentResolver.requestSync(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", new Bundle());
 		//getInstance().mSyncManager.synchronize(getAuthToken(), Constants.APP_TOKEN);
@@ -550,7 +558,7 @@ public class CommunicatorHelper {
 		return false;
 	}
 
-	public static boolean removeChannel(Channel content) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
+	public static boolean removeChannel(Channel content) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException, AACException {
 		getInstance().storage.delete(content.getId(), Channel.class);
 		boolean result = getInstance().channelMap.remove(content.getId()) != null;
 		synchronize();
@@ -566,7 +574,7 @@ public class CommunicatorHelper {
 		}
 	}
 
-	public static boolean saveChannel(Channel channel) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException {
+	public static boolean saveChannel(Channel channel) throws DataException, StorageConfigurationException, RemoteException, SecurityException, ConnectionException, ProtocolException, AACException {
 		if (channel.getId() == null) {
 			Channel newChannel = getInstance().storage.create(channel);
 			getInstance().channelMap.put(newChannel.getId(), newChannel);
@@ -588,7 +596,7 @@ public class CommunicatorHelper {
 		}
 	}
 
-	private static void updateSyncAdapter(Preference prefs) throws DataException {
+	private static void updateSyncAdapter(Preference prefs) throws DataException, NameNotFoundException {
 		if (getPreferences().isSynchronizeAutomatically()) {
 	        ContentResolver.setSyncAutomatically(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", true);
 	        ContentResolver.addPeriodicSync(new Account(eu.trentorise.smartcampus.ac.Constants.getAccountName(getInstance().mContext), eu.trentorise.smartcampus.ac.Constants.getAccountType(getInstance().mContext)), "eu.trentorise.smartcampus.communicator", new Bundle(), getInstance().preferences.getSyncPeriod()*60);

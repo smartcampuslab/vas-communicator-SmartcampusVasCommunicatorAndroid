@@ -22,20 +22,27 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
+import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.fragments.BackListener;
 import eu.trentorise.smartcampus.communicator.fragments.MainFragment;
+import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 public class HomeActivity extends SherlockFragmentActivity {
 
 	protected final int mainlayout = android.R.id.content;
+	public static String userAuthToken = null;
+
+	// private SCAccessProvider accessProvider =
+	// SCAccessProvider.getInstance(getApplicationContext());
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -46,12 +53,11 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
-	
+
 	private void initDataManagement(Bundle savedInstanceState) {
 		try {
 			CommunicatorHelper.init(getApplicationContext());
-			String token = CommunicatorHelper.getAccessProvider()
-					.getAuthToken(this, null);
+			String token = CommunicatorHelper.getAuthToken();
 			if (token != null) {
 				initData(token);
 			}
@@ -62,7 +68,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private boolean initData(String token) {
 		try {
-			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this)).execute();
+			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
+					.execute();
 		} catch (Exception e1) {
 			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
 			return false;
@@ -74,22 +81,40 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 		initDataManagement(savedInstanceState);
+		try {
+			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
+				new SCAsyncTask<Void, Void, String>(this,
+						new LoadUserDataFromACServiceTask(HomeActivity.this))
+						.execute();
+			}
+		} catch (AACException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setUpContent();
 	}
+///TEST//
+	@Override
+	protected void onResume() {
+		if (CommunicatorHelper.mToken != null)
+			Log.i("TOKEN", CommunicatorHelper.mToken);
+		super.onResume();
+	}
+//TEST///
 	@Override
 	public void onNewIntent(Intent arg0) {
 		try {
 			CommunicatorHelper.resetUnread();
-			CommunicatorHelper.getAccessProvider().getAuthToken(this, null);
+			CommunicatorHelper.getAccessProvider().login(this, null);
 		} catch (Exception e) {
 			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
 		}
 	}
 
 	private void setUpContent() {
-		if (getSupportFragmentManager().getBackStackEntryCount() > 0) getSupportFragmentManager().popBackStack();
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+			getSupportFragmentManager().popBackStack();
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Fragment frag = null;
 		frag = new MainFragment();
@@ -99,9 +124,10 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void onBackPressed() {
-		Fragment currentFragment = getSupportFragmentManager().findFragmentById(android.R.id.content);
+		Fragment currentFragment = getSupportFragmentManager()
+				.findFragmentById(android.R.id.content);
 		// Checking if there is a fragment that it's listening for back button
-		if(currentFragment!=null && currentFragment instanceof BackListener){
+		if (currentFragment != null && currentFragment instanceof BackListener) {
 			((BackListener) currentFragment).onBack();
 		}
 
@@ -110,22 +136,28 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			String token = data.getExtras().getString(
-					AccountManager.KEY_AUTHTOKEN);
-			if (token == null) {
-				CommunicatorHelper.endAppFailure(this, R.string.app_failure_security);
-			} else {
-				initData(token);
+		if (requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				String token = data.getExtras().getString(
+						AccountManager.KEY_AUTHTOKEN);
+				CommunicatorHelper.mToken = token;
+				if (token == null) {
+					CommunicatorHelper.endAppFailure(this,
+							R.string.app_failure_security);
+				} else {
+					initData(token);
+				}
+			} else if (resultCode == RESULT_CANCELED
+					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
+				CommunicatorHelper.endAppFailure(this, R.string.token_required);
 			}
-		} else if (resultCode == RESULT_CANCELED && requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
-			CommunicatorHelper.endAppFailure(this, eu.trentorise.smartcampus.ac.R.string.token_required);
 		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item) {
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			onBackPressed();
@@ -142,7 +174,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public Void performAction(Void... params) throws SecurityException, Exception {
+		public Void performAction(Void... params) throws SecurityException,
+				Exception {
 			CommunicatorHelper.start(false);
 			return null;
 		}
@@ -152,6 +185,33 @@ public class HomeActivity extends SherlockFragmentActivity {
 			CommunicatorHelper.resetUnread();
 			setUpContent();
 		}
-		
+
 	}
+
+	public class LoadUserDataFromACServiceTask extends
+			AbstractAsyncTaskProcessor<Void, String> {
+
+		public LoadUserDataFromACServiceTask(Activity activity) {
+			super(activity);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String performAction(Void... params) throws SecurityException,
+				ConnectionException, Exception {
+			userAuthToken = CommunicatorHelper.getAccessProvider().readToken(
+					activity);
+			CommunicatorHelper.mToken = userAuthToken;
+			return userAuthToken;
+
+		}
+
+		@Override
+		public void handleResult(String result) {
+			CommunicatorHelper.mToken = result;
+
+		}
+
+	}
+
 }
