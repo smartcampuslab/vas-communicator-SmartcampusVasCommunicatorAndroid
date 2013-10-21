@@ -19,8 +19,8 @@ package eu.trentorise.smartcampus.communicator.custom.data;
 public class Constants {
 
 	public static final String APP_TOKEN = "communicator";
-	public static final String SERVICE = "/communicator";
-	public static final String SYNC_SERVICE = "/communicator/sync";
+	public static final String SERVICE = "/communicator_1_1";
+	public static final String SYNC_SERVICE = "/communicator_1_1/sync";
 	public static final long SYNC_INTERVAL = 5*60000;
 	public static final String SYNC_DB_NAME = "communicatordb";
 	public static final int MAX_MESSAGE_NUM = 1000;
