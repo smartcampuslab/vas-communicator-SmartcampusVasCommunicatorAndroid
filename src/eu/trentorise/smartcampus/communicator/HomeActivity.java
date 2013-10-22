@@ -39,7 +39,7 @@ import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 public class HomeActivity extends SherlockFragmentActivity {
 
 	protected final int mainlayout = android.R.id.content;
-	public static String userAuthToken = null;
+	private String userAuthToken = null;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -100,8 +100,13 @@ public class HomeActivity extends SherlockFragmentActivity {
 ///TEST//
 	@Override
 	protected void onResume() {
-		if (CommunicatorHelper.mToken != null)
-			Log.i("TOKEN", CommunicatorHelper.mToken);
+
+			try {
+				Log.i("TOKEN", CommunicatorHelper.getAuthToken());
+			} catch (AACException e) {
+				
+				e.printStackTrace();
+			}
 		super.onResume();
 	}
 //TEST///
@@ -145,7 +150,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 			if (resultCode == RESULT_OK) {
 				String token = data.getExtras().getString(
 						AccountManager.KEY_AUTHTOKEN);
-				CommunicatorHelper.mToken = token;
+				try {
+					CommunicatorHelper.getAuthToken();
+				} catch (AACException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if (token == null) {
 					CommunicatorHelper.endAppFailure(this,
 							R.string.app_failure_security);
@@ -204,16 +214,14 @@ public class HomeActivity extends SherlockFragmentActivity {
 		@Override
 		public String performAction(Void... params) throws SecurityException,
 				ConnectionException, Exception {
-			userAuthToken = CommunicatorHelper.getAccessProvider().readToken(
-					activity);
-			CommunicatorHelper.mToken = userAuthToken;
+			userAuthToken = CommunicatorHelper.getAuthToken();
 			return userAuthToken;
 
 		}
 
 		@Override
 		public void handleResult(String result) {
-			CommunicatorHelper.mToken = result;
+			userAuthToken = result;
 
 		}
 

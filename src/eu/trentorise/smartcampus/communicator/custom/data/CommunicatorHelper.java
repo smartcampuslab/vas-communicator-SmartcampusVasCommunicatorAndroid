@@ -82,7 +82,6 @@ public class CommunicatorHelper {
 	private Map<String,LabelObject> labelMap = null;
 	private boolean loaded = false;
 	
-	public static String mToken;
 
 	public static void init(Context ctx) {
 		mContext = ctx;
@@ -95,6 +94,7 @@ public class CommunicatorHelper {
 	}
 
 	public static String getAuthToken() throws AACException {
+		String mToken;
 		mToken = CommunicatorHelper.getAccessProvider().readToken(
 				mContext);
 		return mToken; //HomeActivity.userAuthToken;//getAccessProvider().readToken(instance.mContext);//adToken(instance.mContext, null);

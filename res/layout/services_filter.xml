@@ -34,8 +34,7 @@
         android:ems="10"
         android:hint="@string/services_filter_keywords_hint"
         android:inputType="textMultiLine"
-        android:lines="2"
-        
+        android:lines="2"        
         android:singleLine="true" 
         android:imeOptions="actionDone"/>
     

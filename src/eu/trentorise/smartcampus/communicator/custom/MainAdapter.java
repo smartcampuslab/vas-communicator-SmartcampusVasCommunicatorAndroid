@@ -30,7 +30,6 @@ import android.widget.TextView;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.custom.data.UpdateReadCountTask;
-import eu.trentorise.smartcampus.communicator.fragments.channels.ChannelListFragment;
 import eu.trentorise.smartcampus.communicator.fragments.channels.FeedListFragment;
 import eu.trentorise.smartcampus.communicator.fragments.labels.LabelListFragment;
 import eu.trentorise.smartcampus.communicator.fragments.messages.InboxFragment;
