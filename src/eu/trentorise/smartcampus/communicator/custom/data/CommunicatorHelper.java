@@ -95,6 +95,8 @@ public class CommunicatorHelper {
 	}
 
 	public static String getAuthToken() throws AACException {
+		mToken = CommunicatorHelper.getAccessProvider().readToken(
+				mContext);
 		return mToken; //HomeActivity.userAuthToken;//getAccessProvider().readToken(instance.mContext);//adToken(instance.mContext, null);
 	}
 

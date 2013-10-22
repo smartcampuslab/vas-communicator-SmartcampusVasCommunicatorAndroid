@@ -41,9 +41,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 	protected final int mainlayout = android.R.id.content;
 	public static String userAuthToken = null;
 
-	// private SCAccessProvider accessProvider =
-	// SCAccessProvider.getInstance(getApplicationContext());
-
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -59,6 +56,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 			CommunicatorHelper.init(getApplicationContext());
 			String token = CommunicatorHelper.getAuthToken();
 			if (token != null) {
+				initData(token);
+			}
+			else{
+				new SCAsyncTask<Void, Void, String>(this,
+						new LoadUserDataFromACServiceTask(HomeActivity.this))
+						.execute();
 				initData(token);
 			}
 		} catch (Exception e) {
@@ -102,6 +105,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 		super.onResume();
 	}
 //TEST///
+	
+	
 	@Override
 	public void onNewIntent(Intent arg0) {
 		try {

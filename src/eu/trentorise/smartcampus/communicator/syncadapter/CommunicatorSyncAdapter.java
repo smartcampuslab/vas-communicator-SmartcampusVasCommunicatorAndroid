@@ -63,11 +63,12 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
         ContentProviderClient provider, SyncResult syncResult) {
     	 try {
  			Log.e(TAG, "Trying synchronization");
+ 			System.out.println("TOKEN: " + CommunicatorHelper.getAuthToken());
 			SyncStorage storage = CommunicatorHelper.getSyncStorage();
 			SyncData data = storage.synchronize(CommunicatorHelper.getAuthToken(), GlobalConfig.getAppUrl(mContext), Constants.SYNC_SERVICE);
 			if (data.getUpdated() != null && !data.getUpdated().isEmpty() && data.getUpdated().containsKey(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()))
 					onDBUpdate(data.getUpdated().get(eu.trentorise.smartcampus.communicator.model.Notification.class.getCanonicalName()));
-		}  catch (SecurityException e) {
+    	 }  catch (SecurityException e) {
 			handleSecurityProblem();
 		} catch (Exception e) {
 			Log.e(TAG, "on PerformSynch Exception: "+ e.getMessage());
@@ -77,6 +78,7 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     private void handleSecurityProblem() {
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
+        System.out.println("sono NELLA security exception");
 ///logout?///
         //CommunicatorHelper.getAccessProvider().invalidateToken(mContext, null);
         ////
