@@ -35,7 +35,9 @@
         android:hint="@string/services_filter_keywords_hint"
         android:inputType="textMultiLine"
         android:lines="2"
-        android:singleLine="false" />
+        
+        android:singleLine="true" 
+        android:imeOptions="actionDone"/>
     
     <TextView
         android:layout_width="wrap_content"

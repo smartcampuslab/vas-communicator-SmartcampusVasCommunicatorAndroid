@@ -43,7 +43,9 @@
             android:id="@+id/channel_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/channel_name" />
+            android:hint="@string/channel_name" 
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -72,7 +74,8 @@
             android:hint="@string/channel_keywords_hint"
             android:inputType="textMultiLine"
             android:lines="2"
-            android:singleLine="false" />
+            android:singleLine="true" 
+            android:imeOptions="actionDone"/>
 
         <TableRow
             android:layout_width="match_parent"

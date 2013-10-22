@@ -58,7 +58,7 @@ public class CommunicatorConstants {
 	private static TreeMap<String,String> labels = new TreeMap<String, String>();
 	private static TreeMap<String,Drawable> images = new TreeMap<String, Drawable>();
 	private static TreeMap<String,NotificationProcessor> processors = new TreeMap<String, NotificationProcessor>();
-	private static TreeMap<String,Integer> layouts = new TreeMap<String, Integer>();
+//	private static TreeMap<String,Integer> layouts = new TreeMap<String, Integer>();
 	private static TreeMap<String,String> colors = new TreeMap<String, String>();
 
 	private static List<Action> defaultActions = new ArrayList<Action>();
@@ -67,24 +67,24 @@ public class CommunicatorConstants {
 	private static void init(Context ctx) {
 		String[] typeArr = ctx.getResources().getStringArray(R.array.channel_type_sourcetypes);
 		String[] labelArr = ctx.getResources().getStringArray(R.array.channel_type_labels);
-		TypedArray icons = ctx.getResources().obtainTypedArray(R.array.channel_type_images);
-		String[] processorArr = ctx.getResources().getStringArray(R.array.message_processors);
-		TypedArray layoutArr = ctx.getResources().obtainTypedArray(R.array.channel_type_layouts);
+//		TypedArray icons = ctx.getResources().obtainTypedArray(R.array.channel_type_images);
+//		String[] processorArr = ctx.getResources().getStringArray(R.array.message_processors);
+		//TypedArray layoutArr = ctx.getResources().obtainTypedArray(R.array.channel_type_layouts);
 		String[] colorArr =  ctx.getResources().getStringArray(R.array.channel_type_colors);
 		for (int i = 0; i < typeArr.length; i++) {
 			labels.put(typeArr[i], labelArr[i]);
-			images.put(typeArr[i], icons.getDrawable(i));
+//			images.put(typeArr[i], icons.getDrawable(i));
 			colors.put(typeArr[i], colorArr[i]);
-			String rendererClass = processorArr[i];
-			if (rendererClass != null) {
-				try {
-					Class<NotificationProcessor> cls = (Class<NotificationProcessor>)Class.forName(rendererClass);
-					processors.put(typeArr[i], cls.newInstance());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			layouts.put(typeArr[i], layoutArr.getResourceId(i, -1));
+//			String rendererClass = processorArr[i];
+//			if (rendererClass != null) {
+//				try {
+//					Class<NotificationProcessor> cls = (Class<NotificationProcessor>)Class.forName(rendererClass);
+//					processors.put(typeArr[i], cls.newInstance());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+			//layouts.put(typeArr[i], layoutArr.getResourceId(i, -1));
 		}
 		
 		String[] defaultActionLabels = ctx.getResources().getStringArray(R.array.channel_default_action_labels);

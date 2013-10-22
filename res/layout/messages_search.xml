@@ -35,7 +35,9 @@
             android:layout_margin="3dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="@android:string/search_go" >
+            android:hint="@android:string/search_go" 
+            android:singleLine="true"
+            android:imeOptions="actionDone">
 
         </EditText>
 

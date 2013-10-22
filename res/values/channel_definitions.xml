@@ -42,32 +42,32 @@
 <!--         <item>#FFFFFF</item> -->
     </string-array>
     
-    <array name="channel_type_images">
+<!--     <array name="channel_type_images">
         <item>@drawable/ic_channel_jp</item>
-<!--         <item>@drawable/ic_channel_jp</item> -->
+        <item>@drawable/ic_channel_jp</item>
         <item>@drawable/ic_channel_cm</item>
-<!--         <item>@drawable/ic_channel_cm</item> -->
-<!--         <item>@drawable/ic_channel_p</item> -->
-<!--         <item>@drawable/ic_channel</item> -->
+        <item>@drawable/ic_channel_cm</item>
+        <item>@drawable/ic_channel_p</item>
+        <item>@drawable/ic_channel</item>
     </array>
 
     <string-array name="message_processors">
         <item>eu.trentorise.smartcampus.communicator.renderers.JPProcessor</item>
-<!--         <item></item> -->
+        <item></item>
         <item>eu.trentorise.smartcampus.communicator.renderers.CMProcessor</item>
-<!--         <item></item> -->
-<!--         <item></item> -->
-<!--         <item>eu.trentorise.smartcampus.communicator.renderers.ExternalServicesFilterRenderer</item> -->
+        <item></item>
+        <item></item>
+        <item>eu.trentorise.smartcampus.communicator.renderers.ExternalServicesFilterRenderer</item>
     </string-array>
     
     <array name="channel_type_layouts">
         <item>@layout/jp_filter</item>
-<!--         <item>@null</item> -->
+        <item>@null</item>
         <item>@layout/cm_filter</item>
-<!--         <item>@null</item> -->
-<!--         <item>@null</item> -->
-<!--         <item>@layout/services_filter</item> -->
-    </array>
+        <item>@null</item>
+        <item>@null</item>
+        <item>@layout/services_filter</item>
+    </array> -->
     
     <string-array name="channel_default_action_labels">
         <item>Starred</item>

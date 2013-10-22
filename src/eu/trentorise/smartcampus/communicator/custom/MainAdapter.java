@@ -180,7 +180,7 @@ public class MainAdapter extends BaseAdapter {
 	private static MainActionDescriptor[] ACTIONS = new MainActionDescriptor[] {
 			new MainActionDescriptor(R.string.mainmenu_home, R.drawable.inbox, InboxFragment.class),
 			new MainActionDescriptor(R.string.mainmenu_starred, R.drawable.starred, StarredFragment.class),
-			new MainActionDescriptor(R.string.mainmenu_channels, R.drawable.channels, ChannelListFragment.class),
+			//new MainActionDescriptor(R.string.mainmenu_channels, R.drawable.channels, ChannelListFragment.class),
 			new MainActionDescriptor(R.string.mainmenu_feeds, R.drawable.sbscrptn, FeedListFragment.class),
 			new MainActionDescriptor(R.string.mainmenu_labels, R.drawable.lables, LabelListFragment.class),
 			new MainActionDescriptor(R.string.mainmenu_search, R.drawable.search, SearchFragment.class), 
