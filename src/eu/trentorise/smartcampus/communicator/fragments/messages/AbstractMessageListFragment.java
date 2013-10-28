@@ -73,6 +73,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setHasOptionsMenu(true);
 	}
 	
@@ -261,7 +262,7 @@ public abstract class AbstractMessageListFragment extends AbstractLstingFragment
 		args.putSerializable(MessageDetailsFragment.ARG_MSG, content);
 		fragment.setArguments(args);
 		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
+		ft.replace(R.id.fragment_container, fragment);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.addToBackStack(null);
 		ft.commit();

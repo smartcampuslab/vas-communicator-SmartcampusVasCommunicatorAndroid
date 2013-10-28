@@ -136,7 +136,7 @@ public class MainAdapter extends BaseAdapter {
 			Fragment fragment = (Fragment) Fragment.instantiate(
 					context, ACTIONS[position].fragmentClass.getName());
 			// Replacing old fragment with new one
-			ft.replace(android.R.id.content, fragment);
+			ft.replace(R.id.fragment_container, fragment);
 			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			ft.addToBackStack(null);
 			ft.commit();

@@ -34,6 +34,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
+import eu.trentorise.smartcampus.communicator.HomeActivity;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.LabelAdapter;
@@ -173,7 +174,7 @@ public class LabelListFragment extends SherlockListFragment implements OnLabelCr
 		args.putSerializable(LabelViewFragment.ARG_LABEL, content);
 		fragment.setArguments(args);
 		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
+		ft.replace(R.id.fragment_container, fragment);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.addToBackStack(null);
 		ft.commit();

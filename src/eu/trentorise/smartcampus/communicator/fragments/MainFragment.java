@@ -28,25 +28,49 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import eu.trentorise.smartcampus.communicator.HomeActivity;
 import eu.trentorise.smartcampus.communicator.R;
-import eu.trentorise.smartcampus.communicator.custom.MainAdapter;
 import eu.trentorise.smartcampus.communicator.preferences.SettingsActivity;
 
+//@Override
+//public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//		Bundle savedInstanceState) {
+//	// View rootView = inflater.inflate(R.layout.main, container, false);
+//	int i = getArguments().getInt(ARG_FRAGMENT);
+//	String frgm = getResources().getStringArray(R.array.fragment_array)[i];
+//
+//	// int imageId =
+//	// getResources().getIdentifier(frgm.toLowerCase(Locale.getDefault()),
+//	// "drawable", getActivity().getPackageName());
+//	// ((ImageView)
+//	// rootView.findViewById(R.id.image)).setImageResource(imageId);
+//	getActivity().setTitle(frgm);
+//	// return rootView;
+//	return inflater.inflate(R.layout.main, container, false);
+//}
 public class MainFragment extends SherlockFragment {
 
-	private GridView gridview;
 	private FragmentManager fragmentManager;
+	public static String ARG_FRAGMENT = "fragment_n";
+
+	public MainFragment() {
+
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fragmentManager = getSherlockActivity().getSupportFragmentManager();
+		
 		setHasOptionsMenu(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		int i = 1;//getArguments().getInt(ARG_FRAGMENT);
+		String frgm = getResources().getStringArray(R.array.fragment_array)[i];
+		getSherlockActivity().setTitle(frgm);
 		return inflater.inflate(R.layout.main, container, false);
 	}
 
@@ -54,9 +78,11 @@ public class MainFragment extends SherlockFragment {
 	public void onResume() {
 		super.onResume();
 		// Showing/hiding back button
-		getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		// getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(false);
+		// getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(
+		// false);
+		// getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(
+		// true);
 		getSherlockActivity().setTitle(R.string.app_name);
 	}
 
@@ -80,60 +106,5 @@ public class MainFragment extends SherlockFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		gridview = (GridView) getView().findViewById(R.id.gridview);
-		gridview.setAdapter(new MainAdapter(getSherlockActivity().getApplicationContext(), fragmentManager));
-//		
-//		View inbox =  getView().findViewById(R.id.btn_inbox);
-//    	int unread = CommunicatorHelper.getUnreadCount();
-//    	int resource = R.drawable.inbox;
-//    	String txt = "";
-//    	if (unread != 0) {
-//    		resource = R.drawable.inbox_alert;
-//    		txt = ""+unread;
-//    	}
-//    	((TextView)inbox.findViewById(R.id.numberView)).setText(txt);
-//    	inbox.findViewById(R.id.containerView).setBackgroundResource(resource);
-//
-//		inbox.setOnClickListener(buttonListener);
-//		getView().findViewById(R.id.btn_funnels).setOnClickListener(buttonListener);
-//		getView().findViewById(R.id.btn_labels).setOnClickListener(buttonListener);
-//		getView().findViewById(R.id.btn_starred).setOnClickListener(buttonListener);
-//		getView().findViewById(R.id.btn_search).setOnClickListener(buttonListener);
 	}
-
-//	private View.OnClickListener buttonListener = new View.OnClickListener() {
-//		
-//		@Override
-//		public void onClick(View v) {
-//			switch (v.getId()) {
-//			case R.id.btn_inbox:
-//				openFragment(InboxFragment.class.getName());
-//				break;
-//			case R.id.btn_starred:
-//				openFragment(StarredFragment.class.getName());
-//				break;
-//			case R.id.btn_labels:
-//				openFragment(LabelListFragment.class.getName());
-//				break;
-//			case R.id.btn_funnels:
-//				openFragment(FunnelListFragment.class.getName());
-//				break;
-//			case R.id.btn_search:
-//				openFragment(SearchFragment.class.getName());
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//	};
-//	
-//	private void openFragment(String cName) {
-//		FragmentTransaction ft  = fragmentManager.beginTransaction();
-//		Fragment fragment = (Fragment) Fragment.instantiate(getSherlockActivity(), cName);
-//		// Replacing old fragment with new one
-//		ft.replace(android.R.id.content, fragment);
-//		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//		ft.addToBackStack(null);
-//		ft.commit();
-//	}
 }

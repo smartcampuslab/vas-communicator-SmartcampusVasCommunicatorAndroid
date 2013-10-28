@@ -34,6 +34,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
+import eu.trentorise.smartcampus.communicator.HomeActivity;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.ChannelAdapter;
@@ -44,165 +45,167 @@ import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 public class ChannelListFragment extends SherlockListFragment {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setHasOptionsMenu(true);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater arg0, ViewGroup arg1, Bundle arg2) {
-		return arg0.inflate(R.layout.channels, arg1, false);
-	}
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setHasOptionsMenu(true);
+        }
+        
+        @Override
+        public View onCreateView(LayoutInflater arg0, ViewGroup arg1, Bundle arg2) {
+                return arg0.inflate(R.layout.channels, arg1, false);
+        }
 
-	protected boolean isFeed() {
-		return false;
-	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSherlockActivity().setTitle(isFeed() ? R.string.title_feeds : R.string.title_channels);
+        protected boolean isFeed() {
+                return false;
+        }
+        
+        @Override
+        public void onStart() {
+                super.onStart();
 
-		
-		ChannelAdapter adapter = new ChannelAdapter(getActivity(), R.layout.channel, CommunicatorHelper.getChannels(isFeed()));
-		setListAdapter(adapter);
-		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				viewChannelMessages(((ChannelAdapter)getListAdapter()).getItem(position));
-			}
-		});
-		
-		registerForContextMenu(getListView());
-		if (isFeed()) HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_feeds, "feeds");
-		else HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_channels, "channels");
-	}
+                getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
+                getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSherlockActivity().setTitle(isFeed() ? R.string.title_feeds : R.string.title_channels);
 
-	
-	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		menu.clear();
-		getSherlockActivity().getSupportMenuInflater().inflate(R.menu.channel_list_menu, menu);
-//		MenuItem item = menu.add(Menu.CATEGORY_SYSTEM, R.id.channel_add, 1, R.string.channel_add);
-//		item.setIcon(R.drawable.add);
-//		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-//		super.onPrepareOptionsMenu(menu);
-	}
+                
+                ChannelAdapter adapter = new ChannelAdapter(getActivity(), R.layout.channel, CommunicatorHelper.getChannels(isFeed()));
+                setListAdapter(adapter);
+                getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.channel_add:
-			openChannelForm(null);
-			return true;
-		case R.id.channels_help:
-			HelpDlgHelper.help(getSherlockActivity(), isFeed() ? R.string.help_feeds : R.string.help_channels);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                viewChannelMessages(((ChannelAdapter)getListAdapter()).getItem(position));
+                        }
+                });
+                
+                registerForContextMenu(getListView());
+                if (isFeed()) HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_feeds, "feeds");
+                else HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_channels, "channels");
+        }
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		menu.setHeaderTitle(isFeed() ? R.string.feed_options_header : R.string.channel_options_header);
-		android.view.MenuInflater inflater = getSherlockActivity().getMenuInflater();
-	    inflater.inflate(R.menu.channel_menu, menu);
-	}
+        
+        
+        @Override
+        public void onPrepareOptionsMenu(Menu menu) {
+                menu.clear();
+                getSherlockActivity().getSupportMenuInflater().inflate(R.menu.channel_list_menu, menu);
+//                MenuItem item = menu.add(Menu.CATEGORY_SYSTEM, R.id.channel_add, 1, R.string.channel_add);
+//                item.setIcon(R.drawable.add);
+//                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//                super.onPrepareOptionsMenu(menu);
+        }
 
-	@Override
-	public boolean onContextItemSelected(android.view.MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		Channel content = ((ChannelAdapter)getListAdapter()).getItem(info.position);
-		return handleMenuItem(content, item.getItemId());
-	}
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                case R.id.channel_add:
+                        openChannelForm(null);
+                        return true;
+                case R.id.channels_help:
+                        HelpDlgHelper.help(getSherlockActivity(), isFeed() ? R.string.help_feeds : R.string.help_channels);
+                        return true;
+                default:
+                        return super.onOptionsItemSelected(item);
+                }
+        }
 
-	protected boolean handleMenuItem(final Channel content, int itemId) {
-		switch (itemId) {
-		case R.id.channel_option_edit:
-			openChannelForm(content);
-			return true;
-		case R.id.channel_option_remove:
-			AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
-			builder.setMessage(isFeed() ? R.string.feed_remove_text : R.string.channel_remove_text)
-			       .setCancelable(false)
-			       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   new SCAsyncTask<Channel, Void, Channel>(getActivity(), new RemoveChannelProcessor(getActivity())).execute(content);
-			               dialog.dismiss();
-			           }
-			       })
-			       .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			                dialog.cancel();
-			           }
-			       });
-			AlertDialog alert = builder.create();
-			alert.show();
-			return true;
-		case R.id.channel_option_view:
-			viewChannelMessages(content);
-			return true;
-		default:
-			return false;
-		}
-	}
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle(isFeed() ? R.string.feed_options_header : R.string.channel_options_header);
+                android.view.MenuInflater inflater = getSherlockActivity().getMenuInflater();
+            inflater.inflate(R.menu.channel_menu, menu);
+        }
 
-	protected void viewChannelMessages(Channel content) {
-		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-		Fragment fragment = new ChannelViewFragment();
-		Bundle args = new Bundle();
-		args.putSerializable(ChannelViewFragment.ARG_CHANNEL, content);
-		fragment.setArguments(args);
-		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+        @Override
+        public boolean onContextItemSelected(android.view.MenuItem item) {
+                AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+                Channel content = ((ChannelAdapter)getListAdapter()).getItem(info.position);
+                return handleMenuItem(content, item.getItemId());
+        }
 
-	protected void openChannelForm(Channel content) {
-		FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
-		Fragment fragment = new ChannelFormFragment();
-		Bundle b = ChannelFormFragment.prepareArgs(isFeed(), content);
-//		if (content != null) {
-//			Bundle args = new Bundle();
-//			args.putSerializable(ChannelFormFragment.ARG_CHANNEL, CommunicatorHelper.getChannel(content.getId()));
-//			fragment.setArguments(args);
-//		}
-		fragment.setArguments(b);
-		// Replacing old fragment with new one
-		ft.replace(android.R.id.content, fragment);
-		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		ft.addToBackStack(null);
-		ft.commit();
-	}
+        protected boolean handleMenuItem(final Channel content, int itemId) {
+                switch (itemId) {
+                case R.id.channel_option_edit:
+                        openChannelForm(content);
+                        return true;
+                case R.id.channel_option_remove:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
+                        builder.setMessage(isFeed() ? R.string.feed_remove_text : R.string.channel_remove_text)
+                               .setCancelable(false)
+                               .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                   public void onClick(DialogInterface dialog, int id) {
+                                           new SCAsyncTask<Channel, Void, Channel>(getActivity(), new RemoveChannelProcessor(getActivity())).execute(content);
+                                       dialog.dismiss();
+                                   }
+                               })
+                               .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                   public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                   }
+                               });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        return true;
+                case R.id.channel_option_view:
+                        viewChannelMessages(content);
+                        return true;
+                default:
+                        return false;
+                }
+        }
 
-	private class RemoveChannelProcessor extends AbstractAsyncTaskProcessor<Channel, Channel> {
+        protected void viewChannelMessages(Channel content) {
+                FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new ChannelViewFragment();
+                Bundle args = new Bundle();
+                args.putSerializable(ChannelViewFragment.ARG_CHANNEL, content);
+                fragment.setArguments(args);
+                // Replacing old fragment with new one
+                ft.replace(R.id.fragment_container, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.addToBackStack(null);
+                ft.commit();
+        }
 
-		public RemoveChannelProcessor(Activity activity) {
-			super(activity);
-		}
+        protected void openChannelForm(Channel content) {
+                FragmentTransaction ft  = getSherlockActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new ChannelFormFragment();
+                Bundle b = ChannelFormFragment.prepareArgs(isFeed(), content);
+//                if (content != null) {
+//                        Bundle args = new Bundle();
+//                        args.putSerializable(ChannelFormFragment.ARG_CHANNEL, CommunicatorHelper.getChannel(content.getId()));
+//                        fragment.setArguments(args);
+//                }
+                fragment.setArguments(b);
+                // Replacing old fragment with new one
+                ft.replace(R.id.fragment_container, fragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.addToBackStack(null);
+                ft.commit();
+        }
 
-		@Override
-		public Channel performAction(Channel... params) throws SecurityException, Exception {
-			if (CommunicatorHelper.removeChannel(params[0])) return params[0];
-			return null;
-		}
+        private class RemoveChannelProcessor extends AbstractAsyncTaskProcessor<Channel, Channel> {
 
-		@Override
-		public void handleResult(Channel result) {
-			if (result != null) {
-				   ((ChannelAdapter)getListAdapter()).remove(result);
-				   ((ChannelAdapter)getListAdapter()).notifyDataSetChanged();
-			}
-		}
-		
-	} 
-	
+                public RemoveChannelProcessor(Activity activity) {
+                        super(activity);
+                }
+
+                @Override
+                public Channel performAction(Channel... params) throws SecurityException, Exception {
+                        if (CommunicatorHelper.removeChannel(params[0])) return params[0];
+                        return null;
+                }
+
+                @Override
+                public void handleResult(Channel result) {
+                        if (result != null) {
+                                   ((ChannelAdapter)getListAdapter()).remove(result);
+                                   ((ChannelAdapter)getListAdapter()).notifyDataSetChanged();
+                        }
+                }
+                
+        } 
+        
 }
