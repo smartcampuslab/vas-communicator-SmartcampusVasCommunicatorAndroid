@@ -21,16 +21,17 @@
     <string name="add">Add</string>
     <string name="app_name">INBox</string>
     <string-array name="fragment_array">
-        <item>Inbox</item>
+        <item>INBox</item>
         <item>Starred</item>
         <item>External Subscriptions</item>
         <item>Manage Labels</item>
         <item>Search</item>
+        <item>Settings</item>
     </string-array>
 
 
     <string name="mainmenu_home">Home</string>
-    <string name="mainmenu_inbox">Inbox</string>
+    <string name="mainmenu_inbox">INBbox</string>
     <string name="mainmenu_starred">Starred</string>
     <string name="mainmenu_labels">Manage Labels</string>
     <string name="mainmenu_channels">SmartCampus Channels</string>

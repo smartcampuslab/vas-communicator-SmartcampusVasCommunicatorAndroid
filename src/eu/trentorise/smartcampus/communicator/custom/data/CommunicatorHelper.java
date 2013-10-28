@@ -86,11 +86,6 @@ public class CommunicatorHelper {
 	public static void init(Context ctx) {
 		mContext = ctx;
 		if (instance == null) instance = new CommunicatorHelper(mContext);
-		
-		//accessProvider = SCAccessProvider.getInstance(mContext);
-//		initTmpData(mContext);
-//		instance.funnelMap = tmpFunnels;
-//		instance.preferences = tmpPrefs;
 	}
 
 	public static String getAuthToken() throws AACException {
@@ -117,8 +112,7 @@ public class CommunicatorHelper {
 	}
 	protected CommunicatorHelper(Context mContext) {
 		super();
-		this.mContext = mContext;
-//		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
+		this.mContext = mContext;;
 		this.accessProvider = SCAccessProvider.getInstance(mContext);
 		this.sc = new CommunicatorStorageConfiguration();
 		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 2, sc);

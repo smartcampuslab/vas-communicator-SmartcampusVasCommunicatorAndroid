@@ -24,9 +24,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -38,22 +36,20 @@ import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
-import eu.trentorise.smartcampus.communicator.fragments.MainFragment;
 import eu.trentorise.smartcampus.communicator.fragments.channels.FeedListFragment;
 import eu.trentorise.smartcampus.communicator.fragments.labels.LabelListFragment;
 import eu.trentorise.smartcampus.communicator.fragments.messages.InboxFragment;
 import eu.trentorise.smartcampus.communicator.fragments.messages.SearchFragment;
 import eu.trentorise.smartcampus.communicator.fragments.messages.StarredFragment;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
+import eu.trentorise.smartcampus.communicator.preferences.SettingsActivity;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 public class HomeActivity extends SherlockFragmentActivity {
 
 	protected final int mainlayout = android.R.id.content;
-	private String userAuthToken = null;
 
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	public static DrawerLayout mDrawerLayout;
+	public static ListView mDrawerList;
 	public static ActionBarDrawerToggle mDrawerToggle;
 	public static String drawerState = "on";
 	private CharSequence mDrawerTitle;
@@ -71,24 +67,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	private void initDataManagement(Bundle savedInstanceState) {
-		try {
-			CommunicatorHelper.init(getApplicationContext());
-			String token = CommunicatorHelper.getAuthToken();
-			if (token != null) {
-				initData(token);
-			} else {
-				new SCAsyncTask<Void, Void, String>(this,
-						new LoadUserDataFromACServiceTask(HomeActivity.this))
-						.execute();
-				initData(token);
-			}
-		} catch (Exception e) {
-			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-		}
-	}
-
-	private boolean initData(String token) {
+	private boolean initData() {
 		try {
 			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
 					.execute();
@@ -104,14 +83,13 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		CommunicatorHelper.init(getApplicationContext());
 		int i = 1;//getArguments().getInt(ARG_FRAGMENT);
 		String frgm = getResources().getStringArray(R.array.fragment_array)[i];
-		initDataManagement(savedInstanceState);
 		try {
 			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
-				new SCAsyncTask<Void, Void, String>(this,
-						new LoadUserDataFromACServiceTask(HomeActivity.this))
-						.execute();
+				initData();
+
 			}
 		} catch (AACException e) {
 			e.printStackTrace();
@@ -154,19 +132,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		if (savedInstanceState == null) {
 			startHomeFragment();
-			
-//			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//			InboxFragment frg = new InboxFragment();
-//			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//			ft.replace(R.id.fragment_container, frg);
-			// ft.addToBackStack(fragment.getTag());
-//			ft.commit();
 		}
 	}
 
 	private void startHomeFragment() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		MainFragment fragment = new MainFragment();
+		StarredFragment fragment = new StarredFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
@@ -215,17 +186,11 @@ public class HomeActivity extends SherlockFragmentActivity {
 			if (resultCode == RESULT_OK) {
 				String token = data.getExtras().getString(
 						AccountManager.KEY_AUTHTOKEN);
-				try {
-					CommunicatorHelper.getAuthToken();
-				} catch (AACException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				if (token == null) {
 					CommunicatorHelper.endAppFailure(this,
 							R.string.app_failure_security);
 				} else {
-					initData(token);
+					initData();
 				}
 			} else if (resultCode == RESULT_CANCELED
 					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
@@ -274,30 +239,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		@Override
 		public void handleResult(Void result) {
 			CommunicatorHelper.resetUnread();
-		}
-
-	}
-
-	public class LoadUserDataFromACServiceTask extends
-			AbstractAsyncTaskProcessor<Void, String> {
-
-		public LoadUserDataFromACServiceTask(Activity activity) {
-			super(activity);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public String performAction(Void... params) throws SecurityException,
-				ConnectionException, Exception {
-			userAuthToken = CommunicatorHelper.getAuthToken();
-			return userAuthToken;
-
-		}
-
-		@Override
-		public void handleResult(String result) {
-			userAuthToken = result;
-
 		}
 
 	}
@@ -361,6 +302,11 @@ public class HomeActivity extends SherlockFragmentActivity {
 					"search");
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+		else if (fragmentString.equals(mFragmentTitles[5])) {
+			Intent i = (new Intent(HomeActivity.this, SettingsActivity.class));
+			startActivity(i);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 

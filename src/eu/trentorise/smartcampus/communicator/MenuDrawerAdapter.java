@@ -44,6 +44,8 @@ public class MenuDrawerAdapter extends ArrayAdapter<String> {
 			imageView.setImageResource(R.drawable.lables);
 		} else if (s.equals(values[4])) {
 			imageView.setImageResource(R.drawable.search);
+		}else if (s.equals(values[5])) {
+			imageView.setImageResource(android.R.drawable.ic_menu_preferences);
 		}
 
 		return rowView;
