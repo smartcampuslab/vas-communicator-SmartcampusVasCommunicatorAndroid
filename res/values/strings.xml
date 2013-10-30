@@ -23,7 +23,7 @@
     <string-array name="fragment_array">
         <item>INBox</item>
         <item>Starred</item>
-        <item>External Subscriptions</item>
+        <item>Subscriptions</item>
         <item>Manage Labels</item>
         <item>Search</item>
         <item>Settings</item>

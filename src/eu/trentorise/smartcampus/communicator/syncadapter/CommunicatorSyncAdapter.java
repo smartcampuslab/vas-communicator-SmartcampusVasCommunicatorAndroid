@@ -78,12 +78,7 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
     private void handleSecurityProblem() {
         Intent i = new Intent("eu.trentorise.smartcampus.START");
         i.setPackage(mContext.getPackageName());
-        System.out.println("sono NELLA security exception");
-///logout?///
-        //CommunicatorHelper.getAccessProvider().invalidateToken(mContext, null);
-        ////
-        //CommunicatorHelper.getAccessProvider().logout(mContext);
-        
+        System.out.println("sono NELLA security exception");      
         NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         
         int icon = R.drawable.stat_notify_error;

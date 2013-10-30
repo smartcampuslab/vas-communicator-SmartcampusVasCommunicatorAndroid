@@ -17,16 +17,20 @@ package eu.trentorise.smartcampus.communicator;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -46,6 +50,7 @@ import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 public class HomeActivity extends SherlockFragmentActivity {
 
+	private static final String PRIMO_AVVIO = "primo_avvio";
 	protected final int mainlayout = android.R.id.content;
 
 	public static DrawerLayout mDrawerLayout;
@@ -78,14 +83,14 @@ public class HomeActivity extends SherlockFragmentActivity {
 		return true;
 	}
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		boolean primoAvvio = prefs.getBoolean(PRIMO_AVVIO, true);
 		setContentView(R.layout.main);
 		CommunicatorHelper.init(getApplicationContext());
-		int i = 1;//getArguments().getInt(ARG_FRAGMENT);
-		String frgm = getResources().getStringArray(R.array.fragment_array)[i];
 		try {
 			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
 				initData();
@@ -94,7 +99,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		} catch (AACException e) {
 			e.printStackTrace();
 		}
-
 		mFragmentTitles = getResources().getStringArray(R.array.fragment_array);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources()
@@ -117,7 +121,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 				supportInvalidateOptionsMenu();
 			}
 
-			/** Fix the slide and map bug. **/
 			public void onDrawerSlide(View drawerView, float slideOffset) {
 				getSupportActionBar().setTitle(mDrawerTitle);
 				mDrawerLayout.bringChildToFront(drawerView);
@@ -125,6 +128,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 				super.onDrawerSlide(drawerView, slideOffset);
 			}
 		};
+
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,36 +136,22 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		if (savedInstanceState == null) {
 			startHomeFragment();
+			// firstConfig();
+
 		}
 	}
 
 	private void startHomeFragment() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		StarredFragment fragment = new StarredFragment();
+		InboxFragment fragment = new InboxFragment();
 		Bundle args = new Bundle();
 		fragment.setArguments(args);
 		ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.replace(R.id.fragment_container, fragment);
 		// ft.addToBackStack(fragment.getTag());
 		ft.commit();
-		
+
 	}
-	
-
-	// /TEST//
-	@Override
-	protected void onResume() {
-
-		try {
-			Log.i("TOKEN", CommunicatorHelper.getAuthToken());
-		} catch (AACException e) {
-
-			e.printStackTrace();
-		}
-		super.onResume();
-	}
-
-	// TEST///
 
 	@Override
 	public void onNewIntent(Intent arg0) {
@@ -211,8 +201,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 				} else {
 					mDrawerLayout.openDrawer(mDrawerList);
 				}
-			}
-			else{
+			} else {
 				drawerState = "on";
 				onBackPressed();
 			}
@@ -303,8 +292,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
-		}
-		else if (fragmentString.equals(mFragmentTitles[5])) {
+		} else if (fragmentString.equals(mFragmentTitles[5])) {
 			Intent i = (new Intent(HomeActivity.this, SettingsActivity.class));
 			startActivity(i);
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -315,6 +303,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
+		firstConfig();
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
@@ -323,6 +312,52 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getSupportActionBar().setTitle(mTitle);
+	}
+
+	private void firstConfig() {
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		if (prefs.getBoolean(PRIMO_AVVIO, true)) {
+			startFirstConfFragment();
+			Editor prefsEditor = prefs.edit();
+			prefsEditor.putBoolean(PRIMO_AVVIO, false);
+			prefsEditor.commit();
+		}
+	}
+
+	private void startFirstConfFragment() {
+		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
+		mAlert.setTitle("Bevenuto!");
+		mAlert.setMessage("Vuoi configurare i canali per ricevere le notifiche?");
+		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				FeedListFragment fragment = new FeedListFragment();
+				Bundle args = new Bundle();
+				fragment.setArguments(args);
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				ft.replace(R.id.fragment_container, fragment);
+				// ft.addToBackStack(fragment.getTag());
+				ft.commit();
+				// Editable value = input.getText();
+
+				// e.printStackTrace();
+			}
+		});
+		mAlert.setNegativeButton("CANCEL",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						// Editable value = input.getText();
+						Toast.makeText(
+								getApplicationContext(),
+								"Per accedere alle notifiche devi sottoscrivere almeno un canale...",
+								Toast.LENGTH_SHORT).show();
+						// e.printStackTrace();
+					}
+				});
+		AlertDialog alert = mAlert.create();
+
+		alert.show();
 	}
 
 }
