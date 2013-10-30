@@ -139,6 +139,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			// firstConfig();
 
 		}
+		firstConfig();
 	}
 
 	private void startHomeFragment() {
@@ -303,7 +304,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		firstConfig();
+		
+
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
@@ -344,17 +346,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 				// e.printStackTrace();
 			}
 		});
-		mAlert.setNegativeButton("CANCEL",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						// Editable value = input.getText();
-						Toast.makeText(
-								getApplicationContext(),
-								"Per accedere alle notifiche devi sottoscrivere almeno un canale...",
-								Toast.LENGTH_SHORT).show();
-						// e.printStackTrace();
-					}
-				});
 		AlertDialog alert = mAlert.create();
 
 		alert.show();
