@@ -21,11 +21,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
 import eu.trentorise.smartcampus.communicator.R;
@@ -33,7 +32,7 @@ import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.model.Action;
 import eu.trentorise.smartcampus.communicator.model.Preference;
 
-public class SettingsActivity extends PreferenceActivity implements
+public class SettingsActivity extends SherlockPreferenceActivity implements
 		OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
 
 	private static final String KEY_SYNC_AUTOMATICALLY = "pref_sync";
@@ -45,7 +44,10 @@ public class SettingsActivity extends PreferenceActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
 		addPreferencesFromResource(eu.trentorise.smartcampus.communicator.R.xml.preferences);
 		Preference prefs = CommunicatorHelper.getPreferences();
 		if (prefs == null)
@@ -188,4 +190,16 @@ public class SettingsActivity extends PreferenceActivity implements
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case android.R.id.home:
+				onBackPressed();
+			}
+
+			return super.onOptionsItemSelected(item);
+		}
+	
 }

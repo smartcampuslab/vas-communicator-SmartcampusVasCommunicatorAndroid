@@ -31,14 +31,6 @@
         android:orientation="vertical"
         android:padding="10dp" >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/channel_name"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="@color/sc_dark_gray" />
-
         <EditText
             android:id="@+id/channel_name"
             android:layout_width="match_parent"
