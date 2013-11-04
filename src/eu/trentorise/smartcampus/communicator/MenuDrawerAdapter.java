@@ -1,6 +1,5 @@
 package eu.trentorise.smartcampus.communicator;
 
-import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,6 @@ public class MenuDrawerAdapter extends ArrayAdapter<String> {
 
 		if (s.equals(values[0])) {
 			imageView.setImageResource(R.drawable.inbox);
-			//CommunicatorHelper.init(context);
 		} else if (s.equals(values[1])) {
 			imageView.setImageResource(R.drawable.starred);
 		} else if (s.equals(values[2])) {

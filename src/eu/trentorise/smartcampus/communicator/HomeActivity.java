@@ -30,7 +30,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -141,6 +140,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 		firstConfig();
 	}
+
 
 	private void startHomeFragment() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -304,8 +304,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		
-
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
@@ -339,11 +337,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 				fragment.setArguments(args);
 				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 				ft.replace(R.id.fragment_container, fragment);
-				// ft.addToBackStack(fragment.getTag());
 				ft.commit();
-				// Editable value = input.getText();
-
-				// e.printStackTrace();
 			}
 		});
 		AlertDialog alert = mAlert.create();
