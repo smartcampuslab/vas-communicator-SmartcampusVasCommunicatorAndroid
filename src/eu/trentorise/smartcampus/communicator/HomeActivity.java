@@ -51,50 +51,69 @@ public class HomeActivity extends SherlockFragmentActivity {
 		super.onConfigurationChanged(newConfig);
 	}
 
-	private void initDataManagement(Bundle savedInstanceState) {
-		try {
-			CommunicatorHelper.init(getApplicationContext());
-			String token = CommunicatorHelper.getAuthToken();
-			if (token != null) {
-				initData(token);
-			}
-			else{
-				new SCAsyncTask<Void, Void, String>(this,
-						new LoadUserDataFromACServiceTask(HomeActivity.this))
-						.execute();
-				initData(token);
-			}
-		} catch (Exception e) {
-			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-		}
-	}
-
-	private boolean initData(String token) {
-		try {
-			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
-					.execute();
-		} catch (Exception e1) {
-			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-			return false;
-		}
-		return true;
-	}
+//	private void initDataManagement(Bundle savedInstanceState) {
+//		try {
+//			CommunicatorHelper.init(getApplicationContext());
+//			String token = CommunicatorHelper.getAuthToken();
+//			if (token != null) {
+//				initData(token);
+//			}
+//			else{
+//				new SCAsyncTask<Void, Void, String>(this,
+//						new LoadUserDataFromACServiceTask(HomeActivity.this))
+//						.execute();
+//				initData(token);
+//			}
+//		} catch (Exception e) {
+//			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
+//		}
+//	}
+//
+//	private boolean initData(String token) {
+//		try {
+//			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
+//					.execute();
+//		} catch (Exception e1) {
+//			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
+//			return false;
+//		}
+//		return true;
+//	}
+	private boolean initData() {
+        try {
+                new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
+                                .execute();
+        } catch (Exception e1) {
+                CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
+                return false;
+        }
+        return true;
+}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		initDataManagement(savedInstanceState);
-		try {
-			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
-				new SCAsyncTask<Void, Void, String>(this,
-						new LoadUserDataFromACServiceTask(HomeActivity.this))
-						.execute();
-			}
-		} catch (AACException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		CommunicatorHelper.init(getApplicationContext());
+        try {
+                if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
+                        initData();
+
+                }
+        } catch (AACException e) {
+                e.printStackTrace();
+        }
+//		initDataManagement(savedInstanceState);
+//		try {
+//			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
+//				new SCAsyncTask<Void, Void, String>(this,
+//						new LoadUserDataFromACServiceTask(HomeActivity.this))
+//						.execute();
+//			}
+//		} catch (AACException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		setUpContent();
 	}
 ///TEST//
@@ -160,7 +179,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					CommunicatorHelper.endAppFailure(this,
 							R.string.app_failure_security);
 				} else {
-					initData(token);
+					initData();
 				}
 			} else if (resultCode == RESULT_CANCELED
 					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
