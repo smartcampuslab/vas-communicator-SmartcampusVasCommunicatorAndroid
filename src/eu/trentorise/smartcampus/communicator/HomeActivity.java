@@ -33,13 +33,12 @@ import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.fragments.BackListener;
 import eu.trentorise.smartcampus.communicator.fragments.MainFragment;
-import eu.trentorise.smartcampus.protocolcarrier.exceptions.ConnectionException;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
 
 public class HomeActivity extends SherlockFragmentActivity {
 
 	protected final int mainlayout = android.R.id.content;
-	private String userAuthToken = null;
+	
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -50,35 +49,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
-
-//	private void initDataManagement(Bundle savedInstanceState) {
-//		try {
-//			CommunicatorHelper.init(getApplicationContext());
-//			String token = CommunicatorHelper.getAuthToken();
-//			if (token != null) {
-//				initData(token);
-//			}
-//			else{
-//				new SCAsyncTask<Void, Void, String>(this,
-//						new LoadUserDataFromACServiceTask(HomeActivity.this))
-//						.execute();
-//				initData(token);
-//			}
-//		} catch (Exception e) {
-//			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-//		}
-//	}
-//
-//	private boolean initData(String token) {
-//		try {
-//			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
-//					.execute();
-//		} catch (Exception e1) {
-//			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-//			return false;
-//		}
-//		return true;
-//	}
+	
 	private boolean initData() {
         try {
                 new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
@@ -103,17 +74,6 @@ public class HomeActivity extends SherlockFragmentActivity {
         } catch (AACException e) {
                 e.printStackTrace();
         }
-//		initDataManagement(savedInstanceState);
-//		try {
-//			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
-//				new SCAsyncTask<Void, Void, String>(this,
-//						new LoadUserDataFromACServiceTask(HomeActivity.this))
-//						.execute();
-//			}
-//		} catch (AACException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		setUpContent();
 	}
 ///TEST//
@@ -218,30 +178,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		public void handleResult(Void result) {
 			CommunicatorHelper.resetUnread();
 			setUpContent();
-		}
-
-	}
-
-	public class LoadUserDataFromACServiceTask extends
-			AbstractAsyncTaskProcessor<Void, String> {
-
-		public LoadUserDataFromACServiceTask(Activity activity) {
-			super(activity);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public String performAction(Void... params) throws SecurityException,
-				ConnectionException, Exception {
-			userAuthToken = CommunicatorHelper.getAuthToken();
-			return userAuthToken;
-
-		}
-
-		@Override
-		public void handleResult(String result) {
-			userAuthToken = result;
-
 		}
 
 	}
