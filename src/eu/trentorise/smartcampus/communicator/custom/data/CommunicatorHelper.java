@@ -477,13 +477,19 @@ public class CommunicatorHelper {
 
 	public static void markAllAsRead(NotificationFilter filter) throws DataException, StorageConfigurationException {
 		getInstance().unread = null;
-		filter.setReaded(false);
-		List<BatchModel> list = new ArrayList<BatchModel>();
-		for (Notification n : getRawNotifications(filter, 0, -1, 0)) {
-			n.setReaded(true);
-			list.add(new SyncUpdateModel.UpdateModel(n, false, true));
+		Boolean readed = filter.isReaded();
+		try {
+			filter.setReaded(false);
+			List<BatchModel> list = new ArrayList<BatchModel>();
+			for (Notification n : getRawNotifications(filter, 0, -1, 0)) {
+				n.setReaded(true);
+				list.add(new SyncUpdateModel.UpdateModel(n, false, true));
+			}
+			getInstance().storage.batch(list);
+		} finally {
+			filter.setReaded(readed);
 		}
-		getInstance().storage.batch(list);
+		
 	}
 	public static void deleteAll(NotificationFilter filter) throws DataException, StorageConfigurationException {
 		getInstance().unread = null;
