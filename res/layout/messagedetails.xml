@@ -67,7 +67,17 @@
             android:layout_margin="3dp"
             android:background="@android:color/transparent"
             android:textColor="@color/sc_dark_gray" 
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:autoLink="all"/>
+
+        <TextView
+            android:id="@+id/messagedetails_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/sc_dark_gray"
+            android:autoLink="all"/>
 
     </LinearLayout>
 

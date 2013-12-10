@@ -38,10 +38,7 @@ import android.widget.Toast;
 import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
-import eu.trentorise.smartcampus.communicator.R;
-import eu.trentorise.smartcampus.communicator.custom.NotificationProcessor;
 import eu.trentorise.smartcampus.communicator.model.Channel;
-import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants.ORDERING;
 import eu.trentorise.smartcampus.communicator.model.EntityObject;
 import eu.trentorise.smartcampus.communicator.model.LabelObject;
@@ -112,7 +109,8 @@ public class CommunicatorHelper {
 	}
 	protected CommunicatorHelper(Context mContext) {
 		super();
-		this.mContext = mContext;;
+		this.mContext = mContext;
+//		this.mSyncManager = new SyncManager(mContext, CommSyncStorageService.class);
 		this.accessProvider = SCAccessProvider.getInstance(mContext);
 		this.sc = new CommunicatorStorageConfiguration();
 		this.storage = new CommSyncStorage(mContext, Constants.APP_TOKEN, Constants.SYNC_DB_NAME, 2, sc);
@@ -213,15 +211,10 @@ public class CommunicatorHelper {
 			Collection<Notification> collection = getRawNotifications(filter, position, size, since);
 			
 			if (collection.size() > 0) {
-				NotificationProcessor processor = null;
 				List<Notification> list = new ArrayList<Notification>();
 				for (Notification n : collection) {
 					if (n.getType() == null) {
 						continue;
-					}
-					
-					if ((processor = CommunicatorConstants.getNotificationProcessor(getInstance().mContext, n.getType())) != null) {
-						processor.processMessage(getInstance().mContext, n);
 					}
 					list.add(n);
 				}
@@ -324,14 +317,6 @@ public class CommunicatorHelper {
 			tmpLabels.put(lo.getId(),lo);
 		}
 		Channel f = null;
-		String[] sourceTypes = mContext.getResources().getStringArray(R.array.channel_type_sourcetypes);
-		for (int i = 0; i < sourceTypes.length; i++) {
-			f = new Channel();
-			f.setId(""+i);
-			f.setSourceType(sourceTypes[i]);
-			f.setTitle(CommunicatorConstants.getChannelTypeLabel(mContext, f.getSourceType()));
-			tmpChannels.put(f.getId(),f);
-		}
 		
 		tmpPrefs.setLabels(new ArrayList<LabelObject>(tmpLabels.values()));
 	}

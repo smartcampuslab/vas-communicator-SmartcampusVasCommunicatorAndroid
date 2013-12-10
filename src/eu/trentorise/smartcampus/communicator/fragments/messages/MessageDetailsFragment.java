@@ -101,6 +101,14 @@ public class MessageDetailsFragment extends SherlockFragment {
                         tv = (TextView) this.getView().findViewById(R.id.messagedetails_context);
                         tv.setText(CommunicatorConstants.DATE_TIME_FORMAT.format(new Date(getMessage().getTimestamp())));
 
+			// link
+			tv = (TextView) this.getView().findViewById(R.id.messagedetails_link);
+			if (getMessage().getContent() != null && getMessage().getContent().containsKey("link")) {
+				tv.setText(getMessage().getContent().get("link").toString());
+			} else {
+				tv.setVisibility(View.GONE);
+			}
+			
                         // properties
                         updateLabels();
                 }
@@ -113,7 +121,6 @@ public class MessageDetailsFragment extends SherlockFragment {
 
                 View sourceView = getActivity().getLayoutInflater().inflate(R.layout.label_label, null);
                 TextView source = (TextView) sourceView.findViewById(R.id.label_label_text);
-                source.setTextColor(Color.parseColor(CommunicatorConstants.getChannelTypeColor(getActivity(), getMessage().getType())));
                 source.setText(CommunicatorConstants.getChannelTypeLabel(getActivity(), getMessage().getType()));
                 ll.addView(sourceView);
 //

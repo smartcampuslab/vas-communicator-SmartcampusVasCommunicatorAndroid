@@ -122,7 +122,7 @@ public class ChannelFormFragment extends SherlockFragment {
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(dataAdapter);
 
-		final String[][] sourceTypeLabels = isFeed() ? CommunicatorConstants.getFeedLabels() : CommunicatorConstants.getChannelLabels(getActivity());
+		final String[][] sourceTypeLabels = CommunicatorConstants.getFeedLabels(getActivity());
 		String titleType = getResources().getString(isFeed() ? R.string.feed : R.string.channel);
 
 		for (String[] f : sourceTypeLabels) {

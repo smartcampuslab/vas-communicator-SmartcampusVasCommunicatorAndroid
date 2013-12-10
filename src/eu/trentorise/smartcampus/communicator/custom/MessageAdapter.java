@@ -62,7 +62,6 @@ public class MessageAdapter extends ArrayAdapter<Notification> {
 		
 		View sourceView = context.getLayoutInflater().inflate(R.layout.label_label, null);
 		TextView source = (TextView) sourceView.findViewById(R.id.label_label_text);
-		source.setTextColor(Color.parseColor(CommunicatorConstants.getChannelTypeColor(getContext(), tag.getType())));
 		source.setText(CommunicatorConstants.getChannelTypeLabel(getContext(), tag.getType()));
 		ll.addView(sourceView);
 		
