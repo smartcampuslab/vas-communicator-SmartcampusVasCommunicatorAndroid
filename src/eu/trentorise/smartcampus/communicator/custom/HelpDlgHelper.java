@@ -17,6 +17,8 @@ package eu.trentorise.smartcampus.communicator.custom;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
@@ -40,12 +42,21 @@ public class HelpDlgHelper {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		View view = inflatter.inflate(R.layout.helpdialog, null);
 		builder.setView(view);
-		
+//		builder.setPositiveButton("OK", new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				// TODO Auto-generated method stub
+//				dialog.dismiss();
+//			}
+//		});
 		WebView wv = ((WebView)view.findViewById(R.id.helpMessage));
+
 		String str= ctx.getString(txtId);
 		wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
 		
 		final AlertDialog dialog = builder.create();
+		
 		if (isHint) {
 			CheckBox cb = (CheckBox) view.findViewById(R.id.helpCheckbox);
 			cb.setOnClickListener(new View.OnClickListener() {

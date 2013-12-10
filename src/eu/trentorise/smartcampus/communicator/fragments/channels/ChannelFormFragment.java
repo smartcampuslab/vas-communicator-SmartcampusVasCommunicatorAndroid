@@ -134,6 +134,8 @@ public class ChannelFormFragment extends SherlockFragment {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				getChannel().setSourceType(sourceTypeLabels[position][0]); 
+				EditText etTitle = (EditText) getView().findViewById(R.id.channel_name_et);
+				etTitle.setText(getChannel().getSourceType());
 			}
 
 			@Override
@@ -144,6 +146,7 @@ public class ChannelFormFragment extends SherlockFragment {
 			// title
 			TextView tv = (TextView) this.getView().findViewById(R.id.channel_name);
 			tv.setText(getChannel().getTitle());
+			
 			// source type
 			for (int i = 0; i < sourceTypeLabels.length; i++){
 				if (getChannel().getSourceType().equals(sourceTypeLabels[i][0])) {
@@ -307,7 +310,7 @@ public class ChannelFormFragment extends SherlockFragment {
 
 	private void updateChannel() {
 		// title
-		String title = ((EditText)getView().findViewById(R.id.channel_name)).getText().toString();
+		String title = ((EditText)getView().findViewById(R.id.channel_name_et)).getText().toString();
 		if (title != null && title.trim().length() > 0) {
 			getChannel().setTitle(title.trim());
 		} else {
@@ -361,7 +364,7 @@ public class ChannelFormFragment extends SherlockFragment {
 		updateChannel();
 		if (channel.getTitle() == null) {
 			Toast.makeText(getActivity(), R.string.channel_name_empty, Toast.LENGTH_LONG).show();
-			getView().findViewById(R.id.channel_name).requestFocus();
+			getView().findViewById(R.id.channel_name_et).requestFocus();
 			return;
 		}
 		new SCAsyncTask<Object, Void, Boolean>(getActivity(), new SaveChannelProcessor(getActivity())).execute(getChannel());

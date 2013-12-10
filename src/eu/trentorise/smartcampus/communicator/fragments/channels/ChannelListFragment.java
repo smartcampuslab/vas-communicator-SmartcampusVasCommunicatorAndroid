@@ -48,6 +48,8 @@ public class ChannelListFragment extends SherlockListFragment {
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 setHasOptionsMenu(true);
+                if (isFeed()) HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_feeds, "feeds");
+                else HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_channels, "channels");
         }
         
         @Override
@@ -80,8 +82,8 @@ public class ChannelListFragment extends SherlockListFragment {
                 });
                 
                 registerForContextMenu(getListView());
-                if (isFeed()) HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_feeds, "feeds");
-                else HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_channels, "channels");
+//                if (isFeed()) HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_feeds, "feeds");
+//                else HelpDlgHelper.helpHint(getSherlockActivity(), R.string.help_channels, "channels");
         }
 
         

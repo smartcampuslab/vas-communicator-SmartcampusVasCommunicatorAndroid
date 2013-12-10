@@ -111,17 +111,17 @@ public class HomeActivity extends SherlockFragmentActivity {
 				R.string.drawer_close) {
 
 			public void onDrawerClosed(View view) {
-				getSupportActionBar().setTitle(mTitle);
+				//getSupportActionBar().setTitle(mTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				getSupportActionBar().setTitle(mDrawerTitle);
+				//getSupportActionBar().setTitle(mDrawerTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerSlide(View drawerView, float slideOffset) {
-				getSupportActionBar().setTitle(mDrawerTitle);
+				//getSupportActionBar().setTitle(mDrawerTitle);
 				mDrawerLayout.bringChildToFront(drawerView);
 				supportInvalidateOptionsMenu();
 				super.onDrawerSlide(drawerView, slideOffset);
@@ -254,7 +254,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.replace(R.id.fragment_container, fragment,
 					"inbox");
-			fragmentTransaction.addToBackStack(fragment.getTag());
+//			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[1])) {
@@ -263,7 +263,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.replace(R.id.fragment_container, fragment,
 					"star");
-			fragmentTransaction.addToBackStack(fragment.getTag());
+//			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[2])) {
@@ -272,7 +272,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.replace(R.id.fragment_container, fragment,
 					"extsbs");
-			fragmentTransaction.addToBackStack(fragment.getTag());
+//			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[3])) {
@@ -281,7 +281,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.replace(R.id.fragment_container, fragment,
 					"Labels");
-			fragmentTransaction.addToBackStack(fragment.getTag());
+//			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[4])) {
@@ -290,7 +290,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.replace(R.id.fragment_container, fragment,
 					"search");
-			fragmentTransaction.addToBackStack(fragment.getTag());
+//			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[5])) {
@@ -326,8 +326,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private void startFirstConfFragment() {
 		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
-		mAlert.setTitle("Bevenuto!");
-		mAlert.setMessage("Vuoi configurare i canali per ricevere le notifiche?");
+		mAlert.setTitle("Benvenuto!");
+		mAlert.setMessage("Per ricevere gli aggiornamenti, iscriviti a un canale!");
 		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				FragmentTransaction ft = getSupportFragmentManager()
