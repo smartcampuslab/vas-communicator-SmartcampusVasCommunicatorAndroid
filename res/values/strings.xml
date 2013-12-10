@@ -19,9 +19,9 @@
     <string name="empty">No data.</string>
     <string name="empty_messages">No messages.</string>
     <string name="add">Add</string>
-    <string name="app_name">INBox</string>
+    <string name="app_name">INbox</string>
     <string-array name="fragment_array">
-        <item>INBox</item>
+        <item>INbox</item>
         <item>Starred</item>
         <item>Subscriptions</item>
         <item>Manage Labels</item>
@@ -31,7 +31,7 @@
 
 
     <string name="mainmenu_home">Home</string>
-    <string name="mainmenu_inbox">INBbox</string>
+    <string name="mainmenu_inbox">INbox</string>
     <string name="mainmenu_starred">Starred</string>
     <string name="mainmenu_labels">Manage Labels</string>
     <string name="mainmenu_channels">SmartCampus Channels</string>
@@ -41,7 +41,7 @@
     <string name="feeds">Subscriptions</string>
     <string name="channel">Channel</string>
     <string name="channels">Channels</string>
-    <string name="title_inbox">Inbox</string>
+    <string name="title_inbox">INbox</string>
     <string name="title_starred">Starred</string>
     <string name="title_labels">Manage Labels</string>
     <string name="title_search">Search</string>
