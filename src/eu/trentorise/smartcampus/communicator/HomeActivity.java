@@ -60,6 +60,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private CharSequence mTitle;
 	private String[] mFragmentTitles;
 
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);

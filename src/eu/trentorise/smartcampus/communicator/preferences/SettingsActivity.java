@@ -42,13 +42,13 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 	private static final String KEY_RINGTONE = "pref_ring";
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		getSupportActionBar().setHomeButtonEnabled(true);
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-
-		addPreferencesFromResource(eu.trentorise.smartcampus.communicator.R.xml.preferences);
+        addPreferencesFromResource(eu.trentorise.smartcampus.communicator.R.xml.preferences);
 		Preference prefs = CommunicatorHelper.getPreferences();
 		if (prefs == null)
 			return;
@@ -190,7 +190,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
