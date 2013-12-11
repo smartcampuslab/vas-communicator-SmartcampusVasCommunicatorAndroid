@@ -46,6 +46,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.android.common.validation.ValidatorHelper;
+import eu.trentorise.smartcampus.communicator.HomeActivity;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
@@ -114,10 +115,12 @@ public class ChannelFormFragment extends SherlockFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
-		getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-
+		HomeActivity.mDrawerToggle.setDrawerIndicatorEnabled(false);
+    	HomeActivity.drawerState = "off";
+        getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
+        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSherlockActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+		
 		Spinner spinner = (Spinner) getView().findViewById(R.id.channel_sourcetype);
 		final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

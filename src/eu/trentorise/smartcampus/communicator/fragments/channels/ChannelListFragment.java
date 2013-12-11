@@ -34,6 +34,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
+import eu.trentorise.smartcampus.communicator.HomeActivity;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.ChannelAdapter;
@@ -65,7 +66,7 @@ public class ChannelListFragment extends SherlockListFragment {
         public void onStart() {
                 super.onStart();
 
-
+                HomeActivity.drawerState = "on";
                 getSherlockActivity().getSupportActionBar().setHomeButtonEnabled(true);
                 getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSherlockActivity().setTitle(isFeed() ? R.string.title_feeds : R.string.title_channels);

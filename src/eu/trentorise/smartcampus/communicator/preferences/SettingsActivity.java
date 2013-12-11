@@ -131,12 +131,12 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
 
 		if (KEY_SYNC_PERIOD.equals(key))
 			findPreference(key).setSummary(
-					"Synchronize every " + prefs.getSyncPeriod() + " minutes");
+					getResources().getText(R.string.synchronizeevery) +" "+ prefs.getSyncPeriod().toString() +" "+ getResources().getText(R.string.minutes));
 		if (KEY_MESSAGE_NUM.equals(key))
 			findPreference(key)
 					.setSummary(
-							"Up to " + prefs.getMaxMessageNumber()
-									+ " messages stored");
+							getResources().getText(R.string.up_to) +" "+ prefs.getMaxMessageNumber().toString()
+									+" "+ getResources().getText(R.string.messages_stored));
 
 		if (KEY_EMAIL.equals(key)) {
 			String email = prefs.getActions() != null

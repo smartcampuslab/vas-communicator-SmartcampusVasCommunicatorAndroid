@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2012-2013 Trento RISE
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+         http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either   express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+    <string name="empty">Nessun dato.</string>
+    <string name="empty_messages">Nessun messaggio.</string>
+    <string name="add">Aggiungi</string>
+    <string name="app_name">INbox</string>
+    <string-array name="fragment_array">
+        <item>Messaggi</item>
+        <item>Preferiti</item>
+        <item>Sottoscrizioni</item>
+        <item>Gestisci etichette</item>
+        <item>Cerca</item>
+        <item>Impostazioni</item>
+    </string-array>
+
+
+    <string name="mainmenu_home">Home</string>
+    <string name="mainmenu_inbox">Messaggi</string>
+    <string name="mainmenu_starred">Preferiti</string>
+    <string name="mainmenu_labels">Gestisci etichette</string>
+    <string name="mainmenu_channels">Canali SmartCampus</string>
+    <string name="mainmenu_feeds">Altre sottoscrizioni</string>
+    <string name="mainmenu_search">Cerca</string>
+    <string name="feed">Sottoscrizione</string>
+    <string name="feeds">Sottoscrizioni</string>
+    <string name="channel">Canale</string>
+    <string name="channels">Canali</string>
+    <string name="title_inbox">Messaggi</string>
+    <string name="title_starred">Preferiti</string>
+    <string name="title_labels">Gestisci etichette</string>
+    <string name="title_search">Cerca</string>
+    <string name="title_channels">Gestisci Canali</string>
+    <string name="title_feeds">Gestisci sottoscrizioni</string>
+    <string name="app_failure_security">Impossibile autenticarsi</string>
+    <string name="app_failure_setup">Impossibile registrare l\'applicazione</string>
+    <string name="app_failure_operation">OOPS! C\'è stato un errore. Per favore verifica la connessione o prova più tardi.</string>
+    <string name="app_uid_label">SmartCampus</string>
+    <string name="notice_options_header">Opzioni per le notifiche</string>
+    <string name="label_options_header">Opzioni per le etichette</string>
+    <string name="channel_options_header">Opzioni per il canale</string>
+    <string name="feed_options_header">Opzioni per le sottoscrizioni</string>
+    <string name="notice_option_view">Visualizza</string>
+    <string name="notice_option_toggle_read">Leggi status</string>
+    <string name="notice_option_toggle_starred">Preferiti</string>
+    <string name="notice_option_remove">Rimuovi</string>
+    <string name="notice_option_assign_labels">Assegna etichetta</string>
+    <string name="notice_option_view_channel">Vedi tutti dallo stesso canale</string>
+    <string name="btn_new_label">Nuova etichetta</string>
+    <string name="add_label_dialog_name_hint">nome etichetta</string>
+    <string name="label_name_duplicate">Esiste già un\'etichetta con lo stesso nome</string>
+    <string name="label_name_empty">Il nome dell\'etichetta non può essere vuoto</string>
+    <string name="add_label_dialog_title">Nuova etichetta</string>
+    <string name="noticelist_menu_mark_all_read">Segna come tutti letti</string>
+    <string name="noticelist_menu_delete_all">Cancella tutto</string>
+    <string name="noticelist_menu_order_arrival">Ordina per data di arrivo</string>
+    <string name="noticelist_menu_order_rel_now">Ordina per importanza </string>
+    <string name="noticelist_menu_order_rel_place">Ordina per importanza qui</string>
+    <string name="noticelist_menu_order_priority">Ordina per priorità</string>
+    <string name="noticelist_menu_order_title">Ordina per titolo</string>
+    <string name="label_option_view">Vedi</string>
+    <string name="label_option_edit">Modifica</string>
+    <string name="label_option_remove">Rimuovi</string>
+    <string name="label_remove_text">Sei sicuro di voler rimuovere questa etichetta?</string>
+    <string name="channel_remove_text">Sei sicuro di voler rimuovere questo canale?</string>
+    <string name="feed_remove_text">Sei sicuro di voler rimuovere questa sottoscrizione?</string>
+    <string name="channel_remove">Rimuovi</string>
+    <string name="channel_option_view">Visualizza</string>
+    <string name="channel_option_edit">Modifica</string>
+    <string name="channel_option_remove">Rimuovi</string>
+    <string name="channel_source">Sorgente</string>
+    <string name="channel_name">Titolo</string>
+    <string name="channel_filters">Filtri</string>
+    <string name="channel_add">Aggiungi</string>
+    <string name="channel_filters_hint">Scegli come filtrare i messaggi</string>
+    <string name="channel_labels">Etichette</string>
+    <string name="channel_labels_hint">Scegli come etichettare i tuoi messaggi</string>
+    <string name="channel_destinations">Destinazioni</string>
+    <string name="channel_add_labels_dlg_title">Seleziona etichetta</string>
+    <string name="channels_help">Aiuto</string>
+    <string name="channel_destinations_trash">Cestino</string>
+    <string name="channel_destinations_timemanager">Time manager</string>
+    <string name="channel_keywords">Parole chiave</string>
+    <string name="channel_keywords_hint">Lista di parole chiave separate da spazi</string>
+    <string name="channel_name_empty">Il campo del titolo è vuoto</string>
+    <string name="services_filter_keywords">Parole chiave</string>
+    <string name="services_filter_keywords_hint">Lista di parole chiave separate da spazi</string>
+    <string name="services_filter_sources">Sorgenti:</string>
+    <string name="jp_filter_type">Tipo di notifica:</string>
+    <string name="jp_filter_source">Sorgente della notifica:</string>
+    <string name="notification_title">Nuovo messaggio: </string>
+    <string name="notification_text">Nuovo messaggio: </string>
+    <string name="notification_title_multi">Nuovi messaggi.</string>
+    <string name="notification_text_multi">Nuovi messaggi.</string>
+    <string name="email_hint">Indirizzo email</string>
+    <string name="pref_sync">Sincronizzazione messaggi</string>
+    <string name="pref_sync_summ">Sincronizza automaticamente i messaggi</string>
+    <string name="pref_sync_summ_manual">Sincronizza manualmente i messaggi</string>
+    <string name="pref_sync_period">Periodo di sincronizzazione</string>
+    <string name="pref_sync_period_summ">Sincronizza ogni 5 minuti</string>
+    <string name="pref_sync_period_title">Specifica il periodo in minuti</string>
+    <string name="pref_messages">Limite messaggi</string>
+    <string name="pref_messages_summ">Fino a 1000 messaggi salvati</string>
+    <string name="pref_messages_title">Specifica limite messaggi</string>
+    <string name="pref_email">E-mail di default</string>
+    <string name="pref_email_summ">Nullo</string>
+    <string name="pref_email_title">Specifica indirizzo e-mail di default</string>
+    <string name="mainmenu_settings">Impostazioni</string>
+    <string name="email_format">Formato email errato</string>
+    <string name="help_msg_showagain">Non mostrare più</string>
+    <string name="synchronizeevery">Sincronizza ogni</string>
+    <string name="minutes">minuti</string>
+    <string name="up_to">Fino a</string>
+    <string name="messages_stored">messaggi salvati</string>
+    <string name="help_feeds">
+<![CDATA[
+        You can subscribe to external sources of information so that their messages will be sent also to you, as in a mailing list or an RSS feed. In this section, you can define a new subscription by specifying:
+        <ul>
+        <li>where the messages come from (e.g. University services: Opera, Unisport, your department...)</li>
+        <li>how you want to filter the messages(e.g. by selecting only those containing a given keyword)</li>
+        <li>if and how you want to label the messages</li>
+        <li>where should the messages be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
+        </ul>
+    ]]>
+    </string>
+    <string name="help_channels">
+<![CDATA[
+        Channels route the messages coming from the SmartCampus apps, and in general all messages that are explicitly targeted to you. In this section you can define a new channel by specifying:
+        <ul>
+        <li>where the messages come from (one of the SmartCampus apps)</li>
+        <li>how you want to filter the messages(e.g. by selecting only those containing a given keyword)</li>
+        <li>if and how you want to label the messages</li>
+        <li>where should the messages be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
+        </ul>
+        ]]>
+    </string>
+    <string name="notifications_unread">Nuove notifiche</string>
+    <string name="notifications_list_empty_jp">Non hai ancora ricevuto notifiche.</string>
+    <string name="notifications_itinerary_delay_title">Ritardo per \"%s\" journey</string>
+    <string name="notifications_itinerary_delay_min">%s minuto</string>
+    <string name="notifications_itinerary_delay_mins">%s minuti</string>
+    <string name="notifications_itinerary_delay_bus">Linea %1$s per %2$s</string>
+    <string name="notifications_itinerary_delay_train">Treno %1$s per %2$s</string>
+    <string name="notifications_itinerary_delay_original_schedule">scheduled at %1$s at %2$s</string>
+    <string name="notifications_itinerary_on_time">In orario</string>
+    <string name="notifications_event_new">New event \"%1$s\" at %2$s</string>
+    <string name="notifications_story_new">New story \"%1$s\" about %2$s</string>
+    <string name="notifications_event_updated">Event \"%s\" updated</string>
+    <string name="notifications_location_updated">Place \"%s\" updated</string>
+    <string name="notifications_story_updated">Story \"%s\" updated</string>
+    <string name="notifications_event_at_place_updated">Event \"%1$s\" at %2$s is updated</string>
+    <string name="notifications_story_at_place_update">Story \"%1$s\" about %2$s is updated</string>
+    <string name="token_required">Please login before proceeding with the application.</string>
+    <string name="token_expired">App login expired.</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>

@@ -30,6 +30,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -297,6 +298,9 @@ public class HomeActivity extends SherlockFragmentActivity {
 		} else if (fragmentString.equals(mFragmentTitles[5])) {
 			Intent i = (new Intent(HomeActivity.this, SettingsActivity.class));
 			startActivity(i);
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}else if (fragmentString.equals(mFragmentTitles[6])) {
+			Toast.makeText(getApplicationContext(), "Soon!", Toast.LENGTH_SHORT).show();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 
