@@ -27,6 +27,7 @@
         <item>Gestisci etichette</item>
         <item>Cerca</item>
         <item>Impostazioni</item>
+        <item>Tutorial</item>
     </string-array>
 
 
@@ -129,13 +130,13 @@
     <string name="messages_stored">messaggi salvati</string>
     <string name="help_feeds">
 <![CDATA[
-        You can subscribe to external sources of information so that their messages will be sent also to you, as in a mailing list or an RSS feed. In this section, you can define a new subscription by specifying:
-        <ul>
-        <li>where the messages come from (e.g. University services: Opera, Unisport, your department...)</li>
-        <li>how you want to filter the messages(e.g. by selecting only those containing a given keyword)</li>
-        <li>if and how you want to label the messages</li>
-        <li>where should the messages be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
-        </ul>
+        È possibile iscriversi a fonti esterne di informazioni in modo da ricevere notifiche, come in una mailing list o un feed RSS. In questa sezione, è possibile definire una nuova sottoscrizione specificando:
+         <ul>
+         <li> la fonte (ad esempio servizi di Ateneo: Opera, Unisport, il vostro dipartimento ...) </ li>
+         <li> come si desidera filtrare i messaggi (ad esempio selezionando solo quelli che contengono una determinata parola chiave) </ li>
+         <li> se e come si vuole etichettare i messaggi </ li>
+         <li> dove i messaggi devono essere inviati (casella di posta, nella sezione dedicata, email ...) </ li>
+         </ ul>
     ]]>
     </string>
     <string name="help_channels">
