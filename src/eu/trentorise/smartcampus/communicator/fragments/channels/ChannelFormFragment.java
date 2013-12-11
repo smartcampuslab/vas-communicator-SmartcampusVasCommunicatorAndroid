@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
+import eu.trentorise.smartcampus.android.common.validation.ValidatorHelper;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
@@ -363,8 +364,9 @@ public class ChannelFormFragment extends SherlockFragment {
 	protected void saveChannel() {
 		updateChannel();
 		if (channel.getTitle() == null) {
-			Toast.makeText(getActivity(), R.string.channel_name_empty, Toast.LENGTH_LONG).show();
-			getView().findViewById(R.id.channel_name_et).requestFocus();
+			ValidatorHelper.highlight(getSherlockActivity(), getView().findViewById(R.id.channel_name_et),  getString(R.string.channel_name_empty));
+//			Toast.makeText(getActivity(), R.string.channel_name_empty, Toast.LENGTH_LONG).show();
+//			getView().findViewById(R.id.channel_name_et).requestFocus();
 			return;
 		}
 		new SCAsyncTask<Object, Void, Boolean>(getActivity(), new SaveChannelProcessor(getActivity())).execute(getChannel());

@@ -23,8 +23,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
+import eu.trentorise.smartcampus.android.common.validation.ValidatorHelper;
 import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.ColorPickerView;
@@ -91,9 +91,11 @@ public class LabelDialog extends Dialog implements OnColorChangedListener{
 				String nameText = groupName.getText().toString().trim();
 	
 				if (label == null || !label.getName().equals(nameText)) {
+					
 					if (CommunicatorHelper.getLabelByName(nameText) != null) {
-						Toast toast = Toast.makeText(getContext(), getContext().getString(R.string.label_name_duplicate), Toast.LENGTH_SHORT);
-						toast.show();
+						ValidatorHelper.highlight(getContext(), findViewById(R.id.add_label_dialog_name),  getContext().getString(R.string.label_name_duplicate));
+//						Toast toast = Toast.makeText(getContext(), getContext().getString(R.string.label_name_duplicate), Toast.LENGTH_SHORT);
+//						toast.show();
 						return;
 					}
 				}
@@ -101,8 +103,9 @@ public class LabelDialog extends Dialog implements OnColorChangedListener{
 				if (nameText.length() > 0) {
 					new SCAsyncTask<String, Void, Void>(getOwnerActivity(), new StoreLabelProcessor(getOwnerActivity())).execute(nameText);
 				} else {
-					Toast toast = Toast.makeText(getContext(), getContext().getString(R.string.label_name_empty), Toast.LENGTH_SHORT);
-					toast.show();
+					ValidatorHelper.highlight(getContext(), findViewById(R.id.add_label_dialog_name),  getContext().getString(R.string.label_name_empty));
+//					Toast toast = Toast.makeText(getContext(), getContext().getString(R.string.label_name_empty), Toast.LENGTH_SHORT);
+//					toast.show();
 				}
 			}
 		});
