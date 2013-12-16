@@ -30,10 +30,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.espiandev.showcaseview.ListViewTutorialHelper;
+import com.github.espiandev.showcaseview.TutorialHelper;
+import com.github.espiandev.showcaseview.TutorialHelper.TutorialProvider;
+import com.github.espiandev.showcaseview.TutorialItem;
 
 import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
@@ -61,6 +64,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private CharSequence mTitle;
 	private String[] mFragmentTitles;
 
+	private TutorialHelper mTutorialHelper = null;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -135,6 +139,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
+		mTutorialHelper = new ListViewTutorialHelper(this, mTutorialProvider);
+
 		if (savedInstanceState == null) {
 			startHomeFragment();
 			// firstConfig();
@@ -175,6 +181,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		mTutorialHelper.onTutorialActivityResult(requestCode, resultCode, data);
 		if (requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				String token = data.getExtras().getString(
@@ -300,8 +307,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			startActivity(i);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}else if (fragmentString.equals(mFragmentTitles[6])) {
-			Toast.makeText(getApplicationContext(), "Soon!", Toast.LENGTH_SHORT).show();
-			mDrawerLayout.closeDrawer(mDrawerList);
+			mTutorialHelper.showTutorials();
 		}
 
 	}
@@ -349,5 +355,73 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		alert.show();
 	}
+
+	private TutorialProvider mTutorialProvider = new TutorialProvider() {
+		
+		TutorialItem[] tutorial = new TutorialItem[]{
+				new TutorialItem("inbox", null, 0, R.string.t_title_inbox, R.string.t_msg_inbox),
+				new TutorialItem("starred", null, 0, R.string.t_title_starred, R.string.t_msg_starred),
+				new TutorialItem("subs", null, 0, R.string.t_title_subs, R.string.t_msg_subs),
+				new TutorialItem("labels", null, 0, R.string.t_title_labels, R.string.t_msg_labels),
+				new TutorialItem("search", null, 0, R.string.t_title_search, R.string.t_msg_search),
+				new TutorialItem("settings", null, 0, R.string.t_title_settings, R.string.t_msg_settings),
+			}; 
+
+		
+		@Override
+		public void onTutorialFinished() {
+			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+		
+		@Override
+		public void onTutorialCancelled() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		
+		@Override
+		public TutorialItem getItemAt(int i) {
+			fillTutorialItemParams(tutorial[i], i);
+			return tutorial[i];
+		}
+
+		@Override
+		public int size() {
+			return tutorial.length;
+		}
+
+		private void fillTutorialItemParams(TutorialItem item, int idx) {
+			if (mDrawerList != null) {
+				int firstVisible = mDrawerList.getFirstVisiblePosition();
+				int lastVisible = mDrawerList.getLastVisiblePosition();
+				int shift = 0;
+				View v = null;
+				if (idx <= firstVisible) {
+					v = mDrawerList.getChildAt(idx);
+					shift = -v.getTop();
+					mDrawerList.setSelection(idx);
+				} else if (idx >= lastVisible && mDrawerList.getChildAt(idx) != null) {
+					// TODO
+//					v = mDrawerList.getChildAt(idx);
+//					shift =  -mDrawerList.getChildAt(mDrawerList.getChildCount()-1).getBottom() + mDrawerList.getBottom();
+//					int shift2 =  -mDrawerList.getChildAt(mDrawerList.getChildCount()-1).getScrollY();
+//					mDrawerList.setSelection(idx);
+				} else {
+					v = mDrawerList.getChildAt(idx);
+				}
+				if (v != null) {
+					View logo = v.findViewById(R.id.logo);
+					if (logo != null) {
+						item.width = logo.getWidth();
+						item.position = new int[2];
+						logo.getLocationOnScreen(item.position);
+						item.position[1] += shift;
+					}
+				}
+			}
+		}
+
+	};
 
 }
