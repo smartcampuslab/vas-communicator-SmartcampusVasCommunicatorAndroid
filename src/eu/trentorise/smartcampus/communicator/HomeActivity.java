@@ -79,8 +79,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private boolean initData() {
 		try {
-			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
-					.execute();
+			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this)).execute();
 		} catch (Exception e1) {
 			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
 			return false;
@@ -91,7 +90,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 		boolean primoAvvio = prefs.getBoolean(PRIMO_AVVIO, true);
 		setContentView(R.layout.main);
@@ -106,28 +105,26 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 		mFragmentTitles = getResources().getStringArray(R.array.fragment_array);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources()
-				.getStringArray(R.array.fragment_array)));
+		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources().getStringArray(R.array.fragment_array)));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		//
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
 
 			public void onDrawerClosed(View view) {
-				//getSupportActionBar().setTitle(mTitle);
+				// getSupportActionBar().setTitle(mTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				//getSupportActionBar().setTitle(mDrawerTitle);
+				// getSupportActionBar().setTitle(mDrawerTitle);
 				supportInvalidateOptionsMenu();
 			}
 
 			public void onDrawerSlide(View drawerView, float slideOffset) {
-				//getSupportActionBar().setTitle(mDrawerTitle);
+				// getSupportActionBar().setTitle(mDrawerTitle);
 				mDrawerLayout.bringChildToFront(drawerView);
 				supportInvalidateOptionsMenu();
 				super.onDrawerSlide(drawerView, slideOffset);
@@ -148,7 +145,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 		firstConfig();
 	}
-
 
 	private void startHomeFragment() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -184,16 +180,13 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mTutorialHelper.onTutorialActivityResult(requestCode, resultCode, data);
 		if (requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				String token = data.getExtras().getString(
-						AccountManager.KEY_AUTHTOKEN);
+				String token = data.getExtras().getString(AccountManager.KEY_AUTHTOKEN);
 				if (token == null) {
-					CommunicatorHelper.endAppFailure(this,
-							R.string.app_failure_security);
+					CommunicatorHelper.endAppFailure(this, R.string.app_failure_security);
 				} else {
 					initData();
 				}
-			} else if (resultCode == RESULT_CANCELED
-					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
+			} else if (resultCode == RESULT_CANCELED && requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
 				CommunicatorHelper.endAppFailure(this, R.string.token_required);
 			}
 		}
@@ -229,8 +222,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public Void performAction(Void... params) throws SecurityException,
-				Exception {
+		public Void performAction(Void... params) throws SecurityException, Exception {
 			CommunicatorHelper.start(false);
 			return null;
 		}
@@ -243,11 +235,9 @@ public class HomeActivity extends SherlockFragmentActivity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			selectItem(position);
 		}
 	}
@@ -255,58 +245,47 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private void selectItem(int position) {
 		String fragmentString = mFragmentTitles[position];
 		// // update the main content by replacing fragments
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		if (fragmentString.equals(mFragmentTitles[0])) {
 			InboxFragment fragment = new InboxFragment();
-			fragmentTransaction
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment,
-					"inbox");
-//			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment, "inbox");
+			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[1])) {
 			StarredFragment fragment = new StarredFragment();
-			fragmentTransaction
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment,
-					"star");
-//			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment, "star");
+			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[2])) {
 			FeedListFragment fragment = new FeedListFragment();
-			fragmentTransaction
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment,
-					"extsbs");
-//			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment, "extsbs");
+			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[3])) {
 			LabelListFragment fragment = new LabelListFragment();
-			fragmentTransaction
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment,
-					"Labels");
-//			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment, "Labels");
+			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[4])) {
 			SearchFragment fragment = new SearchFragment();
-			fragmentTransaction
-					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment,
-					"search");
-//			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment, "search");
+			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[5])) {
 			Intent i = (new Intent(HomeActivity.this, SettingsActivity.class));
 			startActivity(i);
 			mDrawerLayout.closeDrawer(mDrawerList);
-		}else if (fragmentString.equals(mFragmentTitles[6])) {
+		} else if (fragmentString.equals(mFragmentTitles[10])) {
 			mTutorialHelper.showTutorials();
 		}
 
@@ -341,8 +320,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mAlert.setMessage("Per ricevere gli aggiornamenti, iscriviti a un canale!");
 		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				FragmentTransaction ft = getSupportFragmentManager()
-						.beginTransaction();
+				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 				FeedListFragment fragment = new FeedListFragment();
 				Bundle args = new Bundle();
 				fragment.setArguments(args);
@@ -357,29 +335,27 @@ public class HomeActivity extends SherlockFragmentActivity {
 	}
 
 	private TutorialProvider mTutorialProvider = new TutorialProvider() {
-		
-		TutorialItem[] tutorial = new TutorialItem[]{
+
+		TutorialItem[] tutorial = new TutorialItem[] {
 				new TutorialItem("inbox", null, 0, R.string.t_title_inbox, R.string.t_msg_inbox),
 				new TutorialItem("starred", null, 0, R.string.t_title_starred, R.string.t_msg_starred),
 				new TutorialItem("subs", null, 0, R.string.t_title_subs, R.string.t_msg_subs),
 				new TutorialItem("labels", null, 0, R.string.t_title_labels, R.string.t_msg_labels),
 				new TutorialItem("search", null, 0, R.string.t_title_search, R.string.t_msg_search),
 				new TutorialItem("settings", null, 0, R.string.t_title_settings, R.string.t_msg_settings),
-			}; 
+};
 
-		
 		@Override
 		public void onTutorialFinished() {
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
-		
+
 		@Override
 		public void onTutorialCancelled() {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		
+
 		@Override
 		public TutorialItem getItemAt(int i) {
 			fillTutorialItemParams(tutorial[i], i);
@@ -400,24 +376,28 @@ public class HomeActivity extends SherlockFragmentActivity {
 				if (idx <= firstVisible) {
 					v = mDrawerList.getChildAt(idx);
 					shift = -v.getTop();
-					mDrawerList.setSelection(idx);
-				} else if (idx >= lastVisible && mDrawerList.getChildAt(idx) != null) {
+					if (v != null && v.findViewById(R.id.logo) != null)
+						mDrawerList.setSelection(idx);
+				} else if (idx >= lastVisible && mDrawerList.getChildAt(idx - firstVisible) != null) {
 					// TODO
-//					v = mDrawerList.getChildAt(idx);
-//					shift =  -mDrawerList.getChildAt(mDrawerList.getChildCount()-1).getBottom() + mDrawerList.getBottom();
-//					int shift2 =  -mDrawerList.getChildAt(mDrawerList.getChildCount()-1).getScrollY();
-//					mDrawerList.setSelection(idx);
+					v = mDrawerList.getChildAt(idx - firstVisible);
+					shift = -v.getTop();
+					if (v != null && v.findViewById(R.id.logo) != null)
+						mDrawerList.setSelection(idx);
 				} else {
-					v = mDrawerList.getChildAt(idx);
+					v = mDrawerList.getChildAt(idx - firstVisible);
+//					shift = -((firstVisible * v.getHeight()) - firstVisible *v.getHeight());
+
 				}
 				if (v != null) {
 					View logo = v.findViewById(R.id.logo);
 					if (logo != null) {
 						item.width = logo.getWidth();
 						item.position = new int[2];
-						logo.getLocationOnScreen(item.position);
+						logo.getLocationInWindow(item.position);
 						item.position[1] += shift;
 					}
+
 				}
 			}
 		}
