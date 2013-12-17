@@ -20,6 +20,7 @@
     <string name="empty_messages">Nessun messaggio.</string>
     <string name="add">Aggiungi</string>
     <string name="app_name">INbox</string>
+
     <string-array name="fragment_array">
         <item>Messaggi</item>
         <item>Preferiti</item>
@@ -29,7 +30,6 @@
         <item>Impostazioni</item>
         <item>Tutorial</item>
     </string-array>
-
 
     <string name="mainmenu_home">Home</string>
     <string name="mainmenu_inbox">Messaggi</string>

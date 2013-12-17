@@ -285,7 +285,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 			Intent i = (new Intent(HomeActivity.this, SettingsActivity.class));
 			startActivity(i);
 			mDrawerLayout.closeDrawer(mDrawerList);
-		} else if (fragmentString.equals(mFragmentTitles[10])) {
+		} else if (fragmentString.equals(mFragmentTitles[6])) {
 			mTutorialHelper.showTutorials();
 		}
 
@@ -342,8 +342,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 				new TutorialItem("subs", null, 0, R.string.t_title_subs, R.string.t_msg_subs),
 				new TutorialItem("labels", null, 0, R.string.t_title_labels, R.string.t_msg_labels),
 				new TutorialItem("search", null, 0, R.string.t_title_search, R.string.t_msg_search),
-				new TutorialItem("settings", null, 0, R.string.t_title_settings, R.string.t_msg_settings),
-};
+				new TutorialItem("settings", null, 0, R.string.t_title_settings, R.string.t_msg_settings), };
 
 		@Override
 		public void onTutorialFinished() {
@@ -352,13 +351,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onTutorialCancelled() {
-			// TODO Auto-generated method stub
-
+			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 
 		@Override
 		public TutorialItem getItemAt(int i) {
-			fillTutorialItemParams(tutorial[i], i);
+			ListViewTutorialHelper.fillTutorialItemParams(tutorial[i], i, mDrawerList, R.id.logo);
 			return tutorial[i];
 		}
 
@@ -366,42 +364,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		public int size() {
 			return tutorial.length;
 		}
-
-		private void fillTutorialItemParams(TutorialItem item, int idx) {
-			if (mDrawerList != null) {
-				int firstVisible = mDrawerList.getFirstVisiblePosition();
-				int lastVisible = mDrawerList.getLastVisiblePosition();
-				int shift = 0;
-				View v = null;
-				if (idx <= firstVisible) {
-					v = mDrawerList.getChildAt(idx);
-					shift = -v.getTop();
-					if (v != null && v.findViewById(R.id.logo) != null)
-						mDrawerList.setSelection(idx);
-				} else if (idx >= lastVisible && mDrawerList.getChildAt(idx - firstVisible) != null) {
-					// TODO
-					v = mDrawerList.getChildAt(idx - firstVisible);
-					shift = -v.getTop();
-					if (v != null && v.findViewById(R.id.logo) != null)
-						mDrawerList.setSelection(idx);
-				} else {
-					v = mDrawerList.getChildAt(idx - firstVisible);
-//					shift = -((firstVisible * v.getHeight()) - firstVisible *v.getHeight());
-
-				}
-				if (v != null) {
-					View logo = v.findViewById(R.id.logo);
-					if (logo != null) {
-						item.width = logo.getWidth();
-						item.position = new int[2];
-						logo.getLocationInWindow(item.position);
-						item.position[1] += shift;
-					}
-
-				}
-			}
-		}
-
 	};
 
 }
