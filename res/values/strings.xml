@@ -52,7 +52,7 @@
     <string name="app_failure_setup">Failed to initialize appplication</string>
     <string name="app_failure_operation">OOPS! An error occurred. Please check your connection or try again later.</string>
     <string name="app_uid_label">SmartCampus</string>
-    <string name="notice_options_header">Notice options</string>
+    <string name="notice_options_header">Notification options</string>
     <string name="label_options_header">Label options</string>
     <string name="channel_options_header">Channel options</string>
     <string name="feed_options_header">Subscription options</string>
@@ -151,7 +151,7 @@
         ]]>
     </string>
     <string name="notifications_unread">Unread notifications</string>
-    <string name="notifications_list_empty_jp">You have not received notifications yet.</string>
+    <string name="notifications_list_empty_jp">You have not received any notifications yet.</string>
     <string name="notifications_itinerary_delay_title">Delay for \"%s\" journey</string>
     <string name="notifications_itinerary_delay_min">%s minute</string>
     <string name="notifications_itinerary_delay_mins">%s minutes</string>

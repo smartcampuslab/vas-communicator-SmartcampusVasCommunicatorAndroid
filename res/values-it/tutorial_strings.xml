@@ -20,22 +20,22 @@
     <string name="tutorial_start_btn">Start</string>
     
     
-    <string name="t_title_inbox">Inbox</string>
-    <string name="t_msg_inbox">Inbox bla bla</string>
+    <string name="t_title_inbox">Messaggi</string>
+    <string name="t_msg_inbox">I messaggi che hai ricevuto</string>
     
-    <string name="t_title_starred">Starred</string>
-    <string name="t_msg_starred">Starred bla bla</string>
+    <string name="t_title_starred">Preferiti</string>
+    <string name="t_msg_starred">I tuoi messaggi più importanti</string>
     
-    <string name="t_title_subs">Subscriptions</string>
-    <string name="t_msg_subs">subscriptions bla bla</string>
+    <string name="t_title_subs">Sottoscrizioni</string>
+    <string name="t_msg_subs">Iscriviti a un canale dal quale ricevere aggiornamenti</string>
 
-    <string name="t_title_labels">Labels</string>
-    <string name="t_msg_labels">labels bla bla</string>
+    <string name="t_title_labels">Etichette</string>
+    <string name="t_msg_labels">Gestisci le etichette da assegnare ai tuoi messaggi</string>
 
-    <string name="t_title_search">Search</string>
-    <string name="t_msg_search">search bla bla</string>
+    <string name="t_title_search">Cerca</string>
+    <string name="t_msg_search">Cerca tra i tuoi messaggi</string>
 
-    <string name="t_title_settings">Settings</string>
-    <string name="t_msg_settings">settings bla bla</string>
+    <string name="t_title_settings">Impostazioni</string>
+    <string name="t_msg_settings">Configura l\'applicazione</string>
     
 </resources>

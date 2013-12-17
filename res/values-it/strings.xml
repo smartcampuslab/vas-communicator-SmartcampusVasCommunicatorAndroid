@@ -20,7 +20,6 @@
     <string name="empty_messages">Nessun messaggio.</string>
     <string name="add">Aggiungi</string>
     <string name="app_name">INbox</string>
-
     <string-array name="fragment_array">
         <item>Messaggi</item>
         <item>Preferiti</item>
@@ -30,6 +29,7 @@
         <item>Impostazioni</item>
         <item>Tutorial</item>
     </string-array>
+
 
     <string name="mainmenu_home">Home</string>
     <string name="mainmenu_inbox">Messaggi</string>
@@ -57,24 +57,24 @@
     <string name="channel_options_header">Opzioni per il canale</string>
     <string name="feed_options_header">Opzioni per le sottoscrizioni</string>
     <string name="notice_option_view">Visualizza</string>
-    <string name="notice_option_toggle_read">Leggi status</string>
-    <string name="notice_option_toggle_starred">Preferiti</string>
+    <string name="notice_option_toggle_read">Modifica stato lettura</string>
+    <string name="notice_option_toggle_starred">Aggiungi/rimuovi dai preferiti</string>
     <string name="notice_option_remove">Rimuovi</string>
     <string name="notice_option_assign_labels">Assegna etichetta</string>
-    <string name="notice_option_view_channel">Vedi tutti dallo stesso canale</string>
+    <string name="notice_option_view_channel">Vedi tutti i messaggi dallo stesso canale</string>
     <string name="btn_new_label">Nuova etichetta</string>
-    <string name="add_label_dialog_name_hint">nome etichetta</string>
+    <string name="add_label_dialog_name_hint">Nome etichetta</string>
     <string name="label_name_duplicate">Esiste già un\'etichetta con lo stesso nome</string>
     <string name="label_name_empty">Il nome dell\'etichetta non può essere vuoto</string>
     <string name="add_label_dialog_title">Nuova etichetta</string>
-    <string name="noticelist_menu_mark_all_read">Segna come tutti letti</string>
+    <string name="noticelist_menu_mark_all_read">Segna tutti come letti</string>
     <string name="noticelist_menu_delete_all">Cancella tutto</string>
     <string name="noticelist_menu_order_arrival">Ordina per data di arrivo</string>
     <string name="noticelist_menu_order_rel_now">Ordina per importanza </string>
     <string name="noticelist_menu_order_rel_place">Ordina per importanza qui</string>
     <string name="noticelist_menu_order_priority">Ordina per priorità</string>
     <string name="noticelist_menu_order_title">Ordina per titolo</string>
-    <string name="label_option_view">Vedi</string>
+    <string name="label_option_view">Visualizza</string>
     <string name="label_option_edit">Modifica</string>
     <string name="label_option_remove">Rimuovi</string>
     <string name="label_remove_text">Sei sicuro di voler rimuovere questa etichetta?</string>
@@ -97,29 +97,29 @@
     <string name="channel_destinations_trash">Cestino</string>
     <string name="channel_destinations_timemanager">Time manager</string>
     <string name="channel_keywords">Parole chiave</string>
-    <string name="channel_keywords_hint">Lista di parole chiave separate da spazi</string>
-    <string name="channel_name_empty">Il campo del titolo è vuoto</string>
+    <string name="channel_keywords_hint">Parole chiave separate da spazi</string>
+    <string name="channel_name_empty">Il titolo non può essere vuoto</string>
     <string name="services_filter_keywords">Parole chiave</string>
-    <string name="services_filter_keywords_hint">Lista di parole chiave separate da spazi</string>
+    <string name="services_filter_keywords_hint">Parole chiave separate da spazi</string>
     <string name="services_filter_sources">Sorgenti:</string>
     <string name="jp_filter_type">Tipo di notifica:</string>
     <string name="jp_filter_source">Sorgente della notifica:</string>
     <string name="notification_title">Nuovo messaggio: </string>
     <string name="notification_text">Nuovo messaggio: </string>
-    <string name="notification_title_multi">Nuovi messaggi.</string>
-    <string name="notification_text_multi">Nuovi messaggi.</string>
+    <string name="notification_title_multi"> nuovi messaggi.</string>
+    <string name="notification_text_multi"> nuovi messaggi.</string>
     <string name="email_hint">Indirizzo email</string>
     <string name="pref_sync">Sincronizzazione messaggi</string>
     <string name="pref_sync_summ">Sincronizza automaticamente i messaggi</string>
     <string name="pref_sync_summ_manual">Sincronizza manualmente i messaggi</string>
-    <string name="pref_sync_period">Periodo di sincronizzazione</string>
+    <string name="pref_sync_period">Intervallo di sincronizzazione</string>
     <string name="pref_sync_period_summ">Sincronizza ogni 5 minuti</string>
-    <string name="pref_sync_period_title">Specifica il periodo in minuti</string>
+    <string name="pref_sync_period_title">Specifica l\'intervallo in minuti</string>
     <string name="pref_messages">Limite messaggi</string>
     <string name="pref_messages_summ">Fino a 1000 messaggi salvati</string>
     <string name="pref_messages_title">Specifica limite messaggi</string>
     <string name="pref_email">E-mail di default</string>
-    <string name="pref_email_summ">Nullo</string>
+    <string name="pref_email_summ">Nessuna</string>
     <string name="pref_email_title">Specifica indirizzo e-mail di default</string>
     <string name="mainmenu_settings">Impostazioni</string>
     <string name="email_format">Formato email errato</string>
@@ -134,7 +134,7 @@
          <ul>
          <li> la fonte (ad esempio servizi di Ateneo: Opera, Unisport, il vostro dipartimento ...) </ li>
          <li> come si desidera filtrare i messaggi (ad esempio selezionando solo quelli che contengono una determinata parola chiave) </ li>
-         <li> se e come si vuole etichettare i messaggi </ li>
+         <li> se e come si vogliono etichettare i messaggi </ li>
          <li> dove i messaggi devono essere inviati (casella di posta, nella sezione dedicata, email ...) </ li>
          </ ul>
     ]]>
@@ -157,18 +157,18 @@
     <string name="notifications_itinerary_delay_mins">%s minuti</string>
     <string name="notifications_itinerary_delay_bus">Linea %1$s per %2$s</string>
     <string name="notifications_itinerary_delay_train">Treno %1$s per %2$s</string>
-    <string name="notifications_itinerary_delay_original_schedule">scheduled at %1$s at %2$s</string>
+    <string name="notifications_itinerary_delay_original_schedule">programmato il %1$s alle %2$s</string>
     <string name="notifications_itinerary_on_time">In orario</string>
-    <string name="notifications_event_new">New event \"%1$s\" at %2$s</string>
-    <string name="notifications_story_new">New story \"%1$s\" about %2$s</string>
-    <string name="notifications_event_updated">Event \"%s\" updated</string>
-    <string name="notifications_location_updated">Place \"%s\" updated</string>
-    <string name="notifications_story_updated">Story \"%s\" updated</string>
-    <string name="notifications_event_at_place_updated">Event \"%1$s\" at %2$s is updated</string>
-    <string name="notifications_story_at_place_update">Story \"%1$s\" about %2$s is updated</string>
-    <string name="token_required">Please login before proceeding with the application.</string>
-    <string name="token_expired">App login expired.</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="notifications_event_new">Nuovo evento \"%1$s\" alle %2$s</string>
+    <string name="notifications_story_new">Nuova storia \"%1$s\" su %2$s</string>
+    <string name="notifications_event_updated">L\'evento \"%s\" è stato aggiornato</string>
+    <string name="notifications_location_updated">Il luogo \"%s\" è stato aggiornato</string>
+    <string name="notifications_story_updated">La storia \"%s\" è stata aggiornata</string>
+    <string name="notifications_event_at_place_updated">L\'evento \"%1$s\" delle %2$s è stato aggiornato</string>
+    <string name="notifications_story_at_place_update">La storia \"%1$s\" su %2$s è stata aggiornata</string>
+    <string name="token_required">Effettua il login prima di procedere con l\'applicazione.</string>
+    <string name="token_expired">La tua sessione è scaduta. Effettua nuovamente il login.</string>
+    <string name="drawer_open">Apri il navigation drawer</string>
+    <string name="drawer_close">Chiudi il navigation drawer</string>
 
 </resources>
