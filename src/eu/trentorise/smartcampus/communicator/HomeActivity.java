@@ -316,8 +316,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private void startFirstConfFragment() {
 		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
-		mAlert.setTitle("Benvenuto!");
-		mAlert.setMessage("Per ricevere gli aggiornamenti, iscriviti a un canale!");
+		mAlert.setTitle(getText(R.string.first_wel));
+		mAlert.setMessage(getText(R.string.first_msg));
 		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
