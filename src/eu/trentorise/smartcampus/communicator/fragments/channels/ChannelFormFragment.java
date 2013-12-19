@@ -148,7 +148,7 @@ public class ChannelFormFragment extends SherlockFragment {
 		
 		if (getChannel().getId() != null) {
 			// title
-			TextView tv = (TextView) this.getView().findViewById(R.id.channel_name);
+			TextView tv = (TextView) this.getView().findViewById(R.id.channel_name_et);
 			tv.setText(getChannel().getTitle());
 			
 			// source type
