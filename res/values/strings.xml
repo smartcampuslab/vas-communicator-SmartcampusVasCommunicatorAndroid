@@ -64,7 +64,7 @@
     <string name="notice_option_view_channel">View all from the same channel</string>
     <string name="btn_new_label">New label</string>
     <string name="add_label_dialog_name_hint">Label name</string>
-    <string name="label_name_duplicate">Label with this name already exists</string>
+    <string name="label_name_duplicate">A label with this name already exists</string>
     <string name="label_name_empty">Label name cannot be empty</string>
     <string name="add_label_dialog_title">New label</string>
     <string name="noticelist_menu_mark_all_read">Mark all as read</string>
@@ -137,7 +137,7 @@
         <li>where the messages come from (e.g. University services: Opera, Unisport, your department...)</li>
         <li>how you want to filter the messages(e.g. by selecting only those containing a given keyword)</li>
         <li>if and how you want to label the messages</li>
-        <li>where should the messages be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
+        <li>where the messages should be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
         </ul>
     ]]>
     </string>
@@ -148,7 +148,7 @@
         <li>where the messages come from (one of the SmartCampus apps)</li>
         <li>how you want to filter the messages(e.g. by selecting only those containing a given keyword)</li>
         <li>if and how you want to label the messages</li>
-        <li>where should the messages be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
+        <li>where the messages should be delivered (in you inbox, in the dedicated channel section, to your email...)</li>
         </ul>
         ]]>
     </string>
