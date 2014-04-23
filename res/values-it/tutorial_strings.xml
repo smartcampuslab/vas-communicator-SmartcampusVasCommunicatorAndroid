@@ -15,27 +15,27 @@
   limitations under the License.
 -->
 <resources>
-	
-    <string name="tutorial_startup_msg">bla bla</string>
+
+    <string name="tutorial_startup_msg">Inbox tutorial</string>
     <string name="tutorial_start_btn">Start</string>
     
     
     <string name="t_title_inbox">Messaggi</string>
-    <string name="t_msg_inbox">I messaggi che hai ricevuto</string>
+    <string name="t_msg_inbox">Leggi i messaggi ricevuti</string>
     
     <string name="t_title_starred">Preferiti</string>
-    <string name="t_msg_starred">I tuoi messaggi più importanti</string>
+    <string name="t_msg_starred">Visualizza i messaggi che hai contrassegnato con la stella</string>
     
     <string name="t_title_subs">Sottoscrizioni</string>
     <string name="t_msg_subs">Iscriviti a un canale dal quale ricevere aggiornamenti</string>
 
-    <string name="t_title_labels">Etichette</string>
-    <string name="t_msg_labels">Gestisci le etichette da assegnare ai tuoi messaggi</string>
+    <string name="t_title_labels">Gestici etichette</string>
+    <string name="t_msg_labels">Crea e gestisci etichette per organizzare i messaggi in arrivo</string>
 
     <string name="t_title_search">Cerca</string>
     <string name="t_msg_search">Cerca tra i tuoi messaggi</string>
 
     <string name="t_title_settings">Impostazioni</string>
-    <string name="t_msg_settings">Configura l\'applicazione</string>
+    <string name="t_msg_settings">Configura il comportamento dell\'applicazione</string>
     
 </resources>
