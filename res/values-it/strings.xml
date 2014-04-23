@@ -173,4 +173,6 @@
     <string name="drawer_open">Apri il navigation drawer</string>
     <string name="drawer_close">Chiudi il navigation drawer</string>
 
+    <string name="all_labels">Tutte etichette</string>
+    
 </resources>

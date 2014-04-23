@@ -38,6 +38,7 @@ import android.widget.Toast;
 import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
+import eu.trentorise.smartcampus.communicator.R;
 import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.CommunicatorConstants.ORDERING;
 import eu.trentorise.smartcampus.communicator.model.EntityObject;
@@ -58,8 +59,15 @@ import eu.trentorise.smartcampus.storage.sync.SyncUpdateModel;
 
 public class CommunicatorHelper {
 
-	private static final LabelObject LABEL_ALL = new LabelObject("-1","All labels", "0");
-
+	private static LabelObject LABEL_ALL = null;
+	private static LabelObject getLabelAllLabel() {
+		if (LABEL_ALL == null) {
+			LABEL_ALL = new LabelObject("-1",mContext.getString(R.string.all_labels), "0");
+		}
+		return LABEL_ALL;
+	}
+	
+	
 	private static final boolean testing = false;
 	
 	private static CommunicatorHelper instance = null;
@@ -343,7 +351,7 @@ public class CommunicatorHelper {
 
 	public static List<String> getLabelsForSelector() {
 		List<String> result = new ArrayList<String>();
-		result.add(LABEL_ALL.getName());
+		result.add(getLabelAllLabel().getName());
 		for (LabelObject l : getLabels()) result.add(l.getName());
 		return result;
 	}
@@ -390,7 +398,7 @@ public class CommunicatorHelper {
 		List<CharSequence> names = new ArrayList<CharSequence>();
 		try {
 			for (LabelObject l : getInstance().getLabelMap().values()) {
-				if (!l.getName().equals(LABEL_ALL)) names.add(l.getName());
+				if (!l.getName().equals(getLabelAllLabel())) names.add(l.getName());
 			}
 		} catch (DataException e) {
 			return new CharSequence[0];
