@@ -128,8 +128,6 @@
     <string name="minutes">minuti</string>
     <string name="up_to">Fino a</string>
     <string name="messages_stored">messaggi salvati</string>
-    <string name="first_wel">Benvenuto</string>
-    <string name="first_msg">Per ricevere gli aggiornamenti, iscriviti a un canale!</string>
     <string name="help_feeds">
 <![CDATA[
         È possibile iscriversi a fonti esterne di informazioni in modo da ricevere notifiche, come in una mailing list o un feed RSS. In questa sezione, è possibile definire una nuova sottoscrizione specificando:
