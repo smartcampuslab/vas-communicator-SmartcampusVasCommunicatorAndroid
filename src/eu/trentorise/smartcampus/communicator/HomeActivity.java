@@ -40,6 +40,7 @@ import com.github.espiandev.showcaseview.TutorialItem;
 
 import eu.trentorise.smartcampus.ac.AACException;
 import eu.trentorise.smartcampus.ac.SCAccessProvider;
+import eu.trentorise.smartcampus.android.common.LauncherHelper;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
@@ -79,7 +80,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private boolean initData() {
 		try {
-			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this)).execute();
+			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
+					.execute();
 		} catch (Exception e1) {
 			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
 			return false;
@@ -94,23 +96,44 @@ public class HomeActivity extends SherlockFragmentActivity {
 		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 		boolean primoAvvio = prefs.getBoolean(PRIMO_AVVIO, true);
 		setContentView(R.layout.main);
-		CommunicatorHelper.init(getApplicationContext());
-		try {
-			if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
-				initData();
+		if (LauncherHelper.isLauncherInstalled(this, true)) {
+			CommunicatorHelper.init(getApplicationContext());
+			try {
+				if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
+					initData();
 
+				}
+			} catch (AACException e) {
+				e.printStackTrace();
 			}
-		} catch (AACException e) {
-			e.printStackTrace();
+			setupDrawer();
+			// enable ActionBar app icon to behave as action to toggle nav
+			// drawer
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setHomeButtonEnabled(true);
+
+			mTutorialHelper = new ListViewTutorialHelper(this,
+					mTutorialProvider);
+
+			if (savedInstanceState == null) {
+				startHomeFragment();
+			}
+			firstConfig();
 		}
-		mFragmentTitles = getResources().getStringArray(R.array.fragment_array);
+	}
+
+	private void setupDrawer() {
+		mFragmentTitles = getResources().getStringArray(
+				R.array.fragment_array);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
-		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources().getStringArray(R.array.fragment_array)));
+		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources()
+				.getStringArray(R.array.fragment_array)));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		//
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
 
 			public void onDrawerClosed(View view) {
@@ -132,18 +155,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		};
 
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		// enable ActionBar app icon to behave as action to toggle nav drawer
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-
-		mTutorialHelper = new ListViewTutorialHelper(this, mTutorialProvider);
-
-		if (savedInstanceState == null) {
-			startHomeFragment();
-			// firstConfig();
-
-		}
-		firstConfig();
 	}
 
 	private void startHomeFragment() {
@@ -180,13 +191,16 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mTutorialHelper.onTutorialActivityResult(requestCode, resultCode, data);
 		if (requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				String token = data.getExtras().getString(AccountManager.KEY_AUTHTOKEN);
+				String token = data.getExtras().getString(
+						AccountManager.KEY_AUTHTOKEN);
 				if (token == null) {
-					CommunicatorHelper.endAppFailure(this, R.string.app_failure_security);
+					CommunicatorHelper.endAppFailure(this,
+							R.string.app_failure_security);
 				} else {
 					initData();
 				}
-			} else if (resultCode == RESULT_CANCELED && requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
+			} else if (resultCode == RESULT_CANCELED
+					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
 				CommunicatorHelper.endAppFailure(this, R.string.token_required);
 			}
 		}
@@ -222,7 +236,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public Void performAction(Void... params) throws SecurityException, Exception {
+		public Void performAction(Void... params) throws SecurityException,
+				Exception {
 			CommunicatorHelper.start(false);
 			return null;
 		}
@@ -235,9 +250,11 @@ public class HomeActivity extends SherlockFragmentActivity {
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
@@ -245,39 +262,50 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private void selectItem(int position) {
 		String fragmentString = mFragmentTitles[position];
 		// // update the main content by replacing fragments
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+				.beginTransaction();
 		if (fragmentString.equals(mFragmentTitles[0])) {
 			InboxFragment fragment = new InboxFragment();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment, "inbox");
+			fragmentTransaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment,
+					"inbox");
 			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[1])) {
 			StarredFragment fragment = new StarredFragment();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment, "star");
+			fragmentTransaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment,
+					"star");
 			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[2])) {
 			FeedListFragment fragment = new FeedListFragment();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment, "extsbs");
+			fragmentTransaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment,
+					"extsbs");
 			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[3])) {
 			LabelListFragment fragment = new LabelListFragment();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment, "Labels");
+			fragmentTransaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment,
+					"Labels");
 			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else if (fragmentString.equals(mFragmentTitles[4])) {
 			SearchFragment fragment = new SearchFragment();
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-			fragmentTransaction.replace(R.id.fragment_container, fragment, "search");
+			fragmentTransaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			fragmentTransaction.replace(R.id.fragment_container, fragment,
+					"search");
 			// fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -295,7 +323,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
+		if(mDrawerToggle!=null)
+			mDrawerToggle.syncState();
 	}
 
 	@Override
@@ -316,11 +345,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private void startFirstConfFragment() {
 		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
-		mAlert.setTitle(getText(R.string.first_wel));
-		mAlert.setMessage(getText(R.string.first_msg));
+		mAlert.setTitle(getText(R.string.welcome_title));
+		mAlert.setMessage(getText(R.string.welcome_msg));
 		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
 				FeedListFragment fragment = new FeedListFragment();
 				Bundle args = new Bundle();
 				fragment.setArguments(args);
@@ -337,12 +367,18 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private TutorialProvider mTutorialProvider = new TutorialProvider() {
 
 		TutorialItem[] tutorial = new TutorialItem[] {
-				new TutorialItem("inbox", null, 0, R.string.t_title_inbox, R.string.t_msg_inbox),
-				new TutorialItem("starred", null, 0, R.string.t_title_starred, R.string.t_msg_starred),
-				new TutorialItem("subs", null, 0, R.string.t_title_subs, R.string.t_msg_subs),
-				new TutorialItem("labels", null, 0, R.string.t_title_labels, R.string.t_msg_labels),
-				new TutorialItem("search", null, 0, R.string.t_title_search, R.string.t_msg_search),
-				new TutorialItem("settings", null, 0, R.string.t_title_settings, R.string.t_msg_settings), };
+				new TutorialItem("inbox", null, 0, R.string.t_title_inbox,
+						R.string.t_msg_inbox),
+				new TutorialItem("starred", null, 0, R.string.t_title_starred,
+						R.string.t_msg_starred),
+				new TutorialItem("subs", null, 0, R.string.t_title_subs,
+						R.string.t_msg_subs),
+				new TutorialItem("labels", null, 0, R.string.t_title_labels,
+						R.string.t_msg_labels),
+				new TutorialItem("search", null, 0, R.string.t_title_search,
+						R.string.t_msg_search),
+				new TutorialItem("settings", null, 0,
+						R.string.t_title_settings, R.string.t_msg_settings), };
 
 		@Override
 		public void onTutorialFinished() {
@@ -356,7 +392,8 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		@Override
 		public TutorialItem getItemAt(int i) {
-			ListViewTutorialHelper.fillTutorialItemParams(tutorial[i], i, mDrawerList, R.id.logo);
+			ListViewTutorialHelper.fillTutorialItemParams(tutorial[i], i,
+					mDrawerList, R.id.logo);
 			return tutorial[i];
 		}
 

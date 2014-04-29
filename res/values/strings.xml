@@ -128,8 +128,6 @@
     <string name="minutes">minutes</string>
     <string name="up_to">Up to</string>
     <string name="messages_stored">messages stored</string>
-    <string name="first_wel">Welcome</string>
-    <string name="first_msg">To receive updates, subscribe to a channel!</string>
     <string name="help_feeds">
 <![CDATA[
         You can subscribe to external sources of information so that their messages will be sent also to you, as in a mailing list or an RSS feed. In this section, you can define a new subscription by specifying:
