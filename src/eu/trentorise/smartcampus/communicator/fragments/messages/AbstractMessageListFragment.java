@@ -47,7 +47,7 @@ import com.actionbarsherlock.view.MenuItem;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask.SCAsyncTaskProcessor;
 import eu.trentorise.smartcampus.android.common.listing.AbstractLstingFragment;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.MessageAdapter;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;

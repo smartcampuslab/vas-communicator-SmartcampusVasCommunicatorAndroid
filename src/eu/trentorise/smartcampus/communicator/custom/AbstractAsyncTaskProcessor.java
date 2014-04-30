@@ -21,7 +21,7 @@ import eu.trentorise.smartcampus.ac.SCAccessProvider;
 import eu.trentorise.smartcampus.android.common.HandleExceptionHelper;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask.SCAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.HomeActivity;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 
 public abstract class AbstractAsyncTaskProcessor<Params, Result> implements SCAsyncTaskProcessor<Params, Result>{

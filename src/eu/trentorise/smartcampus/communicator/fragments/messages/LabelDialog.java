@@ -25,7 +25,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import eu.trentorise.smartcampus.android.common.SCAsyncTask;
 import eu.trentorise.smartcampus.android.common.validation.ValidatorHelper;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.AbstractAsyncTaskProcessor;
 import eu.trentorise.smartcampus.communicator.custom.ColorPickerView;
 import eu.trentorise.smartcampus.communicator.custom.ColorPickerView.OnColorChangedListener;

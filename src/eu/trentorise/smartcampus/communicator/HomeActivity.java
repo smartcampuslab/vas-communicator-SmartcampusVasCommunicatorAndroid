@@ -15,6 +15,7 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.communicator;
 
+import it.smartcampuslab.communicator.R;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;

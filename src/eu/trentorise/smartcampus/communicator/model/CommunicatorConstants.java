@@ -22,7 +22,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 
 
 public class CommunicatorConstants {

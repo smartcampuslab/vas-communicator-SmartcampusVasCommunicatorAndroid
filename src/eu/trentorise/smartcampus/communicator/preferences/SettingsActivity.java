@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
 
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.model.Action;
 import eu.trentorise.smartcampus.communicator.model.Preference;
@@ -48,7 +48,7 @@ public class SettingsActivity extends SherlockPreferenceActivity implements
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        addPreferencesFromResource(eu.trentorise.smartcampus.communicator.R.xml.preferences);
+        addPreferencesFromResource(R.xml.preferences);
 		Preference prefs = CommunicatorHelper.getPreferences();
 		if (prefs == null)
 			return;

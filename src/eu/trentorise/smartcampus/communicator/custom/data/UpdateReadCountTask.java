@@ -15,7 +15,7 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.custom.data;
 
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;

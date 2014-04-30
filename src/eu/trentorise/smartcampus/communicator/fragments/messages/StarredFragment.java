@@ -15,7 +15,7 @@
  ******************************************************************************/
 package eu.trentorise.smartcampus.communicator.fragments.messages;
 
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.model.NotificationFilter;
 
 public class StarredFragment extends AbstractMessageListFragment {

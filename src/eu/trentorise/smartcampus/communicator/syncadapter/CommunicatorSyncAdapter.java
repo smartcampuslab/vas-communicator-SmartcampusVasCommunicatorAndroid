@@ -31,7 +31,7 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
 import eu.trentorise.smartcampus.android.common.GlobalConfig;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.data.CommunicatorHelper;
 import eu.trentorise.smartcampus.communicator.custom.data.Constants;
 import eu.trentorise.smartcampus.protocolcarrier.exceptions.SecurityException;
@@ -115,10 +115,10 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
 	}
 
 	private CharSequence extractTitle(List<Object> list) {
-		return format(list, eu.trentorise.smartcampus.communicator.R.string.notification_title, eu.trentorise.smartcampus.communicator.R.string.notification_title_multi);
+		return format(list, R.string.notification_title, R.string.notification_title_multi);
 	}
 	private CharSequence extractText(List<Object> list) {
-		return format(list, eu.trentorise.smartcampus.communicator.R.string.notification_text, eu.trentorise.smartcampus.communicator.R.string.notification_text_multi);
+		return format(list, R.string.notification_text, R.string.notification_text_multi);
 	}
 	private CharSequence format(List<Object> list, int res, int resMulti) {
 		String txt = "";
@@ -126,9 +126,9 @@ public class CommunicatorSyncAdapter extends AbstractThreadedSyncAdapter {
 			@SuppressWarnings("unchecked")
 			Map<String,Object> map = (Map<String, Object>) list.get(0);
 			String title = (String)map.get("title");
-			txt = mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title) + " "+title;
+			txt = mContext.getString(R.string.notification_title) + " "+title;
 		}
-		else txt = list.size() + " " + mContext.getString(eu.trentorise.smartcampus.communicator.R.string.notification_title_multi);
+		else txt = list.size() + " " + mContext.getString(R.string.notification_title_multi);
 		return txt;
 	}
 }

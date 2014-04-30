@@ -23,7 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.custom.NotificationProcessor;
 import eu.trentorise.smartcampus.communicator.model.Notification;
 

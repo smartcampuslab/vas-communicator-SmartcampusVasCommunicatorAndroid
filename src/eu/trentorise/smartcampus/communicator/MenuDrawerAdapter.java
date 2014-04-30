@@ -1,5 +1,6 @@
 package eu.trentorise.smartcampus.communicator;
 
+import it.smartcampuslab.communicator.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

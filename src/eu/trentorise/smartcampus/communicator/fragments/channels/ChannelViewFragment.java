@@ -16,7 +16,7 @@
 package eu.trentorise.smartcampus.communicator.fragments.channels;
 
 import android.os.Bundle;
-import eu.trentorise.smartcampus.communicator.R;
+import it.smartcampuslab.communicator.R;
 import eu.trentorise.smartcampus.communicator.fragments.messages.AbstractMessageListFragment;
 import eu.trentorise.smartcampus.communicator.model.Channel;
 import eu.trentorise.smartcampus.communicator.model.NotificationFilter;

@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.trentorise.smartcampus.communicator"
+    package="it.smartcampuslab.communicator"
     android:sharedUserId="eu.trentorise.smartcampus.shared"
     android:sharedUserLabel="@string/app_uid_label"
     android:versionCode="23"
@@ -62,7 +62,7 @@
             android:name="eu.trentorise.smartcampus.account.ACCOUNT_BASED_ACCESS"
             android:value="true" />
 
-        <activity android:name=".preferences.SettingsActivity" />
+        <activity android:name="eu.trentorise.smartcampus.communicator.preferences.SettingsActivity" />
         <activity
             android:name="eu.trentorise.smartcampus.communicator.HomeActivity"
             android:configChanges="orientation|screenSize|keyboard"
@@ -90,7 +90,7 @@
         </activity>
         
         <service
-            android:name=".syncadapter.CommunicatorSyncService"
+            android:name="eu.trentorise.smartcampus.communicator.syncadapter.CommunicatorSyncService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -102,7 +102,7 @@
         </service>
 
         <provider
-            android:name=".CommunicatorDummyProvider"
+            android:name="eu.trentorise.smartcampus.communicator.CommunicatorDummyProvider"
             android:authorities="eu.trentorise.smartcampus.communicator"
             android:exported="false"
             android:label="@string/app_name"
