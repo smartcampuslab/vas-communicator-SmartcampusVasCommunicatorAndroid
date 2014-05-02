@@ -62,7 +62,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public static ListView mDrawerList;
 	public static ActionBarDrawerToggle mDrawerToggle;
 	public static String drawerState = "on";
-	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private String[] mFragmentTitles;
 
@@ -79,13 +78,16 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	private boolean initData() {
-		try {
-			new SCAsyncTask<Void, Void, Void>(this, new StartProcessor(this))
-					.execute();
-		} catch (Exception e1) {
-			CommunicatorHelper.endAppFailure(this, R.string.app_failure_setup);
-			return false;
+	private boolean initData(boolean firstLoad) {
+		if (!isFirstConfig()) {
+			try {
+				new SCAsyncTask<Boolean, Void, Boolean>(this,
+						new StartProcessor(this)).execute(firstLoad);
+			} catch (Exception e1) {
+				CommunicatorHelper.endAppFailure(this,
+						R.string.app_failure_setup);
+				return false;
+			}
 		}
 		return true;
 	}
@@ -94,14 +96,12 @@ public class HomeActivity extends SherlockFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-		boolean primoAvvio = prefs.getBoolean(PRIMO_AVVIO, true);
 		setContentView(R.layout.main);
 		if (LauncherHelper.isLauncherInstalled(this, true)) {
 			CommunicatorHelper.init(getApplicationContext());
 			try {
 				if (!CommunicatorHelper.getAccessProvider().login(this, null)) {
-					initData();
+					initData(false);
 
 				}
 			} catch (AACException e) {
@@ -130,7 +130,6 @@ public class HomeActivity extends SherlockFragmentActivity {
 		mDrawerList.setAdapter(new MenuDrawerAdapter(this, getResources()
 				.getStringArray(R.array.fragment_array)));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		//
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -198,7 +197,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 					CommunicatorHelper.endAppFailure(this,
 							R.string.app_failure_security);
 				} else {
-					initData();
+					initData(false);
 				}
 			} else if (resultCode == RESULT_CANCELED
 					&& requestCode == SCAccessProvider.SC_AUTH_ACTIVITY_REQUEST_CODE) {
@@ -230,22 +229,33 @@ public class HomeActivity extends SherlockFragmentActivity {
 		}
 	}
 
-	private class StartProcessor extends AbstractAsyncTaskProcessor<Void, Void> {
+	private class StartProcessor extends AbstractAsyncTaskProcessor<Boolean, Boolean> {
 
 		public StartProcessor(Activity activity) {
 			super(activity);
 		}
 
 		@Override
-		public Void performAction(Void... params) throws SecurityException,
+		public Boolean performAction(Boolean... params) throws SecurityException,
 				Exception {
 			CommunicatorHelper.start(false);
-			return null;
+			return params[0];
 		}
 
 		@Override
-		public void handleResult(Void result) {
-			CommunicatorHelper.resetUnread();
+		public void handleResult(Boolean result) {
+			if (result) {
+				FragmentTransaction ft = getSupportFragmentManager()
+						.beginTransaction();
+				FeedListFragment fragment = new FeedListFragment();
+				Bundle args = new Bundle();
+				fragment.setArguments(args);
+				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+				ft.replace(R.id.fragment_container, fragment);
+				ft.commitAllowingStateLoss();
+			} else { 
+				CommunicatorHelper.resetUnread();
+			}
 		}
 
 	}
@@ -343,21 +353,18 @@ public class HomeActivity extends SherlockFragmentActivity {
 			prefsEditor.commit();
 		}
 	}
+	private boolean isFirstConfig() {
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		return prefs.getBoolean(PRIMO_AVVIO, true);
+	}
 
 	private void startFirstConfFragment() {
 		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
 		mAlert.setTitle(getText(R.string.welcome_title));
 		mAlert.setMessage(getText(R.string.welcome_msg));
-		mAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		mAlert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				FragmentTransaction ft = getSupportFragmentManager()
-						.beginTransaction();
-				FeedListFragment fragment = new FeedListFragment();
-				Bundle args = new Bundle();
-				fragment.setArguments(args);
-				ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				ft.replace(R.id.fragment_container, fragment);
-				ft.commit();
+				initData(true);
 			}
 		});
 		AlertDialog alert = mAlert.create();

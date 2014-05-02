@@ -16,7 +16,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.smartcampuslab.communicator"
-    android:sharedUserId="eu.trentorise.smartcampus.shared"
+    android:sharedUserId="it.smartcampuslab.launcher"
     android:sharedUserLabel="@string/app_uid_label"
     android:versionCode="23"
     android:versionName="0.14.0" >
