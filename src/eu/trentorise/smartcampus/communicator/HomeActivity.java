@@ -66,6 +66,7 @@ public class HomeActivity extends SherlockFragmentActivity {
 	private String[] mFragmentTitles;
 
 	private TutorialHelper mTutorialHelper = null;
+	protected boolean mFirstTutorial = false;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -144,6 +145,9 @@ public class HomeActivity extends SherlockFragmentActivity {
 			public void onDrawerOpened(View drawerView) {
 				// getSupportActionBar().setTitle(mDrawerTitle);
 				supportInvalidateOptionsMenu();
+				if (mFirstTutorial) {
+					mTutorialHelper.showTutorials();
+				}
 			}
 
 			public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -360,10 +364,28 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 	private void startFirstConfFragment() {
 		AlertDialog.Builder mAlert = new AlertDialog.Builder(this);
-		mAlert.setTitle(getText(R.string.welcome_title));
-		mAlert.setMessage(getText(R.string.welcome_msg));
-		mAlert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		mAlert.setTitle(getText(R.string.welcome_title))
+		.setMessage(getText(R.string.welcome_msg))
+		.setOnCancelListener(
+				new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						dialog.dismiss();
+						initData(true);
+					}
+				})
+		.setPositiveButton(getString(R.string.begin_tut),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						mFirstTutorial   = true;
+						mDrawerLayout.openDrawer(mDrawerList);
+					}
+				})		
+		.setNeutralButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
 				initData(true);
 			}
 		});
@@ -390,11 +412,19 @@ public class HomeActivity extends SherlockFragmentActivity {
 
 		@Override
 		public void onTutorialFinished() {
+			if (mFirstTutorial) {
+				mFirstTutorial = false;
+				initData(true);
+			}
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 
 		@Override
 		public void onTutorialCancelled() {
+			if (mFirstTutorial) {
+				mFirstTutorial = false;
+				initData(true);
+			}
 			mDrawerLayout.closeDrawer(mDrawerList);
 		}
 
