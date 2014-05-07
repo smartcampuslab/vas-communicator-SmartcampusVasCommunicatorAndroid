@@ -127,7 +127,6 @@ public class ChannelFormFragment extends SherlockFragment {
 		spinner.setAdapter(dataAdapter);
 
 		final String[][] sourceTypeLabels = CommunicatorConstants.getFeedLabels(getActivity());
-		String titleType = getResources().getString(isFeed() ? R.string.feed : R.string.channel);
 
 		for (String[] f : sourceTypeLabels) {
 			((ArrayAdapter<String>)spinner.getAdapter()).add(f[1]);
@@ -162,9 +161,9 @@ public class ChannelFormFragment extends SherlockFragment {
 			tv.setText((String)getChannel().getFilterData().get(FD_KEYWORDS));
 			// labels
 			updateLabels();
-			getSherlockActivity().setTitle("Edit "+titleType+": "+getChannel().getTitle());
+			getSherlockActivity().setTitle(isFeed() ? getString(R.string.edit_feed, getChannel().getTitle()) : getString(R.string.edit_channel, getChannel().getTitle()));
 		} else {
-			getSherlockActivity().setTitle("New "+titleType);
+			getSherlockActivity().setTitle(isFeed() ? getString(R.string.new_feed) : getString(R.string.new_channel));
 		}
 		
 		((Button)getView().findViewById(R.id.channel_cancel)).setOnClickListener(new View.OnClickListener() {

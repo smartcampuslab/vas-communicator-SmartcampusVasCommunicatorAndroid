@@ -42,6 +42,10 @@
     <string name="feeds">Sottoscrizioni</string>
     <string name="channel">Canale</string>
     <string name="channels">Canali</string>
+    <string name="new_feed">Nuova sottoscrizione</string>
+    <string name="new_channel">Nuovo canale</string>
+    <string name="edit_feed">Modifica sottoscrizione: %s</string>
+    <string name="edit_channel">Modifica canale: %s</string>
     <string name="title_inbox">Messaggi</string>
     <string name="title_starred">Preferiti</string>
     <string name="title_labels">Gestisci etichette</string>

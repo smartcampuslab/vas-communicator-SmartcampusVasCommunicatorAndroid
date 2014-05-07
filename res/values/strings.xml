@@ -39,6 +39,10 @@
     <string name="mainmenu_feeds">External Subscriptions</string>
     <string name="mainmenu_search">Search</string>
     <string name="feed">Subscription</string>
+    <string name="new_feed">New subscription</string>
+    <string name="new_channel">New channel</string>
+    <string name="edit_feed">Edit subscription: %s</string>
+    <string name="edit_channel">Edit channel: %s</string>
     <string name="feeds">Subscriptions</string>
     <string name="channel">Channel</string>
     <string name="channels">Channels</string>
