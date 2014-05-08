@@ -19,7 +19,7 @@
 
 	
     <string name="welcome_title">Benvenuto in INBox!</string>
-    <string name="welcome_msg">Quest’app ti permetterà di sottoscrivere a vari canali informativi universitari come i dipartimenti e Unisport. Organizza ed evidenzia messaggi dall’università e dalle altre app Smart Campus.\nPer ricevere gli aggiornamenti, iscriviti a un canale!</string>
+    <string name="welcome_msg">Quest’app ti permetterà di sottoscriverti a vari canali informativi universitari come i dipartimenti e Unisport. Organizza ed evidenzia i messaggi provenienti dall’università e dalle altre app Smart Campus.\nPer ricevere gli aggiornamenti, iscriviti a un canale!</string>
     <string name="tutorial_start_btn">Start</string>
     
     

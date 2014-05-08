@@ -18,7 +18,9 @@
 
     <string name="tutorial_startup_msg">Inbox Tutorial</string>
     <string name="welcome_title">Welcome to INBox!</string>
-    <string name="welcome_msg">This app lets you subscribe to various University information sources, such as departments or Unisport. Organize and highlight messages from the University and from the other Smart Campus apps.To receive updates, subscribe to a channel!</string>
+    <string name="welcome_msg">This app lets you subscribe to various University information sources,
+such as departments or Unisport. Organize and highlight messages from the University
+and from the other Smart Campus apps.\nTo receive updates, subscribe to a channel!</string>
     <string name="tutorial_start_btn">Start</string>
     
     <string name="t_title_inbox">Inbox</string>
